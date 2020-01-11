@@ -7,19 +7,25 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import frc.robot.RobotMap;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
-
 /**
  * Add your docs here.
  */
-public class ColorSubsystem {
-    private final I2C.Port i2cPort = I2C.Port.kOnboard;
+public class SpinnerSubsystem {
+
+  private final VictorSPX spinnerVictor = new VictorSPX(RobotMap.CANIds.SPINNER);
+
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
   /**
    * A Rev Color Sensor V3 object is constructed with an I2C port as a 
@@ -44,7 +50,7 @@ public class ColorSubsystem {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-
+ 
 
 public void initialize (){
     m_colorMatcher.addColorMatch(kBlueTarget);
@@ -52,6 +58,7 @@ public void initialize (){
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
 }
+
 public String getColor (){
         /**
      * The method GetColor() returns a normalized color value from the sensor and can be
@@ -72,26 +79,76 @@ public String getColor (){
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
     if (match.color == kBlueTarget) {
-      colorString = "Blue";
+        colorString = "Blue";
     } else if (match.color == kRedTarget) {
-      colorString = "Red";
+        colorString = "Red";
     } else if (match.color == kGreenTarget) {
-      colorString = "Green";
+        colorString = "Green";
     } else if (match.color == kYellowTarget) {
-      colorString = "Yellow";
+        colorString = "Yellow";
     } else {
-      colorString = "Unknown";
+        colorString = "Unknown";
     }
-       /**
-     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-     * sensor.
-     */
+
+    /**
+    * Open Smart Dashboard or Shuffleboard to see the color detected by the 
+    * sensor.
+    */
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-    SmartDashboard.putNumber("Confidence", match.confidence);
-    SmartDashboard.putString("Detected Color", colorString);
+      SmartDashboard.putNumber("Blue", detectedColor.blue);
+      SmartDashboard.putNumber("Confidence", match.confidence);
+      SmartDashboard.putString("Detected Color", colorString);
     
-    return colorString;
+      return colorString;
     }
+
+public String getGameColor(){
+
+  String gameData;
+  gameData = DriverStation.getInstance().getGameSpecificMessage();
+  String colorOutput = "";
+
+  if(gameData.length() > 0){
+
+    switch(gameData.charAt(0)){
+      case 'B':
+        colorOutput = "Blue";
+        break;
+      case 'G':
+        colorOutput = "Green";
+        break;
+      case 'R':
+        colorOutput = "Red";
+        break;
+      case 'Y':
+        colorOutput = "Yellow";
+        break;
+      default: 
+        break;
+
+    }
+
+  }else{}
+
+  return colorOutput;
+
+}
+
+  public void spinTillColor(String color){
+    String currentColor = this.getColor();
+    System.out.println("getColor(): " + currentColor);
+    System.out.println("color:      " + color);
+    if(!currentColor.equals(color)){
+      spinnerVictor.set(ControlMode.PercentOutput, .5);
+    }else{
+      this.stopMotor();
+    }
+    
+  }
+
+  public void stopMotor(){
+    spinnerVictor.set(ControlMode.PercentOutput, 0);
+  }
+
 }
