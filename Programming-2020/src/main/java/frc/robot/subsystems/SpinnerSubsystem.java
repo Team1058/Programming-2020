@@ -15,6 +15,9 @@ import frc.robot.RobotMap;
 
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
+
+import java.util.Hashtable;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
@@ -26,6 +29,8 @@ public class SpinnerSubsystem {
   private final VictorSPX spinnerVictor = new VictorSPX(RobotMap.CANIds.SPINNER);
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
+
+  Hashtable<String,String> fieldSensorToRobot = new Hashtable<String,String>();
 
   /**
    * A Rev Color Sensor V3 object is constructed with an I2C port as a 
@@ -50,13 +55,20 @@ public class SpinnerSubsystem {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
- 
+ private final Color kDefaultColor = ColorMatch.makeColor(0.327, 0.469, 0.203);
 
 public void initialize (){
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
+    m_colorMatcher.setConfidenceThreshold(0.94);
+    m_colorMatcher.addColorMatch(kDefaultColor);
+
+    fieldSensorToRobot.put("G","Yellow");
+    fieldSensorToRobot.put("R","Blue");
+    fieldSensorToRobot.put("Y","Green");
+    fieldSensorToRobot.put("B","Red");
 }
 
 public String getColor (){
@@ -112,17 +124,18 @@ public String getGameColor(){
   if(gameData.length() > 0){
 
     switch(gameData.charAt(0)){
+
       case 'B':
-        colorOutput = "Blue";
+        colorOutput = fieldSensorToRobot.get("B");
         break;
       case 'G':
-        colorOutput = "Green";
+        colorOutput = fieldSensorToRobot.get("G");
         break;
       case 'R':
-        colorOutput = "Red";
+        colorOutput = fieldSensorToRobot.get("R");
         break;
       case 'Y':
-        colorOutput = "Yellow";
+        colorOutput = fieldSensorToRobot.get("Y");
         break;
       default: 
         break;
