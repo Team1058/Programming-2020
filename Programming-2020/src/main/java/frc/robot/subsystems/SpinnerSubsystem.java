@@ -33,6 +33,10 @@ public class SpinnerSubsystem {
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
   Hashtable<String,String> fieldSensorToRobot = new Hashtable<String,String>();
+  Hashtable<String,Integer> desiredDirection = new Hashtable<String,Integer>();
+
+  Boolean colorChecked = false;
+  Integer intDirection = 1;
 
   /**
    * A Rev Color Sensor V3 object is constructed with an I2C port as a 
@@ -71,6 +75,19 @@ public void initialize (){
     fieldSensorToRobot.put("R","Blue");
     fieldSensorToRobot.put("Y","Green");
     fieldSensorToRobot.put("B","Red");
+
+    desiredDirection.put("GR",-1);
+    desiredDirection.put("GY",1);
+    desiredDirection.put("GB",1);
+    desiredDirection.put("RG",1);
+    desiredDirection.put("RY",-1);
+    desiredDirection.put("RB",1);
+    desiredDirection.put("YG",1);
+    desiredDirection.put("YR",1);
+    desiredDirection.put("YB",-1);
+    desiredDirection.put("BG",-1);
+    desiredDirection.put("BR",1);
+    desiredDirection.put("BY",1);
 }
 
 public String getColor (){
@@ -152,12 +169,18 @@ public String getGameColor(){
 
   public void spinTillColor(String color){
     String currentColor = this.getColor();
+    if(colorChecked == false){
+      String spinInstructions = currentColor + color;
+      intDirection = desiredDirection.get(spinInstructions);
+      colorChecked = true;
+    }
     System.out.println("getColor(): " + currentColor);
     System.out.println("color:      " + color);
     if(!currentColor.equals(color)){
       spinnerVictor.set(ControlMode.PercentOutput, THROTTLE_VAULE);
     }else{
       this.stopMotor();
+      colorChecked = false;
     }
     
   }
