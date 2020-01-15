@@ -32,7 +32,7 @@ public class SpinnerSubsystem {
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
-  Hashtable<String,String> fieldSensorToRobot = new Hashtable<String,String>();
+  Hashtable<String,String> fieldObjToRobotObj = new Hashtable<String,String>();
   Hashtable<String,Integer> desiredDirection = new Hashtable<String,Integer>();
 
   Boolean colorChecked = false;
@@ -53,7 +53,8 @@ public class SpinnerSubsystem {
    * with given confidence range.
    */
   private final ColorMatch m_colorMatcher = new ColorMatch();
-    /**
+  
+  /**
    * Note: Any example colors should be calibrated as the user needs, these
    * are here as a basic example.
    */
@@ -61,37 +62,38 @@ public class SpinnerSubsystem {
   private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
- private final Color kDefaultColor = ColorMatch.makeColor(0.327, 0.469, 0.203);
+  private final Color kDefaultColor = ColorMatch.makeColor(0.327, 0.469, 0.203);
 
-public void initialize (){
+  public void initialize (){
+
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
-    m_colorMatcher.setConfidenceThreshold(0.94);
     m_colorMatcher.addColorMatch(kDefaultColor);
 
-    fieldSensorToRobot.put("G","Yellow");
-    fieldSensorToRobot.put("R","Blue");
-    fieldSensorToRobot.put("Y","Green");
-    fieldSensorToRobot.put("B","Red");
+    fieldObjToRobotObj.put("G","Yellow");
+    fieldObjToRobotObj.put("R","Blue");
+    fieldObjToRobotObj.put("Y","Green");
+    fieldObjToRobotObj.put("B","Red");
 
-    desiredDirection.put("GR",-1);
-    desiredDirection.put("GY",1);
-    desiredDirection.put("GB",1);
-    desiredDirection.put("RG",1);
-    desiredDirection.put("RY",-1);
-    desiredDirection.put("RB",1);
-    desiredDirection.put("YG",1);
-    desiredDirection.put("YR",1);
-    desiredDirection.put("YB",-1);
-    desiredDirection.put("BG",-1);
-    desiredDirection.put("BR",1);
-    desiredDirection.put("BY",1);
-}
+    desiredDirection.put("GreenRed",-1);
+    desiredDirection.put("GreenYellow",1);
+    desiredDirection.put("GreenBlue",1);
+    desiredDirection.put("RedGreen",1);
+    desiredDirection.put("RedYellow",-1);
+    desiredDirection.put("RedBlue",1);
+    desiredDirection.put("YellowGreen",1);
+    desiredDirection.put("YellowRed",1);
+    desiredDirection.put("YellowBlue",-1);
+    desiredDirection.put("BlueGreen",-1);
+    desiredDirection.put("BlueRed",1);
+    desiredDirection.put("BlueYellow",1);
 
-public String getColor (){
-        /**
+  } 
+
+  public String getSeenColor (){
+    /*
      * The method GetColor() returns a normalized color value from the sensor and can be
      * useful if outputting the color to an RGB LED or similar. To
      * read the raw color, use GetRawColor().
@@ -106,8 +108,10 @@ public String getColor (){
     /**
      * Run the color match algorithm on our detected color
      */
-    String colorString = "";
+    
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+
+    String colorString = "";
 
     if (match.color == kBlueTarget) {
         colorString = "Blue";
@@ -127,60 +131,65 @@ public String getColor (){
     */
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
-      SmartDashboard.putNumber("Blue", detectedColor.blue);
-      SmartDashboard.putNumber("Confidence", match.confidence);
-      SmartDashboard.putString("Detected Color", colorString);
+    SmartDashboard.putNumber("Blue", detectedColor.blue);
+    SmartDashboard.putNumber("Confidence", match.confidence);
+    SmartDashboard.putString("Detected Color", colorString);
     
-      return colorString;
+    return colorString;
+  }
+
+  public String getRobotObj(){
+
+    String gameData;
+    gameData = DriverStation.getInstance().getGameSpecificMessage();
+    String robotObj = "";
+
+    if(gameData.length() > 0){
+      switch(gameData.charAt(0)){
+        case 'B':
+          robotObj = fieldObjToRobotObj.get("B");
+          break;
+        case 'G':
+          robotObj = fieldObjToRobotObj.get("G");
+          break;
+        case 'R':
+          robotObj = fieldObjToRobotObj.get("R");
+          break;
+        case 'Y':
+          robotObj = fieldObjToRobotObj.get("Y");
+          break;
+        default: 
+          break;
+      }
     }
 
-public String getGameColor(){
+    return robotObj;
+  }
 
-  String gameData;
-  gameData = DriverStation.getInstance().getGameSpecificMessage();
-  String colorOutput = "";
-
-  if(gameData.length() > 0){
-
-    switch(gameData.charAt(0)){
-
-      case 'B':
-        colorOutput = fieldSensorToRobot.get("B");
-        break;
-      case 'G':
-        colorOutput = fieldSensorToRobot.get("G");
-        break;
-      case 'R':
-        colorOutput = fieldSensorToRobot.get("R");
-        break;
-      case 'Y':
-        colorOutput = fieldSensorToRobot.get("Y");
-        break;
-      default: 
-        break;
-
-    }
-
-  }else{}
-
-  return colorOutput;
-
-}
-
-  public void spinTillColor(String color){
-    String currentColor = this.getColor();
+  public void spinTillColor(String robotObj){
+    colorChecked = false;
+    System.out.println("afdasdfasdfasdffd");
+    String seenColor = this.getSeenColor();
+  
     if(colorChecked == false){
-      String spinInstructions = currentColor + color;
+      String spinInstructions = robotObj + seenColor;
+      System.out.println(spinInstructions);
       intDirection = desiredDirection.get(spinInstructions);
+      System.out.println("desiredDirection" + desiredDirection.get(spinInstructions));
+  
+      if(intDirection == null){
+        intDirection = 1;
+      }
       colorChecked = true;
     }
-    System.out.println("getColor(): " + currentColor);
-    System.out.println("color:      " + color);
-    if(!currentColor.equals(color)){
-      spinnerVictor.set(ControlMode.PercentOutput, THROTTLE_VAULE);
-    }else{
+  
+    System.out.println("getColor(): " + seenColor);
+    System.out.println("color:      " + robotObj);
+  
+    if(!seenColor.equals(robotObj)){
+      spinnerVictor.set(ControlMode.PercentOutput, intDirection * .5);
+    }else if(seenColor.equals(robotObj)){
       this.stopMotor();
-      colorChecked = false;
     }
     
   }

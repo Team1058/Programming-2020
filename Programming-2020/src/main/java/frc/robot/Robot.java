@@ -22,15 +22,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-   
     spinnerSubsystem.initialize();
     driveTrainSubsystem.initialize();
-   
   }
 
   @Override
   public void teleopPeriodic() {
-    ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
+    ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
     // TODO: Figure out how we want to dispatch commands
     gamepad.turnToColor();
     gamepad.splitArcadeDrive();
