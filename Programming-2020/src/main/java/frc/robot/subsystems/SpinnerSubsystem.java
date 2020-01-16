@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotMap;
 
 import com.revrobotics.ColorSensorV3;
@@ -35,7 +36,10 @@ public class SpinnerSubsystem {
   Hashtable<String,String> fieldObjToRobotObj = new Hashtable<String,String>();
   Hashtable<String,Integer> desiredDirection = new Hashtable<String,Integer>();
 
-  Boolean colorChecked = false;
+  Boolean stageThreeColorChecked = false;
+  Boolean stageTwoColorChecked = false;
+  String trackedColor = "Nothing";
+  Integer totalTimesSeen = 0;
   Integer intDirection = 1;
 
   /**
@@ -72,23 +76,31 @@ public class SpinnerSubsystem {
     m_colorMatcher.addColorMatch(kYellowTarget);
     m_colorMatcher.addColorMatch(kDefaultColor);
 
+    /**
+     * Converts the color the field requires into the color the robot
+     * needs to spin to.
+     */
     fieldObjToRobotObj.put("G","Yellow");
     fieldObjToRobotObj.put("R","Blue");
     fieldObjToRobotObj.put("Y","Green");
     fieldObjToRobotObj.put("B","Red");
 
-    desiredDirection.put("GreenRed",-1);
-    desiredDirection.put("GreenYellow",1);
-    desiredDirection.put("GreenBlue",1);
-    desiredDirection.put("RedGreen",1);
-    desiredDirection.put("RedYellow",-1);
-    desiredDirection.put("RedBlue",1);
-    desiredDirection.put("YellowGreen",1);
-    desiredDirection.put("YellowRed",1);
-    desiredDirection.put("YellowBlue",-1);
-    desiredDirection.put("BlueGreen",-1);
-    desiredDirection.put("BlueRed",1);
-    desiredDirection.put("BlueYellow",1);
+    /** 
+     * Creates a value which sets the motor to spin clockwise or counter-clockwise
+     * based on the color the robot sees and what it needs to spin to.
+     */ 
+    desiredDirection.put("OnGreenFindRed",-1);
+    desiredDirection.put("OnGreenFindYellow",1);
+    desiredDirection.put("OnGreenFindBlue",1);
+    desiredDirection.put("OnRedFindGreen",1);
+    desiredDirection.put("OnRedFindYellow",-1);
+    desiredDirection.put("OnRedFindBlue",1);
+    desiredDirection.put("OnYellowFindGreen",1);
+    desiredDirection.put("OnYellowFindRed",1);
+    desiredDirection.put("OnYellowFindBlue",-1);
+    desiredDirection.put("OnBlueFindGreen",-1);
+    desiredDirection.put("OnBlueFindRed",1);
+    desiredDirection.put("OnBlueFindYellow",1);
 
   } 
 
@@ -165,31 +177,54 @@ public class SpinnerSubsystem {
 
     return robotObj;
   }
+  public void spinForStageTwo(){
+    String currentColor = this.getSeenColor();
 
-  public void spinTillColor(String robotObj){
-    colorChecked = false;
-    System.out.println("afdasdfasdfasdffd");
+    if(trackedColor.equals("Nothing")){
+      trackedColor = currentColor;
+    }
+    
+    if(stageTwoColorChecked == false){
+      if(currentColor.equals(trackedColor)){
+        totalTimesSeen = totalTimesSeen + 1;
+        stageTwoColorChecked = true;
+      }else{
+        stageTwoColorChecked = false;
+      }
+    }
+
+    if(totalTimesSeen < 6){
+      spinnerVictor.set(ControlMode.PercentOutput, .5);
+    }else if(totalTimesSeen == 6){
+      this.stopMotor();
+    }
+  }
+
+  public void spinForStageThree(){
+    String robotObj = getRobotObj();
     String seenColor = this.getSeenColor();
-  
-    if(colorChecked == false){
-      String spinInstructions = robotObj + seenColor;
-      System.out.println(spinInstructions);
+    String spinInstructions = "On" + seenColor + "Find" + robotObj;
+
+    System.out.println(spinInstructions);
+    if(stageThreeColorChecked == false){
       intDirection = desiredDirection.get(spinInstructions);
       System.out.println("desiredDirection" + desiredDirection.get(spinInstructions));
   
       if(intDirection == null){
         intDirection = 1;
       }
-      colorChecked = true;
+      stageThreeColorChecked = true;
     }
   
-    System.out.println("getColor(): " + seenColor);
-    System.out.println("color:      " + robotObj);
+    System.out.println("motor direction: " + intDirection);
+    System.out.println("seenColor: " + seenColor);
+    System.out.println("robotObj:      " + robotObj);
   
     if(!seenColor.equals(robotObj)){
       spinnerVictor.set(ControlMode.PercentOutput, intDirection * .5);
     }else if(seenColor.equals(robotObj)){
       this.stopMotor();
+      stageThreeColorChecked = false;
     }
     
   }

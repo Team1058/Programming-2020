@@ -41,7 +41,9 @@ public class Gamepad {
 
     public void turnToColor(){
         if(gamepad.getAButton()){
-            Robot.spinnerSubsystem.spinTillColor(Robot.spinnerSubsystem.getRobotObj());
+            Robot.spinnerSubsystem.spinForStageThree();
+        }else if(gamepad.getXButton()){
+            Robot.spinnerSubsystem.spinForStageTwo();
         }else{
             Robot.spinnerSubsystem.stopMotor();
         }
