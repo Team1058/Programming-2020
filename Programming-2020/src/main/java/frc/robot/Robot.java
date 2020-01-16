@@ -24,17 +24,13 @@ public class Robot extends TimedRobot {
   // PrintWriter writer = new PrintWriter("/tmp/RPM_Values.csv");
   @Override
   public void teleopInit() {
-    
+    shooterSubsystem.filecreate();
   }
-   
-    
-
-
 
   @Override
   public void robotPeriodic() {
   }
-
+ 
   @Override
   public void teleopPeriodic()
   {
@@ -43,11 +39,6 @@ public class Robot extends TimedRobot {
     shooterSubsystem.Encoder();
     
   }
-  @Override
-  public void disabledInit(){
-    System.out.println("( ͡° ͜ʖ ͡°)");
-
-
-    //shooterSubsystem.closefile();
-  }
+ 
+  
 }
