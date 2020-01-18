@@ -42,9 +42,13 @@ public class Gamepad {
     public void turnToColor(){
         if(gamepad.getAButton()){
             Robot.spinnerSubsystem.spinForStageThree();
+        }else if(gamepad.getXButtonPressed()){
+            Robot.spinnerSubsystem.setTrackedColor();
         }else if(gamepad.getXButton()){
             Robot.spinnerSubsystem.spinForStageTwo();
-        }else{
+        }else if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
+            Robot.spinnerSubsystem.resetColorChecks();
+        }else {
             Robot.spinnerSubsystem.stopMotor();
         }
 

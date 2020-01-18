@@ -180,16 +180,18 @@ public class SpinnerSubsystem {
   public void spinForStageTwo(){
     String currentColor = this.getSeenColor();
 
+    System.out.println("totalTimesSeen: " + this.totalTimesSeen);
+    System.out.println("trackedColor" + this.trackedColor);
+    System.out.println("currentColor" + currentColor);
+
     if(trackedColor.equals("Nothing")){
       trackedColor = currentColor;
     }
     
     if(stageTwoColorChecked == false){
-      if(currentColor.equals(trackedColor)){
+      if(currentColor.equals(this.trackedColor)){
         totalTimesSeen = totalTimesSeen + 1;
         stageTwoColorChecked = true;
-      }else{
-        stageTwoColorChecked = false;
       }
     }
 
@@ -198,6 +200,13 @@ public class SpinnerSubsystem {
     }else if(totalTimesSeen == 6){
       this.stopMotor();
     }
+
+    if (stageTwoColorChecked == true){
+      if(!currentColor.equals(this.trackedColor)){
+        stageTwoColorChecked = false;
+      }
+    }
+
   }
 
   public void spinForStageThree(){
@@ -231,6 +240,16 @@ public class SpinnerSubsystem {
 
   public void stopMotor(){
     spinnerVictor.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void resetColorChecks(){
+    stageTwoColorChecked = false;
+    stageThreeColorChecked = false;
+    totalTimesSeen = 0;
+  }
+
+  public void setTrackedColor(){
+    trackedColor = (this.getSeenColor());
   }
 
 }
