@@ -41,6 +41,7 @@ public class DriveTrainSubsystem{
     leftDrive.setInverted(true);
 
     drivetrain = new DifferentialDrive(leftDrive, rightDrive);
+    // Disables motors when output is not updated often
     drivetrain.setSafetyEnabled(false);
 
     /**

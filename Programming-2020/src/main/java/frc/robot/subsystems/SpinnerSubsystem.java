@@ -26,6 +26,8 @@ import com.revrobotics.ColorMatch;
  */
 public class SpinnerSubsystem {
 
+  private final double THROTTLE_VAULE = .5;
+
   private final VictorSPX spinnerVictor = new VictorSPX(RobotMap.CANIds.SPINNER);
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
@@ -153,7 +155,7 @@ public String getGameColor(){
     System.out.println("getColor(): " + currentColor);
     System.out.println("color:      " + color);
     if(!currentColor.equals(color)){
-      spinnerVictor.set(ControlMode.PercentOutput, .5);
+      spinnerVictor.set(ControlMode.PercentOutput, THROTTLE_VAULE);
     }else{
       this.stopMotor();
     }
