@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
     ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
     // TODO: Figure out how we want to dispatch commands
     gamepad.turnToColor();
-    gamepad.ArcadeDrive();
+    gamepad.arcadeDrive();
   }
 
 }

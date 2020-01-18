@@ -18,22 +18,20 @@ public class Gamepad {
     private XboxController gamepad = new XboxController(0);
     
     
-    public void ArcadeDrive(){
+    public void arcadeDrive(){
 
+        double x = gamepad.getX(Hand.kLeft);
+        double y = gamepad.getY(Hand.kRight);
 
-        if (Math.abs(gamepad.getY(Hand.kRight)) > 0.05){
-
-            System.out.println("Right Y: " + gamepad.getY(Hand.kRight));
-            
-            if (gamepad.getY(Hand.kRight) < 0){
-                Robot.driveTrainSubsystem.setDrive(gamepad.getY(Hand.kRight),gamepad.getY(Hand.kRight));
-            } else if (gamepad.getY(Hand.kRight) > 0){
-                Robot.driveTrainSubsystem.setDrive(gamepad.getY(Hand.kRight), gamepad.getY(Hand.kRight));
-            }
-
+        if (outsideDeadband(x) || outsideDeadband(y)){
+            Robot.driveTrainSubsystem.setDrive(
+                outsideDeadband(x) ? x : 0,
+                outsideDeadband(y) ? y : 0
+            );
         }else{
             Robot.driveTrainSubsystem.stopAll();
         }
+
     }
 
     public void turnToColor(){
@@ -43,5 +41,11 @@ public class Gamepad {
             Robot.spinnerSubsystem.stopMotor();
         }
 
+    }
+
+    private boolean outsideDeadband(double inputValue){
+            
+        return (Math.abs(inputValue) > 0.075);
+ 
     }
 }

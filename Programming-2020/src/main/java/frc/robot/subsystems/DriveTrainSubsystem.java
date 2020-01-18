@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.GenericHID;
 
 import com.revrobotics.CANSparkMax;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -20,7 +19,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  */
 public class DriveTrainSubsystem{
 
-  private DifferentialDrive m_myRobot;
+  private DifferentialDrive drivetrain;
   private CANSparkMax driveSparkL1;
   private CANSparkMax driveSparkL2;
   private CANSparkMax driveSparkR1;
@@ -44,10 +43,11 @@ public class DriveTrainSubsystem{
     leftDrive = new SpeedControllerGroup(driveSparkL1, driveSparkL2);
     rightDrive = new SpeedControllerGroup(driveSparkR1, driveSparkR2);
 
+    leftDrive.setInverted(false);
     leftDrive.setInverted(true);
 
-    m_myRobot = new DifferentialDrive(leftDrive, rightDrive);
-    m_myRobot.setSafetyEnabled(false);
+    drivetrain = new DifferentialDrive(leftDrive, rightDrive);
+    drivetrain.setSafetyEnabled(false);
 
     /**
      * In order to use PID functionality for a controller, a CANPIDController object
@@ -69,9 +69,6 @@ public class DriveTrainSubsystem{
   }
 
   public void setDrive(double left, double right){
-
-      rightDrive.set(right);
-      leftDrive.set(left);
-
+    drivetrain.arcadeDrive(left * .5, right);
   }
 }
