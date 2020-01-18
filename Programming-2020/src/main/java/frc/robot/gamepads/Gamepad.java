@@ -7,6 +7,7 @@
 
 package frc.robot.gamepads;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Robot;
 
 
@@ -15,6 +16,26 @@ import frc.robot.Robot;
  */
 public class Gamepad {
     private XboxController gamepad = new XboxController(0);
+    
+    
+    public void ArcadeDrive(){
+
+
+        if (Math.abs(gamepad.getY(Hand.kRight)) > 0.05){
+
+            System.out.println("Right Y: " + gamepad.getY(Hand.kRight));
+            
+            if (gamepad.getY(Hand.kRight) < 0){
+                Robot.driveTrainSubsystem.setDrive(gamepad.getY(Hand.kRight),gamepad.getY(Hand.kRight));
+            } else if (gamepad.getY(Hand.kRight) > 0){
+                Robot.driveTrainSubsystem.setDrive(gamepad.getY(Hand.kRight), gamepad.getY(Hand.kRight));
+            }
+
+        }else{
+            Robot.driveTrainSubsystem.stopAll();
+        }
+    }
+
     public void turnToColor(){
         if(gamepad.getAButton()){
             Robot.spinnerSubsystem.spinTillColor(Robot.spinnerSubsystem.getGameColor());
