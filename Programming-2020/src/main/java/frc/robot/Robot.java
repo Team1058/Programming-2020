@@ -11,17 +11,20 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Gamepad;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class Robot extends TimedRobot {
 
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
   Gamepad gamepad = new Gamepad();
   LEDSubsystem ledSubsystem = new LEDSubsystem();
+  public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 
   @Override
   public void robotInit() {
    
     spinnerSubsystem.initialize();
+    driveTrainSubsystem.initialize();
    
   }
 
@@ -30,6 +33,7 @@ public class Robot extends TimedRobot {
     ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
     // TODO: Figure out how we want to dispatch commands
     gamepad.turnToColor();
-  }
+    gamepad.splitArcadeDrive();
+  } 
 
 }
