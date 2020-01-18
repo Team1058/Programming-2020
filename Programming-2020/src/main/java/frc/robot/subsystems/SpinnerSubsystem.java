@@ -159,6 +159,8 @@ public class SpinnerSubsystem {
     return robotObj;
   }
 
+  //Stage 2 Has a bug where if you drive up to the spinner while holding X button and color sensor is Unknown the number of times is inconsistent
+  //This could be because it's using unkown as the wanted color
   public void spinForStageTwo(){
     String currentColor = this.getSeenColor();
 
@@ -174,9 +176,9 @@ public class SpinnerSubsystem {
     }
 
     //6 times done for 3 full rotations
-    if(totalTimesSeen < 6){
+    if(totalTimesSeen < 7){
       spinnerVictor.set(ControlMode.PercentOutput, motorPercentSpeed);
-    }else if(totalTimesSeen == 6){
+    }else if(totalTimesSeen >= 7){
       this.stopMotor();
     }
 
