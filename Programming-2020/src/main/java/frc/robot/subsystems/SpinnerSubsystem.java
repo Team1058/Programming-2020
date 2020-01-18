@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.RobotMap;
 
 import com.revrobotics.ColorSensorV3;
@@ -29,13 +28,16 @@ public class SpinnerSubsystem {
 
   private final double THROTTLE_VAULE = .5;
 
+  //Initializes the victor
   private final VictorSPX spinnerVictor = new VictorSPX(RobotMap.CANIds.SPINNER);
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
+  //Hashtables are for conversions
   Hashtable<String,String> fieldObjToRobotObj = new Hashtable<String,String>();
   Hashtable<String,Integer> desiredDirection = new Hashtable<String,Integer>();
 
+  //variables initialized
   Boolean stageThreeColorChecked = false;
   Boolean stageTwoColorChecked = false;
   String trackedColor = "Nothing";
@@ -47,7 +49,7 @@ public class SpinnerSubsystem {
    * parameter. The device will be automatically initialized with default 
    * parameters.
    */
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  private final ColorSensorV3 colorSensor = new ColorSensorV3(i2cPort);
 
   /**
    * A Rev Color Match object is used to register and detect known colors. This can 
@@ -56,7 +58,7 @@ public class SpinnerSubsystem {
    * This object uses a simple euclidian distance to estimate the closest match
    * with given confidence range.
    */
-  private final ColorMatch m_colorMatcher = new ColorMatch();
+  private final ColorMatch colorMatcher = new ColorMatch();
   
   /**
    * Note: Any example colors should be calibrated as the user needs, these
@@ -70,11 +72,12 @@ public class SpinnerSubsystem {
 
   public void initialize (){
 
-    m_colorMatcher.addColorMatch(kBlueTarget);
-    m_colorMatcher.addColorMatch(kGreenTarget);
-    m_colorMatcher.addColorMatch(kRedTarget);
-    m_colorMatcher.addColorMatch(kYellowTarget);
-    m_colorMatcher.addColorMatch(kDefaultColor);
+    //Adds the colors to the colorMatcher
+    colorMatcher.addColorMatch(kBlueTarget);
+    colorMatcher.addColorMatch(kGreenTarget);
+    colorMatcher.addColorMatch(kRedTarget);
+    colorMatcher.addColorMatch(kYellowTarget);
+    colorMatcher.addColorMatch(kDefaultColor);
 
     /**
      * Converts the color the field requires into the color the robot
@@ -115,13 +118,13 @@ public class SpinnerSubsystem {
      * an object is the more light from the surroundings will bleed into the 
      * measurements and make it difficult to accurately determine its color.
      */
-    Color detectedColor = m_colorSensor.getColor();
+    Color detectedColor = colorSensor.getColor();
 
     /**
      * Run the color match algorithm on our detected color
      */
     
-    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+    ColorMatchResult match = colorMatcher.matchClosestColor(detectedColor);
 
     String colorString = "";
 
@@ -150,6 +153,7 @@ public class SpinnerSubsystem {
     return colorString;
   }
 
+  // Gets the FMS code from the driver station and converts it to what the robot should see when the field sees the FMS color
   public String getRobotObj(){
 
     String gameData;
@@ -177,12 +181,9 @@ public class SpinnerSubsystem {
 
     return robotObj;
   }
+
   public void spinForStageTwo(){
     String currentColor = this.getSeenColor();
-
-    System.out.println("totalTimesSeen: " + this.totalTimesSeen);
-    System.out.println("trackedColor" + this.trackedColor);
-    System.out.println("currentColor" + currentColor);
 
     if(trackedColor.equals("Nothing")){
       trackedColor = currentColor;
@@ -195,12 +196,14 @@ public class SpinnerSubsystem {
       }
     }
 
+    //6 times done for 3 full rotations
     if(totalTimesSeen < 6){
       spinnerVictor.set(ControlMode.PercentOutput, .5);
     }else if(totalTimesSeen == 6){
       this.stopMotor();
     }
 
+    //When it has seen the color it waits until it no longer sees the color to reset the check
     if (stageTwoColorChecked == true){
       if(!currentColor.equals(this.trackedColor)){
         stageTwoColorChecked = false;
@@ -210,14 +213,13 @@ public class SpinnerSubsystem {
   }
 
   public void spinForStageThree(){
+
     String robotObj = getRobotObj();
     String seenColor = this.getSeenColor();
     String spinInstructions = "On" + seenColor + "Find" + robotObj;
 
-    System.out.println(spinInstructions);
     if(stageThreeColorChecked == false){
       intDirection = desiredDirection.get(spinInstructions);
-      System.out.println("desiredDirection" + desiredDirection.get(spinInstructions));
   
       if(intDirection == null){
         intDirection = 1;
@@ -225,10 +227,8 @@ public class SpinnerSubsystem {
       stageThreeColorChecked = true;
     }
   
-    System.out.println("motor direction: " + intDirection);
-    System.out.println("seenColor: " + seenColor);
-    System.out.println("robotObj:      " + robotObj);
-  
+    //if the seen color isn't the color we should see it rotates when it is the color we should see it resets
+    // the color check and stops the motor
     if(!seenColor.equals(robotObj)){
       spinnerVictor.set(ControlMode.PercentOutput, intDirection * .5);
     }else if(seenColor.equals(robotObj)){
