@@ -23,12 +23,12 @@ public class Gamepad {
         double x = gamepad.getX(Hand.kLeft);
         double y = gamepad.getY(Hand.kRight);
 
-        if (outsideDeadband(x) || outsideDeadband(y)){
+        if (outsideDeadband(x) || outsideDeadband(y)) {
             Robot.driveTrainSubsystem.setDrive(
                 outsideDeadband(x) ? x : 0,
                 outsideDeadband(y) ? y : 0
             );
-        }else{
+        } else {
             Robot.driveTrainSubsystem.stopAll();
         }
 

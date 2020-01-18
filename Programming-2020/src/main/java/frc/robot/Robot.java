@@ -6,17 +6,12 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Gamepad;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
-//import frc.robot.subsystems.ShooterSubsystem;
-// import sun.tools.asm.CatchData;
 
 public class Robot extends TimedRobot {
 
