@@ -41,11 +41,17 @@ public class Gamepad {
 
     public void turnToColor(){
         if(gamepad.getAButton()){
-            Robot.spinnerSubsystem.spinTillColor(Robot.spinnerSubsystem.getGameColor());
-        }else{
+            Robot.spinnerSubsystem.spinForStageThree();
+        }else if(gamepad.getXButtonPressed()){
+            Robot.spinnerSubsystem.setTrackedColor();
+        }else if(gamepad.getXButton()){
+            Robot.spinnerSubsystem.spinForStageTwo();
+        }else {
             Robot.spinnerSubsystem.stopMotor();
         }
-
+        if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
+            Robot.spinnerSubsystem.resetColorChecks();
+        }
     }
 
     private boolean outsideDeadband(double inputValue){
