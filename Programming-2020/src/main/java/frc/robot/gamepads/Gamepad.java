@@ -46,12 +46,12 @@ public class Gamepad {
             Robot.spinnerSubsystem.setTrackedColor();
         }else if(gamepad.getXButton()){
             Robot.spinnerSubsystem.spinForStageTwo();
-        }else if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
-            Robot.spinnerSubsystem.resetColorChecks();
         }else {
             Robot.spinnerSubsystem.stopMotor();
         }
-
+        if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
+            Robot.spinnerSubsystem.resetColorChecks();
+        }
     }
 
     private boolean outsideDeadband(double inputValue){

@@ -43,6 +43,7 @@ public class SpinnerSubsystem {
   String trackedColor = "Nothing";
   Integer totalTimesSeen = 0;
   Integer intDirection = 1;
+  double motorPercentSpeed = .5;
 
   /**
    * A Rev Color Sensor V3 object is constructed with an I2C port as a 
@@ -139,16 +140,6 @@ public class SpinnerSubsystem {
     } else {
         colorString = "Unknown";
     }
-
-    /**
-    * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-    * sensor.
-    */
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-    SmartDashboard.putNumber("Confidence", match.confidence);
-    SmartDashboard.putString("Detected Color", colorString);
     
     return colorString;
   }
@@ -161,22 +152,8 @@ public class SpinnerSubsystem {
     String robotObj = "";
 
     if(gameData.length() > 0){
-      switch(gameData.charAt(0)){
-        case 'B':
-          robotObj = fieldObjToRobotObj.get("B");
-          break;
-        case 'G':
-          robotObj = fieldObjToRobotObj.get("G");
-          break;
-        case 'R':
-          robotObj = fieldObjToRobotObj.get("R");
-          break;
-        case 'Y':
-          robotObj = fieldObjToRobotObj.get("Y");
-          break;
-        default: 
-          break;
-      }
+      String gameDataFMS = gameData.substring(0, 1);
+      robotObj = fieldObjToRobotObj.getOrDefault(gameDataFMS, "");
     }
 
     return robotObj;
@@ -198,7 +175,7 @@ public class SpinnerSubsystem {
 
     //6 times done for 3 full rotations
     if(totalTimesSeen < 6){
-      spinnerVictor.set(ControlMode.PercentOutput, .5);
+      spinnerVictor.set(ControlMode.PercentOutput, motorPercentSpeed);
     }else if(totalTimesSeen == 6){
       this.stopMotor();
     }
@@ -230,7 +207,7 @@ public class SpinnerSubsystem {
     //if the seen color isn't the color we should see it rotates when it is the color we should see it resets
     // the color check and stops the motor
     if(!seenColor.equals(robotObj)){
-      spinnerVictor.set(ControlMode.PercentOutput, intDirection * .5);
+      spinnerVictor.set(ControlMode.PercentOutput, intDirection * motorPercentSpeed);
     }else if(seenColor.equals(robotObj)){
       this.stopMotor();
       stageThreeColorChecked = false;
