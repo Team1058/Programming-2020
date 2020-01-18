@@ -27,6 +27,8 @@ public class Gamepad {
         //if either stick is outside its deadband it sets the motor to the level of the controller
         if (outsideDeadband(x) || outsideDeadband(y)) {
             Robot.driveTrainSubsystem.setDrive(
+
+                // ? is an if else statement
                 outsideDeadband(x) ? x : 0,
                 outsideDeadband(y) ? y : 0
             );
