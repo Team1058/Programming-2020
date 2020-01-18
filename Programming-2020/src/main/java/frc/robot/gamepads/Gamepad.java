@@ -20,15 +20,18 @@ public class Gamepad {
     
     public void arcadeDrive(){
 
+        //sets the value for easier implementation
         double x = gamepad.getX(Hand.kLeft);
         double y = gamepad.getY(Hand.kRight);
 
+        //if either stick is outside its deadband it sets the motor to the level of the controller
         if (outsideDeadband(x) || outsideDeadband(y)) {
             Robot.driveTrainSubsystem.setDrive(
                 outsideDeadband(x) ? x : 0,
                 outsideDeadband(y) ? y : 0
             );
         } else {
+            //if no deadband is broken it stops the motors
             Robot.driveTrainSubsystem.stopAll();
         }
 

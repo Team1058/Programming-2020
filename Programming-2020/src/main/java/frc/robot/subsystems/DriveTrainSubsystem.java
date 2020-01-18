@@ -56,12 +56,13 @@ public class DriveTrainSubsystem{
     
   }
 
-
+  //Stops all motors
   public void stopAll(){
     leftDrive.stopMotor();
     rightDrive.stopMotor();
   }
 
+  //Drives the robot with left being turning and right being forward/backward
   public void setDrive(double left, double right){
     drivetrain.arcadeDrive(left * .5, right);
   }
