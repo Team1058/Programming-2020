@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Gamepad;
+import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.LEDSubsystem;
 
 public class Robot extends TimedRobot {
@@ -17,6 +18,7 @@ public class Robot extends TimedRobot {
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
   Gamepad gamepad = new Gamepad();
   LEDSubsystem ledSubsystem = new LEDSubsystem();
+  IndividualLeds individualLeds = new IndividualLeds();
 
   @Override
   public void robotInit() {
@@ -27,9 +29,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    individualLeds.scrollNColorsWithBackround(255,0,0,255,255,255,20);
     ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
     // TODO: Figure out how we want to dispatch commands
     gamepad.turnToColor();
+  }
+
+  @Override
+  public void disabledPeriodic(){
+    individualLeds.changeAllColors(0,0,0);
   }
 
 }
