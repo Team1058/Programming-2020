@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
+import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -17,6 +18,7 @@ public class Robot extends TimedRobot {
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
   LEDSubsystem ledSubsystem = new LEDSubsystem();
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  IndividualLeds individualLeds = new IndividualLeds();
 
   @Override
   public void robotInit() {
@@ -29,5 +31,10 @@ public class Robot extends TimedRobot {
     ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
     // TODO: Figure out how we want to dispatch commands
   } 
+
+  @Override
+  public void disabledPeriodic(){
+    individualLeds.changeAllColors(0,0,0);
+  }
 
 }
