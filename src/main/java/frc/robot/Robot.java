@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Gamepad;
+import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -19,6 +20,7 @@ public class Robot extends TimedRobot {
   Gamepad gamepad = new Gamepad();
   LEDSubsystem ledSubsystem = new LEDSubsystem();
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  IndividualLeds individualLeds = new IndividualLeds();
 
   @Override
   public void robotInit() {
@@ -33,5 +35,10 @@ public class Robot extends TimedRobot {
     gamepad.turnToColor();
     gamepad.splitArcadeDrive();
   } 
+
+  @Override
+  public void disabledPeriodic(){
+    individualLeds.changeAllColors(0,0,0);
+  }
 
 }
