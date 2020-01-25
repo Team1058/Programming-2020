@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+<<<<<<< HEAD
 /**
  * This is a demo program showing the use of the RobotDrive class, specifically
  * it contains the code necessary to operate a robot with tank drive.
@@ -26,6 +27,19 @@ public class DriveTrainSubsystem {
   private final double trackWidth = 18.5;
   private final double wheelRadius = 3;
   private final double gearRatio = 8;
+=======
+
+public class DriveTrainSubsystem{
+
+  private DifferentialDrive drivetrain;
+  private CANSparkMax driveSparkL1;
+  private CANSparkMax driveSparkL2;
+  private CANSparkMax driveSparkR1;
+  private CANSparkMax driveSparkR2;
+  private CANPIDController m_pidController_CANPIDController;
+  private CANEncoder m_encoder_CANEncoder;
+  private SpeedControllerGroup  leftDrive, rightDrive;
+>>>>>>> Added ClimberSubsystem and removed unnessesary comment
 
   public void initialize() {
     int[] leftFollower = {2};
