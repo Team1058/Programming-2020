@@ -10,7 +10,13 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 
 //import com.ctre.phoenix.motorcontrol.can.TalonFX;
+<<<<<<< HEAD
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+=======
+//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.AnalogGyro;
+>>>>>>> Sams skeleton code work
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.ADXL345_SPI;
@@ -20,13 +26,17 @@ public class ClimberSubsystem {
     // private TalonFX falcon1;
     // private TalonFX falcon2;
     // private TalonSRX climberTalon;
+<<<<<<< HEAD
     double angleInit;
     double gyroDeadband = 3;
 
+=======
+>>>>>>> Sams skeleton code work
     private AnalogGyro climberGyro;
 
     public void initialize(){
 
+<<<<<<< HEAD
     climberGyro = new AnalogGyro(0, 0, -.13);
     climberGyro.initGyro();
     climberGyro.calibrate();
@@ -34,11 +44,15 @@ public class ClimberSubsystem {
     climberGyro.reset();
     angleInit = climberGyro.getAngle();
     System.out.println("GYRO ANGLE INIT: " + angleInit);
+=======
+    climberGyro = new AnalogGyro(0);
+>>>>>>> Sams skeleton code work
     // falcon1 = new TalonFX(RobotMap.CANIds.FALCON_1);
     // falcon2 = new TalonFX(RobotMap.CANIds.FALCON_2);
     // climberTalon = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
 
     }
+<<<<<<< HEAD
 
     public void balanceRobot(){
         if (Math.abs(climberGyro.getAngle()) > gyroDeadband){
@@ -64,6 +78,11 @@ public class ClimberSubsystem {
         }
 
         return outputString;
+=======
+
+    public void printGyroPos(){
+       System.out.println(climberGyro.getAngle());
+>>>>>>> Sams skeleton code work
     }
 
     public void climberExtend(){

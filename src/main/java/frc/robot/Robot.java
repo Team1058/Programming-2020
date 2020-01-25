@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
+import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.gamepads.Gamepad;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -34,7 +36,6 @@ public class Robot extends TimedRobot {
     individualLeds.climbBalance(climberSubsystem.balanceLED());
 
     // TODO: Figure out how we want to dispatch commands
-
   } 
 
   @Override
