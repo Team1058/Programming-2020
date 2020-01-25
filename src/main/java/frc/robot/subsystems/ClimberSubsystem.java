@@ -26,4 +26,20 @@ public class ClimberSubsystem {
 
     }
 
+    public void climberExtend(){
+
+    }
+    
+    public void climberRetract(){
+
+    }
+
+    public void driveLeft(){
+
+    }
+
+    public void driveRight(){
+        
+    }
+
 }
