@@ -33,9 +33,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
+    
+    individualLeds.climbBalance(climberSubsystem.balanceLED());
 
     // TODO: Figure out how we want to dispatch commands
-    
+
   } 
 
   @Override
