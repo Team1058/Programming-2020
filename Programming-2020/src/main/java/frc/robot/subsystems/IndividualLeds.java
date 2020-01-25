@@ -3,15 +3,18 @@ package frc.robot.subsystems;
 import java.util.Arrays;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IndividualLeds{
     AddressableLEDBuffer ledBuffer;
     AddressableLED led;
     int ledCounter;
+    
     public IndividualLeds() {
         // PWM port 9
         // Must be a PWM header, not MXP or DIO
         led = new AddressableLED(9);
+        ledBuffer = new AddressableLEDBuffer(59);
         // Reuse buffer
         // Default to a length of 60, start empty output
         // Length is expensive to set, so only set it once, then just update data
@@ -38,11 +41,12 @@ public class IndividualLeds{
             ledBuffer.setRGB(i, r2,g2,b2);
            }
        }
-   
+
        led.setData(ledBuffer);
        led.start();
    }
 
+   
    public int getN(int n){ 
        return (ledCounter + n) % (ledBuffer.getLength());
    }
@@ -51,7 +55,7 @@ public class IndividualLeds{
     return Arrays.stream(arr).anyMatch(i -> i == key);
     }
 
-   public void scrollNColorsWithBackround(int r, int g, int b,int r1, int g1, int b1, int n){
+   public void scrollNColorsWithBackround(int r, int g, int b, int r1, int g1, int b1, int r2, int g2, int b2, int n, int x, int y){
     ledCounter = getN(1);
     int[] intArray = new int[n];
     for (var i = 0; i < n; i++){
@@ -63,20 +67,35 @@ public class IndividualLeds{
     for (var i = 0; i < ledBuffer.getLength(); i++) {
              // Sets the specified LED to the RGB values for red
         if (contains(intArray, i)){
-            if(i%2==0){
+            if(i%x==y){
              ledBuffer.setRGB(i, r,g,b);
             }else{
-              ledBuffer.setRGB(i, 0,0,0);
+              ledBuffer.setRGB(i, r2,g2,b2);
             }
         }else {
          ledBuffer.setRGB(i,r1,g1,b1);
         }
     }
-   
     led.setData(ledBuffer);
     led.start();
    }
-    
+   public void climbLeds(int r, int g, int b, int r1, int g1, int b1, double percentOn){
+    percentOn = percentOn * .01 * 59;
+    // build an array of length N that has all of the values of getN(1) to getN(n)
+    // build arrays and check if numbers are in arrays
+    // check the array in the function scrollN then build an array based of the variable n to send info to an array
+    for (var i = 0; i < ledBuffer.getLength(); i++) {
+             // Sets the specified LED to the RGB values for red
+        if (i <= percentOn){
+             ledBuffer.setRGB(i, r,g,b);
+            }else{
+              ledBuffer.setRGB(i, r1,g1,b1);
+            }
+        }
+    led.setData(ledBuffer);
+    led.start();
+    }
+
 
    public void scrollColor(int r, int g, int b){
     ledCounter = (ledCounter + 1) % (ledBuffer.getLength());
@@ -97,5 +116,5 @@ public class IndividualLeds{
     led.setData(ledBuffer);
     led.start();
    }
-    
+
 }
