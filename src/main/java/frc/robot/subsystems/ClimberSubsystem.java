@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 
 //import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.ADXL345_SPI;
@@ -21,6 +21,7 @@ public class ClimberSubsystem {
     // private TalonFX falcon2;
     // private TalonSRX climberTalon;
     double angleInit;
+    double gyroDeadband = 3;
 
     private AnalogGyro climberGyro;
 
@@ -47,6 +48,31 @@ public class ClimberSubsystem {
     //    System.out.println("GYRO RATE: " + climberGyro.getRate());
     //    System.out.println("GYRO CENTER: " + climberGyro.getCenter());
     //    System.out.println("GYRO OFFSET: " + climberGyro.getOffset());
+    }
+
+    public void balanceRobot(){
+        if (Math.abs(climberGyro.getAngle()) > gyroDeadband){
+            //Moves robot to center balance
+        }
+    } 
+
+    String outputString = "";
+
+    public String balanceLED(){
+
+        if(Math.abs(climberGyro.getAngle()) > gyroDeadband){
+            if (climberGyro.getAngle() > gyroDeadband){
+                outputString = "TooFarRight";
+            }else if(climberGyro.getAngle() < gyroDeadband){
+                outputString = "TooFarLeft";
+            }else{
+                outputString = "InDeadband";
+            }
+        }else{
+            outputString = "InDeadband";
+        }
+
+        return outputString;
     }
 
     public void climberExtend(){

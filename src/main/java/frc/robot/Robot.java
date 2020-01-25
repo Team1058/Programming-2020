@@ -50,12 +50,18 @@ public class Robot extends TimedRobot {
     int percentOn = (int) SmartDashboard.getNumber("leds with rgb1 color", 0);
     int x = (int) SmartDashboard.getNumber("x", 0);
     int y = (int) SmartDashboard.getNumber("y", 0);
+<<<<<<< HEAD
     individualLeds.climbLeds(R1, G1, B1, R2, G2, B2, percentOn);;
     ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
 >>>>>>> made Leds individually addressable:Programming-2020/src/main/java/frc/robot/Robot.java
 =======
     //ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
 >>>>>>> Finished Gyro code pushing to merge and work on combining with LEDs
+=======
+    // individualLeds.changeAllColors(255, 0, 0);
+    individualLeds.climbBalance(climberSubsystem.balanceLED());
+    //ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
+>>>>>>> Added functionality to leds to determine which color should be given by gyro position
     // TODO: Figure out how we want to dispatch commands
     //gamepad.turnToColor();
     //gamepad.splitArcadeDrive();

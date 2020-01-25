@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import java.util.Arrays;
+
+import javax.lang.model.util.ElementScanner6;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,6 +12,7 @@ public class IndividualLeds{
     AddressableLEDBuffer ledBuffer;
     AddressableLED led;
     int ledCounter;
+    double ledSides;
     
     public IndividualLeds() {
         // PWM port 9
@@ -79,8 +83,38 @@ public class IndividualLeds{
     led.setData(ledBuffer);
     led.start();
    }
+   public void climbBalance( String direction){
+    ledSides = ledBuffer.getLength() * .5;
+    if (direction.equals("TooFarLeft")){
+        System.out.println("test");
+        for (var i = 0; i < ledBuffer.getLength(); i++){
+               if(i <= ledSides){
+                System.out.println("test1");
+                ledBuffer.setRGB(i, 255, 0, 0);
+               }else{
+                ledBuffer.setRGB(i, 0, 0, 255);
+            }    
+        }
+    }else if(direction.equals("TooFarRight")){
+        for (var i = 0; i < ledBuffer.getLength(); i++){
+            if(i <= ledSides){
+                ledBuffer.setRGB(i, 0, 0, 255);
+            }else{
+                ledBuffer.setRGB(i, 255, 0, 0);
+         
+            }
+        }
+    }else{
+        for (var i = 0; i < ledBuffer.getLength(); i++){
+            ledBuffer.setRGB(i, 0, 255, 0);
+        }
+    }
+    led.setData(ledBuffer);
+    led.start();
+   }
+
    public void climbLeds(int r, int g, int b, int r1, int g1, int b1, double percentOn){
-    percentOn = percentOn * .01 * 59;
+    percentOn =  1 * .01 * 59;
     // build an array of length N that has all of the values of getN(1) to getN(n)
     // build arrays and check if numbers are in arrays
     // check the array in the function scrollN then build an array based of the variable n to send info to an array
@@ -95,6 +129,7 @@ public class IndividualLeds{
     led.setData(ledBuffer);
     led.start();
     }
+
 
 
    public void scrollColor(int r, int g, int b){
