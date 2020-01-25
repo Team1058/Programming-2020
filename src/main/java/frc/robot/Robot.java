@@ -13,7 +13,6 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
@@ -32,12 +31,20 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+<<<<<<< HEAD
     ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
     
     individualLeds.climbBalance(climberSubsystem.balanceLED());
 
     // TODO: Figure out how we want to dispatch commands
 
+=======
+    // ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
+    // TODO: Figure out how we want to dispatch commands
+    gamepad.turnToColor();
+    gamepad.splitArcadeDrive();
+    individualLeds.climbBalance(climberSubsystem.balanceLED());
+>>>>>>> Fixed issues before final commit
   } 
 
   @Override
