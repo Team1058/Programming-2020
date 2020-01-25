@@ -10,16 +10,24 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Robot;
 
+/* Driver Controls
+    - Tank Mode (Joysticks Y)
+    - Moving on bar (Triggers) - hold
+   Operator Controls
+    - Spinning Stage 2 (X) - click
+    - Spinning Stage 3 (A) - click
+    - Extend Climber (Y) - click
+    - Retract Climber (B) - click
+    - Shoot (Right Bumper) - click
+    - Intake down and in (Left bumper) - hold
+    - Shooting angle up/down (right joystick y)*/
 
-/**
- * Add your docs here.
- */
-public class Gamepad {
+public class Driver {
     private XboxController gamepad = new XboxController(0);
     private final double DEADBAND_VALUE = 0.075;
     
     
-    public void splitArcadeDrive(){
+    /*public void splitArcadeDrive(){
 
         //sets the value for easier implementation
         double x = gamepad.getX(Hand.kLeft);
@@ -37,21 +45,24 @@ public class Gamepad {
             Robot.driveTrainSubsystem.stopAll();
         }
 
+    }*/
+
+    public void Driving()
+    {
+        // Gets values of each joystick
+        double right = gamepad.getY(Hand.kRight);
+        double left = gamepad.getY(Hand.kLeft);
+
+        // Rest of code to apply to drivetrain
     }
 
-    public void turnToColor(){
-        if(gamepad.getAButton()){
-            Robot.spinnerSubsystem.spinForStageThree();
-        }else if(gamepad.getXButtonPressed()){
-            Robot.spinnerSubsystem.setTrackedColor();
-        }else if(gamepad.getXButton()){
-            Robot.spinnerSubsystem.spinForStageTwo();
-        }else {
-            Robot.spinnerSubsystem.stopMotor();
-        }
-        if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
-            Robot.spinnerSubsystem.resetColorChecks();
-        }
+    public void BarDriving()
+    {
+        // Gets values of each trigger
+        double right = gamepad.getTriggerAxis(Hand.kRight);
+        double left = gamepad.getTriggerAxis(Hand.kLeft);
+
+        // Rest of code to apply to climber
     }
 
     private boolean outsideDeadband(double inputValue){
