@@ -32,7 +32,24 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+<<<<<<< HEAD:src/main/java/frc/robot/Robot.java
     ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
+=======
+    int R1 = (int) SmartDashboard.getNumber("R1", 0);
+    int G1 = (int) SmartDashboard.getNumber("G1", 0);
+    int B1 = (int) SmartDashboard.getNumber("B1", 0);
+    int R2 = (int) SmartDashboard.getNumber("R2", 0);
+    int G2 = (int) SmartDashboard.getNumber("G2", 0);
+    int B2 = (int) SmartDashboard.getNumber("B2", 0);
+    int R3 = (int) SmartDashboard.getNumber("R3", 0);
+    int G3 = (int) SmartDashboard.getNumber("G3", 0);
+    int B3 = (int) SmartDashboard.getNumber("B3", 0);
+    int percentOn = (int) SmartDashboard.getNumber("leds with rgb1 color", 0);
+    int x = (int) SmartDashboard.getNumber("x", 0);
+    int y = (int) SmartDashboard.getNumber("y", 0);
+    individualLeds.climbLeds(R1, G1, B1, R2, G2, B2, percentOn);;
+    ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
+>>>>>>> made Leds individually addressable:Programming-2020/src/main/java/frc/robot/Robot.java
     // TODO: Figure out how we want to dispatch commands
 <<<<<<< HEAD
 =======
