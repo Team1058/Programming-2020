@@ -40,16 +40,6 @@ public class ClimberSubsystem {
 
     }
 
-    public void printGyroPos(){
-
-        System.out.println("Init Pos: " + angleInit);
-        System.out.println("Cur Pos : " + climberGyro.getAngle());
-      
-    //    System.out.println("GYRO RATE: " + climberGyro.getRate());
-    //    System.out.println("GYRO CENTER: " + climberGyro.getCenter());
-    //    System.out.println("GYRO OFFSET: " + climberGyro.getOffset());
-    }
-
     public void balanceRobot(){
         if (Math.abs(climberGyro.getAngle()) > gyroDeadband){
             //Moves robot to center balance

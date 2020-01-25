@@ -14,7 +14,6 @@ import frc.robot.gamepads.Gamepad;
 import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
@@ -34,38 +33,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-<<<<<<< HEAD
-<<<<<<< HEAD:src/main/java/frc/robot/Robot.java
-    ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
-=======
-    int R1 = (int) SmartDashboard.getNumber("R1", 0);
-    int G1 = (int) SmartDashboard.getNumber("G1", 0);
-    int B1 = (int) SmartDashboard.getNumber("B1", 0);
-    int R2 = (int) SmartDashboard.getNumber("R2", 0);
-    int G2 = (int) SmartDashboard.getNumber("G2", 0);
-    int B2 = (int) SmartDashboard.getNumber("B2", 0);
-    int R3 = (int) SmartDashboard.getNumber("R3", 0);
-    int G3 = (int) SmartDashboard.getNumber("G3", 0);
-    int B3 = (int) SmartDashboard.getNumber("B3", 0);
-    int percentOn = (int) SmartDashboard.getNumber("leds with rgb1 color", 0);
-    int x = (int) SmartDashboard.getNumber("x", 0);
-    int y = (int) SmartDashboard.getNumber("y", 0);
-<<<<<<< HEAD
-    individualLeds.climbLeds(R1, G1, B1, R2, G2, B2, percentOn);;
-    ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
->>>>>>> made Leds individually addressable:Programming-2020/src/main/java/frc/robot/Robot.java
-=======
-    //ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
->>>>>>> Finished Gyro code pushing to merge and work on combining with LEDs
-=======
-    // individualLeds.changeAllColors(255, 0, 0);
-    individualLeds.climbBalance(climberSubsystem.balanceLED());
-    //ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
->>>>>>> Added functionality to leds to determine which color should be given by gyro position
+    // ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
     // TODO: Figure out how we want to dispatch commands
-    //gamepad.turnToColor();
-    //gamepad.splitArcadeDrive();
-    climberSubsystem.printGyroPos();
+    gamepad.turnToColor();
+    gamepad.splitArcadeDrive();
+    individualLeds.climbBalance(climberSubsystem.balanceLED());
   } 
 
   @Override

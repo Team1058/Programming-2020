@@ -2,11 +2,8 @@ package frc.robot.subsystems;
 
 import java.util.Arrays;
 
-import javax.lang.model.util.ElementScanner6;
-
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IndividualLeds{
     AddressableLEDBuffer ledBuffer;
@@ -86,10 +83,8 @@ public class IndividualLeds{
    public void climbBalance( String direction){
     ledSides = ledBuffer.getLength() * .5;
     if (direction.equals("TooFarLeft")){
-        System.out.println("test");
         for (var i = 0; i < ledBuffer.getLength(); i++){
                if(i <= ledSides){
-                System.out.println("test1");
                 ledBuffer.setRGB(i, 255, 0, 0);
                }else{
                 ledBuffer.setRGB(i, 0, 0, 255);
