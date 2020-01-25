@@ -9,21 +9,29 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+//import com.ctre.phoenix.motorcontrol.can.TalonFX;
+//import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.AnalogGyro;
 
 public class ClimberSubsystem {
 
-    private TalonFX falcon1;
-    private TalonFX falcon2;
-    private TalonSRX climberTalon;
+    // private TalonFX falcon1;
+    // private TalonFX falcon2;
+    // private TalonSRX climberTalon;
+    private AnalogGyro climberGyro;
 
     public void initialize(){
 
-    falcon1 = new TalonFX(RobotMap.CANIds.FALCON_1);
-    falcon2 = new TalonFX(RobotMap.CANIds.FALCON_2);
-    climberTalon = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
+    climberGyro = new AnalogGyro(0);
+    // falcon1 = new TalonFX(RobotMap.CANIds.FALCON_1);
+    // falcon2 = new TalonFX(RobotMap.CANIds.FALCON_2);
+    // climberTalon = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
 
+    }
+
+    public void printGyroPos(){
+       System.out.println(climberGyro.getAngle());
     }
 
     public void climberExtend(){
@@ -39,7 +47,7 @@ public class ClimberSubsystem {
     }
 
     public void driveRight(){
-        
+
     }
 
 }

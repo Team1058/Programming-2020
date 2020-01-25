@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.gamepads.Gamepad;
 import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.LEDSubsystem;
@@ -21,11 +22,13 @@ public class Robot extends TimedRobot {
   LEDSubsystem ledSubsystem = new LEDSubsystem();
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   IndividualLeds individualLeds = new IndividualLeds();
+  public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
     driveTrainSubsystem.initialize();
+    climberSubsystem.initialize();
   }
 
   @Override
@@ -34,6 +37,7 @@ public class Robot extends TimedRobot {
     // TODO: Figure out how we want to dispatch commands
     gamepad.turnToColor();
     gamepad.splitArcadeDrive();
+    climberSubsystem.printGyroPos();
   } 
 
   @Override
