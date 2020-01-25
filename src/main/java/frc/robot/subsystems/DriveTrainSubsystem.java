@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -19,7 +20,7 @@ public class DriveTrainSubsystem{
   private SpeedControllerGroup  leftDrive, rightDrive;
 
   public void initialize() {
-    driveSparkL1 = new CANSparkMax(1, MotorType.kBrushless); 
+    driveSparkL1 = new CANSparkMax(1, MotorType.kBrushless);
     driveSparkL2 = new CANSparkMax(2, MotorType.kBrushless);
     driveSparkR1 = new CANSparkMax(3, MotorType.kBrushless);
     driveSparkR2 = new CANSparkMax(4, MotorType.kBrushless);

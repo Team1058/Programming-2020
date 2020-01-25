@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+<<<<<<< HEAD
 <<<<<<< HEAD:src/main/java/frc/robot/Robot.java
     ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
 =======
@@ -52,9 +53,12 @@ public class Robot extends TimedRobot {
     individualLeds.climbLeds(R1, G1, B1, R2, G2, B2, percentOn);;
     ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
 >>>>>>> made Leds individually addressable:Programming-2020/src/main/java/frc/robot/Robot.java
+=======
+    //ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
+>>>>>>> Finished Gyro code pushing to merge and work on combining with LEDs
     // TODO: Figure out how we want to dispatch commands
-    gamepad.turnToColor();
-    gamepad.splitArcadeDrive();
+    //gamepad.turnToColor();
+    //gamepad.splitArcadeDrive();
     climberSubsystem.printGyroPos();
   } 
 
