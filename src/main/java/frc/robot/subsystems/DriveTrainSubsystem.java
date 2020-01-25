@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.actuation.DifferentialDrive;
 import frc.robot.actuation.SparkMaxMotorSet;
@@ -28,6 +29,14 @@ public class DriveTrainSubsystem {
   private final double wheelRadius = 3;
   private final double gearRatio = 8;
 =======
+=======
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+>>>>>>> Sams skeleton code work
 
 public class DriveTrainSubsystem{
 
