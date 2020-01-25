@@ -12,6 +12,7 @@ import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Gamepad;
 import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.LEDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
@@ -22,14 +23,37 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-   
+    SmartDashboard.putNumber("R1", 0);
+    SmartDashboard.putNumber("G1", 0);
+    SmartDashboard.putNumber("B1", 0);
+    SmartDashboard.putNumber("R2", 0);
+    SmartDashboard.putNumber("B2", 0);
+    SmartDashboard.putNumber("G2", 0);
+    SmartDashboard.putNumber("R3", 0);
+    SmartDashboard.putNumber("B3", 0);
+    SmartDashboard.putNumber("G3", 0);
+    SmartDashboard.putNumber("#ofMovingLEDS", 0);
+    SmartDashboard.putNumber("x", 0);
+    SmartDashboard.putNumber("y", 0);
     spinnerSubsystem.initialize();
    
   }
 
   @Override
   public void teleopPeriodic() {
-    individualLeds.scrollNColorsWithBackround(255,0,0,255,255,255,20);
+    int R1 = (int) SmartDashboard.getNumber("R1", 0);
+    int G1 = (int) SmartDashboard.getNumber("G1", 0);
+    int B1 = (int) SmartDashboard.getNumber("B1", 0);
+    int R2 = (int) SmartDashboard.getNumber("R2", 0);
+    int G2 = (int) SmartDashboard.getNumber("G2", 0);
+    int B2 = (int) SmartDashboard.getNumber("B2", 0);
+    int R3 = (int) SmartDashboard.getNumber("R3", 0);
+    int G3 = (int) SmartDashboard.getNumber("G3", 0);
+    int B3 = (int) SmartDashboard.getNumber("B3", 0);
+    int percentOn = (int) SmartDashboard.getNumber("#ofMovingLEDS", 0);
+    int x = (int) SmartDashboard.getNumber("x", 0);
+    int y = (int) SmartDashboard.getNumber("y", 0);
+    individualLeds.climbLeds(R1, G1, B1, R2, G2, B2, percentOn);;
     ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
     // TODO: Figure out how we want to dispatch commands
     gamepad.turnToColor();
