@@ -31,10 +31,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
     driverGP.splitArcadeDrive();
-    ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
-    
-    individualLeds.climbBalance(climberSubsystem.balanceLED());
-
     // TODO: Figure out how we want to dispatch commands
   } 
 
