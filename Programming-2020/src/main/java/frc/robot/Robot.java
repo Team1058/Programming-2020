@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
     int R3 = (int) SmartDashboard.getNumber("R3", 0);
     int G3 = (int) SmartDashboard.getNumber("G3", 0);
     int B3 = (int) SmartDashboard.getNumber("B3", 0);
-    int percentOn = (int) SmartDashboard.getNumber("#ofMovingLEDS", 0);
+    int percentOn = (int) SmartDashboard.getNumber("leds with rgb1 color", 0);
     int x = (int) SmartDashboard.getNumber("x", 0);
     int y = (int) SmartDashboard.getNumber("y", 0);
     individualLeds.climbLeds(R1, G1, B1, R2, G2, B2, percentOn);;
