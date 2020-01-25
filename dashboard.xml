@@ -1,0 +1,82 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Detected Color" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="140"/>
+	</widget>
+	<widget field="Confidence" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="120"/>
+	</widget>
+	<widget field="Blue" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="8" y="162"/>
+	</widget>
+	<widget field="Green" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="116" y="184"/>
+	</widget>
+	<widget field="Red" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="18" y="182"/>
+	</widget>
+	<widget field="R3" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="209" y="24"/>
+		<property name="Background" value="255.51.51.255"/>
+	</widget>
+	<widget field="R2" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="109" y="23"/>
+		<property name="Background" value="255.51.51.255"/>
+	</widget>
+	<widget field="R1" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="7" y="22"/>
+		<property name="Background" value="255.0.0.255"/>
+	</widget>
+	<widget field="B3" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="207" y="62"/>
+		<property name="Background" value="51.51.255.255"/>
+	</widget>
+	<widget field="B2" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="108" y="60"/>
+		<property name="Background" value="51.51.255.255"/>
+	</widget>
+	<widget field="B1" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="7" y="59"/>
+		<height>19</height>
+		<property name="Background" value="51.51.255.255"/>
+	</widget>
+	<widget field="#ofMovingLEDS" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="5" y="81"/>
+	</widget>
+	<widget field="y" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="216" y="298"/>
+	</widget>
+	<widget field="x" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="225" y="436"/>
+	</widget>
+	<widget field="G3" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="208" y="43"/>
+		<property name="Background" value="51.153.0.255"/>
+	</widget>
+	<widget field="G2" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="107" y="41"/>
+		<property name="Background" value="51.153.0.255"/>
+	</widget>
+	<widget field="G1" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="5" y="40"/>
+		<property name="Background" value="51.153.0.255"/>
+	</widget>
+</dashboard>
+<live-window>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="Spark[0]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<widget field="Spark[0]" type="Speed Controller" class="edu.wpi.first.smartdashboard.livewindow.elements.SpeedController">
+			<location x="0" y="0"/>
+			<height>0</height>
+			<width>0</width>
+		</widget>
+		<location x="0" y="0"/>
+		<width>307</width>
+		<height>66</height>
+	</widget>
+</live-window>
+</xml>
