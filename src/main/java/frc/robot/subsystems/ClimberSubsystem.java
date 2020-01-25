@@ -5,16 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.subsystems;
 
-/**
- * Add your docs here.
- */
-public class RobotMap {
-    public static final class CANIds {
-        public static final int SPINNER = 5;
-        public static final int FALCON_1 = 0;
-        public static final int FALCON_2 = 0;
-        public static final int CLIMBER_TALON = 0;
+import frc.robot.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+public class ClimberSubsystem {
+
+    private TalonFX falcon1;
+    private TalonFX falcon2;
+    private TalonSRX climberTalon;
+
+    public void initialize(){
+
+    falcon1 = new TalonFX(RobotMap.CANIds.FALCON_1);
+    falcon2 = new TalonFX(RobotMap.CANIds.FALCON_2);
+    climberTalon = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
+
     }
+
 }
