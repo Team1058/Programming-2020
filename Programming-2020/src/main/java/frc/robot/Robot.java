@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
     int percentOn = (int) SmartDashboard.getNumber("leds with rgb1 color", 0);
     int x = (int) SmartDashboard.getNumber("x", 0);
     int y = (int) SmartDashboard.getNumber("y", 0);
-    individualLeds.climbLeds(R1, G1, B1, R2, G2, B2, percentOn);;
+    individualLeds.climbLeds(255, 255, 255, 255, 0, 0);
     ledSubsystem.setLEDColor(spinnerSubsystem.getColor());
     // TODO: Figure out how we want to dispatch commands
     gamepad.turnToColor();
