@@ -10,6 +10,11 @@ public class DifferentialDrive {
     private double trackWidth;
     private double wheelRadius;
     private double maxWheelOmega;
+    private double x;
+    private double y;
+    private double theta;
+    private double previousLeftPosition;
+    private double previousRightPosition;
 
     public DifferentialDrive(Spinnable rightDrive, Spinnable leftDrive, double trackWidth, double wheelRadius, double maxWheelOmega) {
         this.rightDrive = rightDrive;
@@ -17,6 +22,11 @@ public class DifferentialDrive {
         this.trackWidth = trackWidth;
         this.wheelRadius = wheelRadius;
         this.maxWheelOmega = maxWheelOmega;
+        previousLeftPosition = leftDrive.getPosition();
+        previousRightPosition = rightDrive.getPosition();
+        theta = 0;
+        x = 0;
+        y = 0;
     }
 
     public void setTargetVelocity(double vX, double omegaZ) {
@@ -48,4 +58,20 @@ public class DifferentialDrive {
         return maxVelocityX;
     }
 
+    public void updatePosition() {
+        double leftPosition = leftDrive.getPosition();
+        double rightPosition = rightDrive.getPosition();
+
+        double deltaLeft = leftPosition - previousLeftPosition;
+        double deltaRight = rightPosition - previousRightPosition;
+        double deltaTheta = (deltaRight - deltaLeft)/trackWidth;
+
+        theta += deltaTheta;
+        x += ((deltaRight + deltaLeft) / 2) * Math.cos(theta + (deltaTheta/2));
+        y += ((deltaRight + deltaLeft) / 2) * Math.sin(theta + (deltaTheta/2));
+
+        previousLeftPosition = leftPosition;
+        previousRightPosition = rightPosition;
+    }
+    
 } 
