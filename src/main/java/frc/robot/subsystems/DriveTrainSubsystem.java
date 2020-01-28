@@ -140,33 +140,7 @@ public class DriveTrainSubsystem{
     
   }
 
-  public void VideoGameDrive()
-  {
-      // Gets values of each joystick
-      //double leftJoystick = gamepad.getX(Hand.kLeft);
-
-      // Gets values of each trigger
-      double rightTrigger = (gamepad.getTriggerAxis(Hand.kRight)/5) * 4;
-      double leftTrigger = (gamepad.getTriggerAxis(Hand.kLeft)/ 5) * 4;
-      double speed = rightTrigger - leftTrigger;
-
-      double turnControl = gamepad.getX(Hand.kLeft)/5;
-
-      if (Math.abs(rightTrigger) > DEADBAND_VALUE || Math.abs(leftTrigger) > DEADBAND_VALUE)
-      {
-          if (speed > 0)
-          {
-            drivetrain.tankDrive(speed - turnControl, speed + turnControl);
-          }
-          else
-          {
-            drivetrain.tankDrive(speed + turnControl, speed - turnControl);
-          }
-      }
-      else{
-          setDrive(0, 0);
-      }
-  }
+  
   //Stops all motors
   public void stopAll(){
     drivetrain.setTargetVelocity(0, 0);

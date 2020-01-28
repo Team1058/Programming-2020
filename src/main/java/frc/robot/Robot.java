@@ -29,9 +29,12 @@ public class Robot extends TimedRobot {
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   //Gamepad gamepad = new Gamepad();
 >>>>>>> attempt at Caden's failed drive
+=======
+>>>>>>> Getting ready for merge
   LEDSubsystem ledSubsystem = new LEDSubsystem();
 =======
   Gamepad gamepad = new Gamepad();
@@ -66,6 +69,7 @@ public class Robot extends TimedRobot {
 >>>>>>> Push so I can PR gamepad
     // TODO: Figure out how we want to dispatch commands
 <<<<<<< HEAD
+<<<<<<< HEAD
     gamepad.turnToColor();
     gamepad.splitArcadeDrive();
 <<<<<<< HEAD
@@ -78,6 +82,8 @@ public class Robot extends TimedRobot {
 >>>>>>> attempt at Caden's failed drive
 =======
 >>>>>>> Push so I can PR gamepad
+=======
+>>>>>>> Getting ready for merge
   } 
 
 }
