@@ -18,12 +18,12 @@ public class DriveTrainSubsystem {
   private SparkMaxMotorSet sparkMaxMotorSetRight;
   public DifferentialDrive drivetrain;
   private final double maxWheelOmega = 73;
-  private final double kP = 0;
+  private final double kP = .005;
   private final double kI = 0;
   private final double kD = 0;
   private final double kIz = 0;
   private final double kFF = .0137;
-  private final double trackWidth = 18.5;
+  private final double trackWidth = 12.657 * 2;
   private final double wheelRadius = 3;
   private final double gearRatio = 8;
 
