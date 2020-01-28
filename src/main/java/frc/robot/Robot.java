@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   //Gamepad gamepad = new Gamepad();
 >>>>>>> attempt at Caden's failed drive
@@ -41,6 +42,10 @@ public class Robot extends TimedRobot {
   public static LEDSubsystem ledSubsystem = new LEDSubsystem();
   public static IndividualLeds individualLeds = new IndividualLeds();
 >>>>>>> Push so I can PR gamepad
+=======
+  public static LEDSubsystem ledSubsystem = new LEDSubsystem();
+  public static IndividualLeds individualLeds = new IndividualLeds();
+>>>>>>> Sorry Matt but Sree gave permission
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
