@@ -18,13 +18,8 @@ import frc.robot.subsystems.IndividualLeds;
 public class Robot extends TimedRobot {
 
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
-<<<<<<< HEAD
-  LEDSubsystem ledSubsystem = new LEDSubsystem();
-=======
-  Gamepad gamepad = new Gamepad();
   public static LEDSubsystem ledSubsystem = new LEDSubsystem();
   public static IndividualLeds individualLeds = new IndividualLeds();
->>>>>>> climberLEDs
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
