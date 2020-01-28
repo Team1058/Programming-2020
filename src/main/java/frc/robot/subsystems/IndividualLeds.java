@@ -4,12 +4,14 @@ import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class IndividualLeds{
     AddressableLEDBuffer ledBuffer;
     AddressableLED led;
     int ledCounter;
     double ledSides;
+    private XboxController gamepad = new XboxController(0);
     
     public IndividualLeds() {
         // PWM port 9
@@ -107,9 +109,9 @@ public class IndividualLeds{
     led.setData(ledBuffer);
     led.start();
    }
-
-   public void climbLeds(int r, int g, int b, int r1, int g1, int b1, double percentOn){
-    percentOn =  1 * .01 * 59;
+   public void climbLeds(int r, int g, int b, int r1, int g1, int b1){
+    double percentOn;
+    percentOn =  Math.abs(gamepad.getX())* 59;
     // build an array of length N that has all of the values of getN(1) to getN(n)
     // build arrays and check if numbers are in arrays
     // check the array in the function scrollN then build an array based of the variable n to send info to an array

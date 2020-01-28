@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import edu.wpi.first.wpilibj.SpeedController;
 >>>>>>> attempt at Caden's failed drive
@@ -44,10 +45,23 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+=======
+import edu.wpi.first.wpilibj.SpeedController;
+>>>>>>> Push so I can PR gamepad
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 >>>>>>> Sams skeleton code work
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+/**
+ * This is a demo program showing the use of the RobotDrive class, specifically
+ * it contains the code necessary to operate a robot with tank drive.
+ */
 public class DriveTrainSubsystem{
 
   private DifferentialDrive drivetrain;
@@ -57,6 +71,7 @@ public class DriveTrainSubsystem{
   private CANSparkMax driveSparkR2;
   private CANPIDController m_pidController_CANPIDController;
   private CANEncoder m_encoder_CANEncoder;
+<<<<<<< HEAD
 <<<<<<< HEAD
   private SpeedControllerGroup  leftDrive, rightDrive;
 >>>>>>> Added ClimberSubsystem and removed unnessesary comment
@@ -81,6 +96,16 @@ public class DriveTrainSubsystem{
     
     driveSparkL1 = new CANSparkMax(1, MotorType.kBrushless); 
 >>>>>>> attempt at Caden's failed drive
+=======
+  public SpeedControllerGroup  leftDrive, rightDrive;
+  private XboxController gamepad = new XboxController(1);
+ private final double DEADBAND_VALUE = 0.075;
+  
+
+  public void initialize() {
+    
+    driveSparkL1 = new CANSparkMax(1, MotorType.kBrushless); 
+>>>>>>> Push so I can PR gamepad
     driveSparkL2 = new CANSparkMax(2, MotorType.kBrushless);
     driveSparkR1 = new CANSparkMax(3, MotorType.kBrushless);
     driveSparkR2 = new CANSparkMax(4, MotorType.kBrushless);
@@ -153,7 +178,11 @@ public class DriveTrainSubsystem{
   }
   
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> attempt at Caden's failed drive
+=======
+}
+>>>>>>> Push so I can PR gamepad

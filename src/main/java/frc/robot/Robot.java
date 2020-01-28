@@ -10,24 +10,35 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndividualLeds;
 =======
 import frc.robot.gamepads.Driver;
 >>>>>>> attempt at Caden's failed drive
+=======
+import frc.robot.gamepads.Gamepad;
+>>>>>>> Push so I can PR gamepad
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.IndividualLeds;
 
 public class Robot extends TimedRobot {
 
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   //Gamepad gamepad = new Gamepad();
 >>>>>>> attempt at Caden's failed drive
   LEDSubsystem ledSubsystem = new LEDSubsystem();
+=======
+  Gamepad gamepad = new Gamepad();
+  public static LEDSubsystem ledSubsystem = new LEDSubsystem();
+  public static IndividualLeds individualLeds = new IndividualLeds();
+>>>>>>> Push so I can PR gamepad
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-  IndividualLeds individualLeds = new IndividualLeds();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
   @Override
@@ -40,6 +51,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
     
     individualLeds.climbBalance(climberSubsystem.balanceLED());
@@ -48,10 +60,15 @@ public class Robot extends TimedRobot {
 
 =======
     // ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
+=======
+    //individualLeds.climbLeds( 255, 255, 255, 255, 0, 0);
+    individualLeds.climbBalance(climberSubsystem.balanceLED());
+>>>>>>> Push so I can PR gamepad
     // TODO: Figure out how we want to dispatch commands
 <<<<<<< HEAD
     gamepad.turnToColor();
     gamepad.splitArcadeDrive();
+<<<<<<< HEAD
     individualLeds.climbBalance(climberSubsystem.balanceLED());
 >>>>>>> Fixed issues before final commit
 =======
@@ -59,11 +76,8 @@ public class Robot extends TimedRobot {
     //gamepad.turnToColor();
     //gamepad.splitArcadeDrive();
 >>>>>>> attempt at Caden's failed drive
+=======
+>>>>>>> Push so I can PR gamepad
   } 
-
-  @Override
-  public void disabledPeriodic(){
-    individualLeds.changeAllColors(0,0,0);
-  }
 
 }
