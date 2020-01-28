@@ -1,13 +1,19 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+/**
+ * This is a demo program showing the use of the RobotDrive class, specifically
+ * it contains the code necessary to operate a robot with tank drive.
+ */
 public class DriveTrainSubsystem{
 
   private DifferentialDrive drivetrain;
@@ -17,10 +23,14 @@ public class DriveTrainSubsystem{
   private CANSparkMax driveSparkR2;
   private CANPIDController m_pidController_CANPIDController;
   private CANEncoder m_encoder_CANEncoder;
-  private SpeedControllerGroup  leftDrive, rightDrive;
+  public SpeedControllerGroup  leftDrive, rightDrive;
+  private XboxController gamepad = new XboxController(1);
+ private final double DEADBAND_VALUE = 0.075;
+  
 
   public void initialize() {
-    driveSparkL1 = new CANSparkMax(1, MotorType.kBrushless);
+    
+    driveSparkL1 = new CANSparkMax(1, MotorType.kBrushless); 
     driveSparkL2 = new CANSparkMax(2, MotorType.kBrushless);
     driveSparkR1 = new CANSparkMax(3, MotorType.kBrushless);
     driveSparkR2 = new CANSparkMax(4, MotorType.kBrushless);
@@ -30,11 +40,12 @@ public class DriveTrainSubsystem{
     driveSparkL2.setIdleMode(CANSparkMax.IdleMode.kBrake);
     driveSparkR1.setIdleMode(CANSparkMax.IdleMode.kBrake);
     driveSparkR2.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    
 
     leftDrive = new SpeedControllerGroup(driveSparkL1, driveSparkL2);
     rightDrive = new SpeedControllerGroup(driveSparkR1, driveSparkR2);
 
-    leftDrive.setInverted(false);
+    rightDrive.setInverted(false);
     leftDrive.setInverted(true);
 
     drivetrain = new DifferentialDrive(leftDrive, rightDrive);
@@ -64,4 +75,5 @@ public class DriveTrainSubsystem{
   public void setDrive(double left, double right){
     drivetrain.arcadeDrive(left * .5, right);
   }
+  
 }

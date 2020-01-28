@@ -21,9 +21,7 @@ import java.util.Hashtable;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.ColorMatch;
-/**
- * Add your docs here.
- */
+
 public class SpinnerSubsystem {
 
   private final double THROTTLE_VAULE = .5;

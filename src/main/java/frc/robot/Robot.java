@@ -9,19 +9,19 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.gamepads.Gamepad;
-import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.IndividualLeds;
 
 public class Robot extends TimedRobot {
 
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
   Gamepad gamepad = new Gamepad();
-  LEDSubsystem ledSubsystem = new LEDSubsystem();
+  public static LEDSubsystem ledSubsystem = new LEDSubsystem();
+  public static IndividualLeds individualLeds = new IndividualLeds();
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-  IndividualLeds individualLeds = new IndividualLeds();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
   @Override
@@ -33,16 +33,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
+    //individualLeds.climbLeds( 255, 255, 255, 255, 0, 0);
+    individualLeds.climbBalance(climberSubsystem.balanceLED());
     // TODO: Figure out how we want to dispatch commands
     gamepad.turnToColor();
     gamepad.splitArcadeDrive();
-    individualLeds.climbBalance(climberSubsystem.balanceLED());
   } 
-
-  @Override
-  public void disabledPeriodic(){
-    individualLeds.changeAllColors(0,0,0);
-  }
 
 }

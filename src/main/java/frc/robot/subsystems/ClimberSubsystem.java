@@ -50,6 +50,7 @@ public class ClimberSubsystem {
 
     public String balanceLED(){
 
+        System.out.println(climberGyro.getAngle());
         if(Math.abs(climberGyro.getAngle()) > gyroDeadband){
             if (climberGyro.getAngle() > gyroDeadband){
                 outputString = "TooFarRight";
