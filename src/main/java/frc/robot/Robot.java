@@ -16,7 +16,6 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class Robot extends TimedRobot {
 
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
-  //Gamepad gamepad = new Gamepad();
   LEDSubsystem ledSubsystem = new LEDSubsystem();
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
 
@@ -30,9 +29,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
     // TODO: Figure out how we want to dispatch commands
-    driveTrainSubsystem.VideoGameDrive();
-    //gamepad.turnToColor();
-    //gamepad.splitArcadeDrive();
   } 
 
 }
