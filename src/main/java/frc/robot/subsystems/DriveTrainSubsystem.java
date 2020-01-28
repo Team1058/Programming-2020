@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import edu.wpi.first.wpilibj.SpeedController;
+>>>>>>> attempt at Caden's failed drive
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.actuation.DifferentialDrive;
 import frc.robot.actuation.SparkMaxMotorSet;
@@ -10,6 +14,11 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+>>>>>>> attempt at Caden's failed drive
 /**
  * This is a demo program showing the use of the RobotDrive class, specifically
  * it contains the code necessary to operate a robot with tank drive.
@@ -48,6 +57,7 @@ public class DriveTrainSubsystem{
   private CANSparkMax driveSparkR2;
   private CANPIDController m_pidController_CANPIDController;
   private CANEncoder m_encoder_CANEncoder;
+<<<<<<< HEAD
   private SpeedControllerGroup  leftDrive, rightDrive;
 >>>>>>> Added ClimberSubsystem and removed unnessesary comment
 
@@ -61,17 +71,41 @@ public class DriveTrainSubsystem{
     sparkMaxMotorSetRight.setInverted(true);
 =======
     driveSparkL1 = new CANSparkMax(1, MotorType.kBrushless);
+=======
+  public SpeedControllerGroup  leftDrive, rightDrive;
+  private XboxController gamepad = new XboxController(1);
+ private final double DEADBAND_VALUE = 0.075;
+  
+
+  public void initialize() {
+    
+    driveSparkL1 = new CANSparkMax(1, MotorType.kBrushless); 
+>>>>>>> attempt at Caden's failed drive
     driveSparkL2 = new CANSparkMax(2, MotorType.kBrushless);
     driveSparkR1 = new CANSparkMax(3, MotorType.kBrushless);
     driveSparkR2 = new CANSparkMax(4, MotorType.kBrushless);
 >>>>>>> Finished Gyro code pushing to merge and work on combining with LEDs
 
     // Enables brake mode for all motors
+<<<<<<< HEAD
     sparkMaxMotorSetLeft.setIdleMode(CANSparkMax.IdleMode.kCoast);
     sparkMaxMotorSetRight.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
     sparkMaxMotorSetLeft.setPIDConstants(kP, kI, kD, kIz, kFF);
     sparkMaxMotorSetRight.setPIDConstants(kP, kI, kD, kIz, kFF);
+=======
+    driveSparkL1.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    driveSparkL2.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    driveSparkR1.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    driveSparkR2.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    
+
+    leftDrive = new SpeedControllerGroup(driveSparkL1, driveSparkL2);
+    rightDrive = new SpeedControllerGroup(driveSparkR1, driveSparkR2);
+
+    rightDrive.setInverted(false);
+    leftDrive.setInverted(true);
+>>>>>>> attempt at Caden's failed drive
 
     sparkMaxMotorSetLeft.setGearRatio(gearRatio);
     sparkMaxMotorSetRight.setGearRatio(gearRatio);
@@ -81,6 +115,33 @@ public class DriveTrainSubsystem{
     
   }
 
+  public void VideoGameDrive()
+  {
+      // Gets values of each joystick
+      //double leftJoystick = gamepad.getX(Hand.kLeft);
+
+      // Gets values of each trigger
+      double rightTrigger = (gamepad.getTriggerAxis(Hand.kRight)/5) * 4;
+      double leftTrigger = (gamepad.getTriggerAxis(Hand.kLeft)/ 5) * 4;
+      double speed = rightTrigger - leftTrigger;
+
+      double turnControl = gamepad.getX(Hand.kLeft)/5;
+
+      if (Math.abs(rightTrigger) > DEADBAND_VALUE || Math.abs(leftTrigger) > DEADBAND_VALUE)
+      {
+          if (speed > 0)
+          {
+            drivetrain.tankDrive(speed - turnControl, speed + turnControl);
+          }
+          else
+          {
+            drivetrain.tankDrive(speed + turnControl, speed - turnControl);
+          }
+      }
+      else{
+          setDrive(0, 0);
+      }
+  }
   //Stops all motors
   public void stopAll(){
     drivetrain.setTargetVelocity(0, 0);
@@ -91,4 +152,8 @@ public class DriveTrainSubsystem{
     drivetrain.setTargetVelocity(speed, rotation);
   }
   
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> attempt at Caden's failed drive

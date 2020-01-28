@@ -25,7 +25,7 @@ import frc.robot.Robot;
     - Shooting angle up/down (right joystick y)*/
 
 public class Operator {
-    private XboxController gamepad = new XboxController(0);
+    private XboxController gamepad = new XboxController(1);
     private final double DEADBAND_VALUE = 0.075;
 
     public void Climber()

@@ -9,14 +9,22 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
+<<<<<<< HEAD
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndividualLeds;
+=======
+import frc.robot.gamepads.Driver;
+>>>>>>> attempt at Caden's failed drive
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class Robot extends TimedRobot {
 
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
+<<<<<<< HEAD
+=======
+  //Gamepad gamepad = new Gamepad();
+>>>>>>> attempt at Caden's failed drive
   LEDSubsystem ledSubsystem = new LEDSubsystem();
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   IndividualLeds individualLeds = new IndividualLeds();
@@ -41,10 +49,16 @@ public class Robot extends TimedRobot {
 =======
     // ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
     // TODO: Figure out how we want to dispatch commands
+<<<<<<< HEAD
     gamepad.turnToColor();
     gamepad.splitArcadeDrive();
     individualLeds.climbBalance(climberSubsystem.balanceLED());
 >>>>>>> Fixed issues before final commit
+=======
+    driveTrainSubsystem.VideoGameDrive();
+    //gamepad.turnToColor();
+    //gamepad.splitArcadeDrive();
+>>>>>>> attempt at Caden's failed drive
   } 
 
   @Override
