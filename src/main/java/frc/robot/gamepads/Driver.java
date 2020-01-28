@@ -6,24 +6,28 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.gamepads;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 /* Driver Controls
     - Tank Mode (Joysticks Y)
     - Moving on bar (Triggers) - hold
    Operator Controls
-    - Spinning Stage 2 (X) - click
-    - Spinning Stage 3 (A) - click
-    - Extend Climber (Y) - click
-    - Retract Climber (B) - click
-    - Shoot (Right Bumper) - click
+    - Spinning Stage 2 (X) - hold
+    - Spinning Stage 3 (A) - hold
+    - Extend Climber (Y) - hold
+    - Retract Climber (B) - hold
+    - Shoot (Right Trigger) - click
+    - Start two shooting motors (Left trigger) - hold
     - Intake down and in (Left bumper) - hold
+    - Intake up and out (right bumper) - hold
     - Shooting angle up/down (right joystick y)*/
 
 public class Driver {
-    private XboxController gamepad = new XboxController(0);
+    private XboxController gamepad = new XboxController(1);
     private final double DEADBAND_VALUE = 0.075;
     
     
@@ -46,15 +50,6 @@ public class Driver {
         }
 
     }*/
-
-    public void Driving()
-    {
-        // Gets values of each joystick
-        double right = gamepad.getY(Hand.kRight);
-        double left = gamepad.getY(Hand.kLeft);
-
-        // Rest of code to apply to drivetrain
-    }
 
     public void BarDriving()
     {
