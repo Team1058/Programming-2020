@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.actuation.DifferentialDrive;
 import frc.robot.actuation.SparkMaxMotorSet;
@@ -47,6 +48,7 @@ public class DriveTrainSubsystem {
     
   }
 
+  
   //Stops all motors
   public void stopAll(){
     drivetrain.setTargetVelocity(0, 0);
@@ -56,5 +58,6 @@ public class DriveTrainSubsystem {
   public void setDrive(double speed, double rotation){
     drivetrain.setTargetVelocity(speed, rotation);
   }
-  
+
 }
+

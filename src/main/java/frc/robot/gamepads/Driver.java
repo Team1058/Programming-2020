@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -24,10 +25,10 @@ import frc.robot.subsystems.DriveTrainSubsystem;
     - Shooting angle up/down (right joystick y)*/
 
 public class Driver {
+  
     private XboxController gamepad = new XboxController(0);
     private final double DEADBAND_VALUE = 0.025;
-    
-    
+   
     public void splitArcadeDrive(){
 
         //sets the value for easier implementation
