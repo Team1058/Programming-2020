@@ -6,20 +6,32 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.gamepads;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Robot;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
+/* Driver Controls
+    - Tank Mode (Joysticks Y)
+    - Moving on bar (Triggers) - hold
+   Operator Controls
+    - Spinning Stage 2 (X) - hold
+    - Spinning Stage 3 (A) - hold
+    - Extend Climber (Y) - hold
+    - Retract Climber (B) - hold
+    - Shoot (Right Trigger) - click
+    - Start two shooting motors (Left trigger) - hold
+    - Intake down and in (Left bumper) - hold
+    - Intake up and out (right bumper) - hold
+    - Shooting angle up/down (right joystick y)*/
 
-/**
- * Add your docs here.
- */
-public class Gamepad {
-    private XboxController gamepad = new XboxController(0);
+public class Driver {
+    private XboxController gamepad = new XboxController(1);
     private final double DEADBAND_VALUE = 0.075;
     
     
-    public void splitArcadeDrive(){
+    /*public void splitArcadeDrive(){
 
         //sets the value for easier implementation
         double x = gamepad.getX(Hand.kLeft);
@@ -37,21 +49,15 @@ public class Gamepad {
             Robot.driveTrainSubsystem.stopAll();
         }
 
-    }
+    }*/
 
-    public void turnToColor(){
-        if(gamepad.getAButton()){
-            Robot.spinnerSubsystem.spinForStageThree();
-        }else if(gamepad.getXButtonPressed()){
-            Robot.spinnerSubsystem.setTrackedColor();
-        }else if(gamepad.getXButton()){
-            Robot.spinnerSubsystem.spinForStageTwo();
-        }else {
-            Robot.spinnerSubsystem.stopMotor();
-        }
-        if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
-            Robot.spinnerSubsystem.resetColorChecks();
-        }
+    public void BarDriving()
+    {
+        // Gets values of each trigger
+        double right = gamepad.getTriggerAxis(Hand.kRight);
+        double left = gamepad.getTriggerAxis(Hand.kLeft);
+
+        // Rest of code to apply to climber
     }
 
     private boolean outsideDeadband(double inputValue){
