@@ -1,18 +1,8 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.gamepads;
-<<<<<<< HEAD
 
 import org.opencv.core.Mat;
 
-=======
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
->>>>>>> attempt at Caden's failed drive
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,13 +24,8 @@ import frc.robot.subsystems.DriveTrainSubsystem;
     - Shooting angle up/down (right joystick y)*/
 
 public class Driver {
-<<<<<<< HEAD
     private XboxController gamepad = new XboxController(0);
     private final double DEADBAND_VALUE = 0.025;
-=======
-    private XboxController gamepad = new XboxController(1);
-    private final double DEADBAND_VALUE = 0.075;
->>>>>>> attempt at Caden's failed drive
     
     
     public void splitArcadeDrive(){
