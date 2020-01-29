@@ -42,20 +42,6 @@ public class Driver {
         vX *= Robot.driveTrainSubsystem.drivetrain.getMaxVelocityX();
         omegaZ *= Robot.driveTrainSubsystem.drivetrain.getMaxOmegaZ();
         Robot.driveTrainSubsystem.setDrive(vX, omegaZ);
-        double x = gamepad.getX(Hand.kLeft);
-        double y = gamepad.getY(Hand.kRight);
-
-        //if either stick is outside its deadband it sets the motor to the level of the controller
-        if (outsideDeadband(x) || outsideDeadband(y)) {
-            Robot.driveTrainSubsystem.setDrive(
-                // ? is an if else statement
-                outsideDeadband(x) ? x : 0,
-                outsideDeadband(y) ? y : 0
-            );
-        } else {
-            //if no deadband is broken it stops the motors
-            Robot.driveTrainSubsystem.stopAll();
-        }
 
     }
 
