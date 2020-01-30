@@ -5,6 +5,7 @@ import java.util.Arrays;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.gamepads.Driver;
 
 public class IndividualLeds{
     AddressableLEDBuffer ledBuffer;
@@ -111,18 +112,29 @@ public class IndividualLeds{
    }
    public void climbLeds(int r, int g, int b, int r1, int g1, int b1){
     double percentOn;
-    percentOn =  Math.abs(gamepad.getX())* 59;
+    percentOn =  gamepad.getX() * 59;
     // build an array of length N that has all of the values of getN(1) to getN(n)
     // build arrays and check if numbers are in arrays
     // check the array in the function scrollN then build an array based of the variable n to send info to an array
-    for (var i = 0; i < ledBuffer.getLength(); i++) {
-             // Sets the specified LED to the RGB values for red
-        if (i <= percentOn){
-             ledBuffer.setRGB(i, r,g,b);
-            }else{
-              ledBuffer.setRGB(i, r1,g1,b1);
+    if (percentOn <= -0.1){
+        for (var i = ledBuffer.getLength() - 1; i > 0; i--) {
+                // Sets the specified LED to the RGB values for red
+            if (i <= percentOn){
+                ledBuffer.setRGB(i, r,g,b);
+                }else{
+                    ledBuffer.setRGB(i, r1,g1,b1);
+                }
             }
-        }
+    }else{
+        for (var i = 0; i < ledBuffer.getLength() - 1; i++) {
+            // Sets the specified LED to the RGB values for red
+       if (i <= percentOn){
+            ledBuffer.setRGB(i, r,g,b);
+           }else{
+               ledBuffer.setRGB(i, r1,g1,b1);
+           }
+       }
+    }
     led.setData(ledBuffer);
     led.start();
     }

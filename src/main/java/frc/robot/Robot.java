@@ -14,6 +14,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IndividualLeds;
+import frc.robot.gamepads.Driver;
 
 public class Robot extends TimedRobot {
 
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
   public static IndividualLeds individualLeds = new IndividualLeds();
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  public static Driver driver = new Driver();
 
   @Override
   public void robotInit() {
@@ -32,8 +34,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    //individualLeds.climbLeds( 255, 255, 255, 255, 0, 0);
-    individualLeds.climbBalance(climberSubsystem.balanceLED());
+    individualLeds.climbLeds(255, 255, 255, 255, 0, 0);
+    //individualLeds.climbBalance(climberSubsystem.balanceLED());
     // TODO: Figure out how we want to dispatch commands
   } 
 
