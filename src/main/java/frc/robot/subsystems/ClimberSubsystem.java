@@ -11,6 +11,7 @@ import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj.ADXL345_SPI;
 
 public class ClimberSubsystem {
 
-    private TalonFX falcon1;
+    public TalonFX falcon1;
     private TalonFX falcon2;
     private TalonSRX climberTalon;
     double angleInit;
@@ -39,18 +40,14 @@ public class ClimberSubsystem {
     falcon1 = new TalonFX(RobotMap.CANIds.FALCON_1);
     falcon2 = new TalonFX(RobotMap.CANIds.FALCON_2);
     climberTalon = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
-
     }
    //filler code
    public TalonFX falcon1(){
-        falcon1.getSelectedSensorPosition(1);
         return falcon1;
     }   
 
 
     public TalonFX falcon2(){
-        falcon2.getSelectedSensorPosition(2);
-        
         return falcon2;
     }
 
@@ -100,8 +97,9 @@ public class ClimberSubsystem {
         return outputString;
     }
 
-    public void climberExtend(){
-
+    public void climberExtend(int r){
+        r = r * 1000;
+        falcon1.set(TalonFXControlMode.Position, r);
     }
     
     public void climberRetract(){

@@ -110,9 +110,26 @@ public class IndividualLeds{
     led.setData(ledBuffer);
     led.start();
    }
-   public void teloscipsLeds(int r, int g, int b, int r1, int g1, int b1){
+   public void teloscipsLeds1(int r, int g, int b, int r1, int g1, int b1, int d){
     double percentOn;
-    percentOn =  gamepad.getX() * 59;
+    percentOn =  d/100000 * 59;
+    // build an array of length N that has all of the values of getN(1) to getN(n)
+    // build arrays and check if numbers are in arrays
+    // check the array in the function scrollN then build an array based of the variable n to send info to an array
+    for (var i = 0; i < ledBuffer.getLength(); i++) {
+            // Sets the specified LED to the RGB values for red
+        if (i <= Math.abs(percentOn)){
+                ledBuffer.setRGB(i, r,g,b);
+           }else{
+                ledBuffer.setRGB(i, r1,g1,b1);
+           }
+       }
+    led.setData(ledBuffer);
+    led.start();
+    }
+   public void teloscipsLeds2(int r, int g, int b, int r1, int g1, int b1, int d){
+    double percentOn;
+    percentOn =  d * 59;
     // build an array of length N that has all of the values of getN(1) to getN(n)
     // build arrays and check if numbers are in arrays
     // check the array in the function scrollN then build an array based of the variable n to send info to an array

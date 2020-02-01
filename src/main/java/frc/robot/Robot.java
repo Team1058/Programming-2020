@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
 import frc.robot.subsystems.LEDSubsystem;
@@ -30,12 +31,17 @@ public class Robot extends TimedRobot {
     spinnerSubsystem.initialize();
     driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
+    SmartDashboard.putNumber("Speeeed",0);
   }
 
   @Override
   public void teleopPeriodic() {
-    // climberSubsystem.falcon1()
-    individualLeds.teloscipsLeds( 255, 0, 0, 0, 0, 0 );
+    int d = climberSubsystem.falcon1.getSelectedSensorPosition();
+    int r = (int) SmartDashboard.getNumber("Speeeed",0);
+    climberSubsystem.climberExtend(r);
+    
+    System.out.println("Falcon"+d);
+    individualLeds.teloscipsLeds1( 255, 0, 0, 0, 0, 0, d);
     // individualLeds.climbBalance(climberSubsystem.balanceLED());
     // climberSubsystem.balanceLED(), climberSubsystem.falcon1(), climberSubsystem.falcon2();
     // TODO: Figure out how we want to dispatch commands

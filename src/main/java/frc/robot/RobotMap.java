@@ -13,8 +13,8 @@ package frc.robot;
 public class RobotMap {
     public static final class CANIds {
         public static final int SPINNER = 5;
-        public static final int FALCON_1 = 0;
-        public static final int FALCON_2 = 0;
+        public static final int FALCON_1 = 10;
+        public static final int FALCON_2 = 9;
         public static final int CLIMBER_TALON = 0;
     }
 }
