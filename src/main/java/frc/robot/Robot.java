@@ -34,8 +34,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    individualLeds.climbLeds(255, 255, 255, 255, 0, 0);
-    //individualLeds.climbBalance(climberSubsystem.balanceLED());
+    // climberSubsystem.falcon1()
+    individualLeds.teloscipsLeds( 255, 0, 0, 0, 0, 0 );
+    // individualLeds.climbBalance(climberSubsystem.balanceLED());
+    // climberSubsystem.balanceLED(), climberSubsystem.falcon1(), climberSubsystem.falcon2();
     // TODO: Figure out how we want to dispatch commands
   } 
 

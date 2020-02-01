@@ -27,6 +27,7 @@ import frc.robot.Robot;
 public class Operator {
     private XboxController gamepad = new XboxController(0);
     private final double DEADBAND_VALUE = 0.075;
+    
 
     public void Climber()
     {
