@@ -6,6 +6,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem {
@@ -14,9 +17,9 @@ public class IntakeSubsystem {
     private boolean isUp = true;
     private double ballSpeed = -0.75;
     double liftSlow = 0.1;
-    double liftFast = 0.3;
+    double liftFast = 0.5;
     double dropSlow = -0.00;
-    double dropFast = -0.1;
+    double dropFast = -0.2;
 
     
     public void initialize(){
@@ -31,6 +34,8 @@ public class IntakeSubsystem {
         // limit switches default to 0 when not pressed 
         // fwd = green wire = left bumper = makes it go down
         // rev = white wire = right bumper = makes it go up
+        System.out.println("fwd: "+intakeLift.isFwdLimitSwitchClosed());
+        System.out.println("rev: "+intakeLift.isRevLimitSwitchClosed());
         if (intakeLift.isFwdLimitSwitchClosed() == 1 && isUp == true) {
             intakeLift.set(ControlMode.PercentOutput, liftSlow);
             intakeWheels.set(ControlMode.PercentOutput, 0); 

@@ -10,36 +10,48 @@ import java.util.Optional;
 public class Limelight {
 
   NetworkTableEntry camtran;
+  NetworkTableEntry tx;
   double x;
   double y;
   double distance;
   double targetAngle;
   boolean valid = false;
+  double txAngle;
+  
 
   public Limelight() {
     // creates network table
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     camtran = table.getEntry("camtran");
+    tx = table.getEntry("tx");
   }
 
   public void update() {
     double[] cam = camtran.getDoubleArray(new double[6]);
-  
+    txAngle = tx.getDouble(0.0);
     if (cam[1] != 0) {
       valid = true;
-      x = cam[2];
-      y = -cam[0];
+      x = cam[2]; //* .0254;
+      y = -cam[0]; //* .0254;
       distance = Math.hypot(x, y);
       targetAngle = Math.atan2(-y, -x);
     } else {
       valid = false;
     }
 
+    SmartDashboard.putNumber("tx",txAngle);
     SmartDashboard.putNumber("X", x);
+    //System.out.println("X: " + x);
     SmartDashboard.putNumber("Y", y);
     SmartDashboard.putNumber("Distance", distance);
+    //System.out.println("Distance: " + distance);
     SmartDashboard.putNumber("Target Angle", targetAngle);
+    System.out.println("Target Angle "+targetAngle);
     SmartDashboard.putBoolean("Valid", valid);
+  }
+
+  public double getTX(){
+    return txAngle;
   }
 
   public Optional<Double> getX() {

@@ -35,6 +35,7 @@ public class SparkMaxMotorSet implements Spinnable {
     public void setGearRatio(double gearRatio) {
         this.gearRatio = gearRatio;
         masterEncoder.setVelocityConversionFactor((2 * Math.PI)/(60 * gearRatio));
+         masterEncoder.setPositionConversionFactor((2 * Math.PI)/(gearRatio));
     }
     
     public SparkMaxMotorSet setPIDConstants(double kP, double kI, double kD, double kIz, double kFF) {
@@ -72,6 +73,10 @@ public class SparkMaxMotorSet implements Spinnable {
 
     public void setInverted(boolean inverted) {
         masterMotor.setInverted(inverted);
+    }
+
+    public double getPosition() {
+        return masterEncoder.getPosition();
     }
 
 }

@@ -10,4 +10,6 @@ public interface Spinnable {
 
     double getActualVelocity();
 
+    double getPosition();
+
 }
