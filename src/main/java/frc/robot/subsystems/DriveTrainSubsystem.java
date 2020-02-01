@@ -23,18 +23,18 @@ public class DriveTrainSubsystem {
   private final double kI = 0;
   private final double kD = 0;
   private final double kIz = 0;
-  private final double kFF = .0137;
-  private final double trackWidth = 12.657 * 2;
-  private final double wheelRadius = 3;
-  private final double gearRatio = 8;
+  private final double kFF = 0.0137;
+  private final double trackWidth = /*(12.657 * 2)*/ 18.5 * 0.0254; // Wheel to wheel diagonal distance in meters
+  private final double wheelRadius = /*3*/ 2 * 0.0254; // In meters
+  private final double gearRatio = /*8*/ 5;
 
   public void initialize() {
-    int[] leftFollower = {2};
-    int[] rightFollower = {4};
-    sparkMaxMotorSetLeft = new SparkMaxMotorSet(1, leftFollower);
-    sparkMaxMotorSetRight = new SparkMaxMotorSet(3, rightFollower);
-    drivetrain = new DifferentialDrive(sparkMaxMotorSetRight, sparkMaxMotorSetLeft, trackWidth, wheelRadius, maxWheelOmega);
-    sparkMaxMotorSetRight.setInverted(true);
+    int[] leftFollower = {/*2*/4};
+    int[] rightFollower = {/*4*/2};
+    sparkMaxMotorSetLeft = new SparkMaxMotorSet(/*1*/3, leftFollower);
+    sparkMaxMotorSetRight = new SparkMaxMotorSet(/*3*/1, rightFollower);
+    //sparkMaxMotorSetRight.setInverted(true);
+    sparkMaxMotorSetLeft.setInverted(true);
 
     // Enables brake mode for all motors
     sparkMaxMotorSetLeft.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -49,8 +49,12 @@ public class DriveTrainSubsystem {
     sparkMaxMotorSetLeft.setMaxOmega(maxWheelOmega);
     sparkMaxMotorSetRight.setMaxOmega(maxWheelOmega);
     
+    drivetrain = new DifferentialDrive(sparkMaxMotorSetRight, sparkMaxMotorSetLeft, trackWidth, wheelRadius, maxWheelOmega);
   }
 
+  public DifferentialDrive getDrivetrain() {
+    return drivetrain;
+  }
   
   //Stops all motors
   public void stopAll(){

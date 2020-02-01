@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.Robot;
+import frc.robot.actuation.DifferentialDrive;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 /* Driver Controls
@@ -26,8 +27,14 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class Driver {
   
-    private XboxController gamepad = new XboxController(0);
+    private XboxController gamepad;
     private final double DEADBAND_VALUE = 0.025;
+    private DifferentialDrive drivetrain;
+
+    public Driver(int gamepadNum, DifferentialDrive drivetrain) {
+        this.drivetrain = drivetrain;
+        gamepad = new XboxController(gamepadNum);
+    }
    
     public void splitArcadeDrive(){
 
@@ -40,9 +47,12 @@ public class Driver {
         SmartDashboard.putNumber("Right Joystick", omegaZ);
         vX = clampDeadband(vX);
         omegaZ = clampDeadband(omegaZ);
-        vX *= Robot.driveTrainSubsystem.drivetrain.getMaxVelocityX();
-        omegaZ *= Robot.driveTrainSubsystem.drivetrain.getMaxOmegaZ();
-        Robot.driveTrainSubsystem.setDrive(vX, omegaZ);
+        vX *= drivetrain.getMaxVelocityX();
+        omegaZ *= drivetrain.getMaxOmegaZ();
+        drivetrain.setTargetVelocity(vX, omegaZ);
+        if (gamepad.getBackButtonPressed()) {
+            drivetrain.resetOdometry();
+        }
 
     }
 

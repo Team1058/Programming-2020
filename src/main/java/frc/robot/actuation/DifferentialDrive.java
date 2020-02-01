@@ -11,6 +11,8 @@ public class DifferentialDrive {
     private double trackWidth;
     private double wheelRadius;
     private double maxWheelOmega;
+    private double omegaR;
+    private double omegaL;
     private double x;
     private double y;
     // theta: angle of the robot
@@ -24,11 +26,9 @@ public class DifferentialDrive {
         this.trackWidth = trackWidth;
         this.wheelRadius = wheelRadius;
         this.maxWheelOmega = maxWheelOmega;
-        previousLeftPosition = leftDrive.getPosition();
-        previousRightPosition = rightDrive.getPosition();
-        theta = 0;
-        x = 0;
-        y = 0;
+        this.omegaR = 0;
+        this.omegaL = 0;
+        resetOdometry();
     }
 
     // omega: angular velocity
@@ -38,19 +38,17 @@ public class DifferentialDrive {
         // vL: is the linear velocity of the left motor set
         double vR = vX + (omegaZ * (trackWidth/2));
         double vL = vX - (omegaZ * (trackWidth/2));
-        double omegaR = vR/wheelRadius;
-        double omegaL = vL/wheelRadius;
-        double fastestOmega = Math.max(omegaR, omegaL);
+        double newOmegaR = vR/wheelRadius;
+        double newOmegaL = vL/wheelRadius;
+        double fastestOmega = Math.max(newOmegaR, newOmegaL);
         if (fastestOmega > maxWheelOmega) {
-            omegaR *= maxWheelOmega/fastestOmega;
-            omegaL *= maxWheelOmega/fastestOmega;
+            newOmegaR *= maxWheelOmega/fastestOmega;
+            newOmegaL *= maxWheelOmega/fastestOmega;
         }
-        rightDrive.setTargetVelocity(omegaR);
-        leftDrive.setTargetVelocity(omegaL);
-        SmartDashboard.putNumber("omegaR", omegaR);
-        SmartDashboard.putNumber("omegaL", omegaL);
-        SmartDashboard.putNumber("rightDrive ActVel", rightDrive.getActualVelocity());
-        SmartDashboard.putNumber("leftDrive ActVel", leftDrive.getActualVelocity());
+        this.omegaR = newOmegaR;
+        this.omegaL = newOmegaL;
+        SmartDashboard.putNumber("vX", vX);
+        SmartDashboard.putNumber("omegaZ", omegaZ);
     }
 
     public double getMaxOmegaZ() {
@@ -63,25 +61,58 @@ public class DifferentialDrive {
         return maxVelocityX;
     }
 
-    public void updatePosition() {
-        double leftPosition = leftDrive.getPosition();
-        double rightPosition = rightDrive.getPosition();
+    public double normalizeTheta(double theta) {
+        theta += Math.PI;
+        theta %= (2 * Math.PI);
+        theta -= Math.PI;
 
+        return theta;
+    }
+
+    public void updatePosition() {
+        double leftPosition = leftDrive.getPosition() * wheelRadius;
+        double rightPosition = rightDrive.getPosition() * wheelRadius;
         // delta: change since last update
         double deltaLeft = leftPosition - previousLeftPosition;
         double deltaRight = rightPosition - previousRightPosition;
         double deltaTheta = (deltaRight - deltaLeft)/trackWidth;
 
         theta += deltaTheta;
+        theta = normalizeTheta(theta);
         x += ((deltaRight + deltaLeft)/2) * Math.cos(theta + (deltaTheta/2));
         y += ((deltaRight + deltaLeft)/2) * Math.sin(theta + (deltaTheta/2));
 
         previousLeftPosition = leftPosition;
         previousRightPosition = rightPosition;
+
+        SmartDashboard.putNumber("rightDrive ActVel", rightDrive.getActualVelocity());
+        SmartDashboard.putNumber("leftDrive ActVel", leftDrive.getActualVelocity());
+        SmartDashboard.putNumber("driveTrain X", x);
+        SmartDashboard.putNumber("driveTrain Y", y);
+        SmartDashboard.putNumber("driveTrain Theta", theta);
     }
     
     public Pose getPose() {
         return new Pose(x, y, 0, theta, 0, 0);
+    }
+
+    public void resetOdometry() {
+        x = 0;
+        y = 0;
+        theta = 0;
+        previousLeftPosition = leftDrive.getPosition() * wheelRadius;
+        previousRightPosition = rightDrive.getPosition() * wheelRadius;
+    }
+
+    public void readInputs() {
+        updatePosition();
+    }
+
+    public void setOutputs() {
+        rightDrive.setTargetVelocity(omegaR);
+        leftDrive.setTargetVelocity(omegaL);
+        SmartDashboard.putNumber("rightDrive SetVel", omegaR);
+        SmartDashboard.putNumber("leftDrive SetVel", omegaL);
     }
 
 } 
