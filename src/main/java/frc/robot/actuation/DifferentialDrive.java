@@ -1,6 +1,7 @@
 package frc.robot.actuation;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.geometry.Pose;
 import frc.robot.interfaces.Spinnable;
 
 public class DifferentialDrive {
@@ -12,6 +13,7 @@ public class DifferentialDrive {
     private double maxWheelOmega;
     private double x;
     private double y;
+    // theta: angle of the robot
     private double theta;
     private double previousLeftPosition;
     private double previousRightPosition;
@@ -29,8 +31,11 @@ public class DifferentialDrive {
         y = 0;
     }
 
+    // omega: angular velocity
+    // omegaZ: angular velocity about Z
     public void setTargetVelocity(double vX, double omegaZ) {
-        // vR is the velocity of the right motor set, vL is the velocity of the left motor set.
+        // vR: is the linear velocity of the right motor set
+        // vL: is the linear velocity of the left motor set
         double vR = vX + (omegaZ * (trackWidth/2));
         double vL = vX - (omegaZ * (trackWidth/2));
         double omegaR = vR/wheelRadius;
@@ -62,16 +67,21 @@ public class DifferentialDrive {
         double leftPosition = leftDrive.getPosition();
         double rightPosition = rightDrive.getPosition();
 
+        // delta: change since last update
         double deltaLeft = leftPosition - previousLeftPosition;
         double deltaRight = rightPosition - previousRightPosition;
         double deltaTheta = (deltaRight - deltaLeft)/trackWidth;
 
         theta += deltaTheta;
-        x += ((deltaRight + deltaLeft) / 2) * Math.cos(theta + (deltaTheta/2));
-        y += ((deltaRight + deltaLeft) / 2) * Math.sin(theta + (deltaTheta/2));
+        x += ((deltaRight + deltaLeft)/2) * Math.cos(theta + (deltaTheta/2));
+        y += ((deltaRight + deltaLeft)/2) * Math.sin(theta + (deltaTheta/2));
 
         previousLeftPosition = leftPosition;
         previousRightPosition = rightPosition;
     }
     
+    public Pose getPose() {
+        return new Pose(x, y, 0, theta, 0, 0);
+    }
+
 } 

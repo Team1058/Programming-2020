@@ -7,6 +7,7 @@ import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
 import frc.robot.gamepads.Operator;
 import frc.robot.sensing.Limelight;
+import frc.robot.gamepads.TestGP;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.gamepads.*;
@@ -30,6 +31,8 @@ public class Robot extends TimedRobot {
   public static Operator operatorGP = new Operator();
   public boolean UpDown = true;
   public static Limelight limelight = new Limelight();
+  public static TestGP testGP = new TestGP();
+
 
   @Override
   public void robotInit() {
@@ -51,6 +54,12 @@ public class Robot extends TimedRobot {
     driverGP.BarDriving();
     operatorGP.Climber();
     operatorGP.Intake();
+    
+    if (testGP.changeGamepadState()){
+      driverGP.splitArcadeDrive();
+    }else if(!testGP.changeGamepadState()){
+      testGP.enablePathfinder();
+    }
   } 
 
   @Override

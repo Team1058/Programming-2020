@@ -24,7 +24,7 @@ public class DriveTrainSubsystem {
   private final double kD = 0;
   private final double kIz = 0;
   private final double kFF = .0137;
-  private final double trackWidth = 18.5;
+  private final double trackWidth = 12.657 * 2;
   private final double wheelRadius = 3;
   private final double gearRatio = 8;
 
