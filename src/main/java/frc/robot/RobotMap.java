@@ -16,11 +16,11 @@ public class RobotMap {
         public static final int DRIVE_LEFT_2 = 2;
         public static final int DRIVE_RIGHT_1 = 3;
         public static final int DRIVE_RIGHT_2 = 4;
-        public static final int SPINNER = 5;
         public static final int CLIMBER_FALCON_1 = 11;
         public static final int CLIMBER_FALCON_2 = 12;
         public static final int CLIMBER_TALON = 8;
-        public static final int INTAKE_SPARK = 0;
-        public static final int INTAKE_VICTOR = 0;
+        public static final int SPINNER = 115;
+        public static final int INTAKE_VICTOR_1 = 5;
+        public static final int INTAKE_VICTOR_WHEELS = 6;
     }
 }

@@ -1,11 +1,10 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.robot.Robot;
+
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -16,23 +15,26 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class IntakeSubsystem {
+      //Initializes the victor
+    private final VictorSPX stateVictor = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_1);
 
-    private CANSparkMax intakeLift;
+    private CANSparkMax intakeLift = new CANSparkMax(10, MotorType.kBrushless);
 
-    private VictorSPX intakeWheels;
+    private VictorSPX intakeWheels = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_WHEELS);
 
+    //Variables Initialized
+    double motorPercentSpeed = .5;
 
     public void initialize(){
-
-        intakeLift = new CANSparkMax(RobotMap.CANIds.INTAKE_SPARK, MotorType.kBrushless);
-
         intakeLift.setIdleMode(CANSparkMax.IdleMode.kBrake);
-
-        intakeWheels = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR);
     }
 
-    public void intakeOn(){
-        intakeWheels.set(ControlMode.PercentOutput, -1);
+    public void intakeBalls(double speed){
+        intakeWheels.set(ControlMode.PercentOutput, speed);
+    }
+
+    public void intakeSpit(double speed){
+        intakeWheels.set(ControlMode.PercentOutput, speed);
     }
 
     public void intakeOff(){
@@ -40,7 +42,7 @@ public class IntakeSubsystem {
     }
 
     public void liftIntake(){
-
+        
     }
 
     public void dropIntake(){

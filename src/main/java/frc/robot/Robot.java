@@ -4,11 +4,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
+import frc.robot.gamepads.Operator;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.gamepads.*;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IndividualLeds;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class Robot extends TimedRobot {
 
@@ -18,17 +21,15 @@ public class Robot extends TimedRobot {
   public static IndividualLeds individualLeds = new IndividualLeds();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public static Driver driverGP = new Driver();
+  public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public static Operator operatorGP = new Operator();
-
 
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
     driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
-    SmartDashboard.putNumber("R1", 0);
-    SmartDashboard.putNumber("G1", 0);
-    SmartDashboard.putNumber("B1", 0);
+    intakeSubsystem.initialize();
   }
 
   @Override
@@ -40,7 +41,7 @@ public class Robot extends TimedRobot {
     driverGP.splitArcadeDrive();
     driverGP.BarDriving();
     operatorGP.Climber();
-    // TODO: Figure out how we want to dispatch commands
+    operatorGP.Intake();
   } 
 
   @Override
