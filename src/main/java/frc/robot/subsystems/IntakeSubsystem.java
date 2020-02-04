@@ -42,8 +42,7 @@ public class IntakeSubsystem {
     }
 
     public void liftIntake(){
-        
-    }
+        intakeLift.set(ControlMode.PercentOutput, 0.2);    }
 
     public void dropIntake(){
         
