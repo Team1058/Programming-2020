@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.gamepads.Gamepad;
+import frc.robot.gamepads.*;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;

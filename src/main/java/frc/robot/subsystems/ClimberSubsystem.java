@@ -17,36 +17,29 @@ import edu.wpi.first.wpilibj.ADXL345_SPI;
 
 public class ClimberSubsystem {
 
-    private TalonFX falcon1 = new TalonFX(RobotMap.CANIds.FALCON_1);
-    private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.FALCON_2);
-    // private TalonSRX climberTalon;
+    private TalonFX falcon1 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_1);
+    private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
+    private TalonSRX climberTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
+
     double angleInit;
 
     private AnalogGyro climberGyro;
 
     public void initialize(){
+        initializeGyro();
+    }
 
-    climberGyro = new AnalogGyro(0, 0, -.13);
-    climberGyro.initGyro();
-    climberGyro.calibrate();
-    
-    climberGyro.reset();
-    angleInit = climberGyro.getAngle();
-    System.out.println("GYRO ANGLE INIT: " + angleInit);
-    // falcon1 = new TalonFX(RobotMap.CANIds.FALCON_1);
-    // falcon2 = new TalonFX(RobotMap.CANIds.FALCON_2);
-    // climberTalon = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
-
+    private void initializeGyro(){
+        climberGyro = new AnalogGyro(0, 0, -.13);
+        climberGyro.initGyro();
+        climberGyro.calibrate(); 
+        climberGyro.reset();
+        angleInit = climberGyro.getAngle();
     }
 
     public void printGyroPos(){
-
         System.out.println("Init Pos: " + angleInit);
         System.out.println("Cur Pos : " + climberGyro.getAngle());
-      
-    //    System.out.println("GYRO RATE: " + climberGyro.getRate());
-    //    System.out.println("GYRO CENTER: " + climberGyro.getCenter());
-    //    System.out.println("GYRO OFFSET: " + climberGyro.getOffset());
     }
 
     public void climberExtend(){
