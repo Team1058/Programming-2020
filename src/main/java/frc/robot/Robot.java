@@ -17,6 +17,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class Robot extends TimedRobot {
 
@@ -30,6 +31,8 @@ public class Robot extends TimedRobot {
   public static Operator operatorGP = new Operator();
   public boolean UpDown = true;
   public static Limelight limelight = new Limelight();
+  public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); 
+
 
   @Override
   public void robotInit() {
@@ -53,10 +56,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    shooterSubsystem.Encoder();
     driverGP.splitArcadeDrive();
     driverGP.BarDriving();
     driverGP.Climber();
     operatorGP.Intake();
+    
   } 
 
   @Override
