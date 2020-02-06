@@ -28,6 +28,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+  public void disabledInit() {
+    shooterSubsystem.disable();
+  }
+
+  @Override
   public void teleopPeriodic() {
     shooterSubsystem.Encoder();
     driverGP.splitArcadeDrive();
@@ -40,7 +45,12 @@ public class Robot extends TimedRobot {
   } 
 
   @Override
-  public void disabledPeriodic(){
+  public void robotPeriodic() {
+    shooterSubsystem.runStateMachine();
+  }
+
+  @Override
+  public void disabledPeriodic() {
     individualLeds.changeAllColors(0,0,0);
   }
 
