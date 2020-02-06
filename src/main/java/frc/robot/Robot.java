@@ -47,6 +47,9 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     intakeSubsystem.inferState();
   }
+  public void disabledInit() {
+    shooterSubsystem.disable();
+  }
 
   @Override
   public void robotPeriodic() {
@@ -63,7 +66,12 @@ public class Robot extends TimedRobot {
   } 
 
   @Override
-  public void disabledPeriodic(){
+  public void robotPeriodic() {
+    shooterSubsystem.runStateMachine();
+  }
+
+  @Override
+  public void disabledPeriodic() {
     individualLeds.changeAllColors(0,0,0);
   }
 
