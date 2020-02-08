@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
   public static Limelight limelight = new Limelight();
   public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); 
 
-
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
@@ -48,11 +47,6 @@ public class Robot extends TimedRobot {
     intakeSubsystem.inferState();
   }
 
-  @Override
-  public void robotPeriodic() {
-    limelight.update();
-    intakeSubsystem.updateIntake();
-  }
 
   @Override
   public void disabledInit() {
@@ -61,17 +55,23 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    shooterSubsystem.Encoder();
+    shooterSubsystem.tuneShooterFromDashboard();
     driverGP.splitArcadeDrive();
     driverGP.BarDriving();
     driverGP.Climber();
     operatorGP.Intake();
     
+    operatorGP.shooterHoodPosition();
+
+    // TODO: Figure out how we want to dispatch commands
+
   } 
 
   @Override
   public void robotPeriodic() {
     shooterSubsystem.runStateMachine();
+    limelight.update();
+    intakeSubsystem.updateIntake();
   }
 
   @Override

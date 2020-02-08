@@ -13,7 +13,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 
 import java.lang.*;
 import java.io.File;
@@ -35,6 +37,12 @@ public class ShooterSubsystem {
   private double targetVelocity = minTargetVelocity;
   private double lastTargetVelocity = 0;
   private boolean enabled = false;
+  private Servo servo = new Servo(1);
+  private double servoPosition = 0;
+  private double MAXSERVOPOSITION = 1;
+  private double MINSERVOPOSITION = 0;
+  private double HOODMOVESTEPSIZE = 0.1;
+  private boolean setManually = false;
 
   public BufferedWriter printwriter;
   long current_time = System.currentTimeMillis();
@@ -53,11 +61,10 @@ public class ShooterSubsystem {
     SmartDashboard.putNumber("flywheel D", 0);
    
 
-     SmartDashboard.putNumber("booster F", 0);
-     SmartDashboard.putNumber("booster P", 0);
-     SmartDashboard.putNumber("booster I", 0);
-     SmartDashboard.putNumber("booster D", 0);
-    
+    SmartDashboard.putNumber("booster F", 0);
+    SmartDashboard.putNumber("booster P", 0);
+    SmartDashboard.putNumber("booster I", 0);
+    SmartDashboard.putNumber("booster D", 0);
 
     flywheel.config_kF(0, 0, 30);
     flywheel.config_kP(0, 0, 30);
@@ -173,7 +180,40 @@ public class ShooterSubsystem {
       
     }
   }
-  public void Encoder() {
+
+  public void shooterHoodExtend() {
+    servoPosition = servo.get();
+    servoPosition += HOODMOVESTEPSIZE;
+    if (servoPosition > MAXSERVOPOSITION) {
+      servoPosition = MAXSERVOPOSITION;
+    }
+    System.out.println("set servo to: " + servoPosition);
+    servo.set(servoPosition);
+  }
+
+  public void shooterHoodRetract() {
+    servoPosition = servo.get();
+    servoPosition -= HOODMOVESTEPSIZE;
+    if (servoPosition < MINSERVOPOSITION) {
+      servoPosition = MINSERVOPOSITION;
+    }
+    System.out.println("set servo to: " + servoPosition);
+    servo.set(servoPosition);
+  }
+
+  public void shooterFullExtend() {
+    servo.set(MAXSERVOPOSITION);
+  }
+
+  public void shooterFullRetract() {
+    servo.set(MINSERVOPOSITION);
+  }
+
+  public void shooterSetToPosition(double position) {
+    servo.set(position);
+  }
+
+  public void tuneShooterFromDashboard() {
     try {
       printwriter = new BufferedWriter(new FileWriter("/tmp/RPM_Values"+current_time+".csv", true));
     } catch (IOException e1) {
@@ -188,10 +228,11 @@ public class ShooterSubsystem {
     
     flywheel.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     booster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    
+
     double flywheelRPMSetPoint = SmartDashboard.getNumber("Motor_1_Speed", 0);
     double boosterPMSetPoint = SmartDashboard.getNumber("Motor_2_Speed", 0);
- 
+    SmartDashboard.putNumber("CurrentServo Position", servo.get());
+
    // motor 1 PID controll code
     double motor_1F = SmartDashboard.getNumber("Motor_1F", 0);
     flywheel.config_kF(0, motor_1F, 30);
@@ -251,7 +292,7 @@ public class ShooterSubsystem {
     // contents_booster = motornumber_booster + "," + rpm_booster + "," + motorvoltage_booster + "," + intbeambreak2 + "," + time + "\n";
     // contents_motor3 = motornumber_motor3 + "," + rpm_motor3 + "," + motorvoltage_motor3 + "," + intbeambreak3 + "," + time + "\n";
     
-    contents = (
+    String contents = (
       time + "," +  
       rpm_flywheel + "," +
       rpm_booster + "," +

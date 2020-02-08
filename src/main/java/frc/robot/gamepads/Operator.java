@@ -11,7 +11,11 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Robot;
+<<<<<<< HEAD
 import frc.robot.subsystems.IntakeSubsystem;
+=======
+import frc.robot.subsystems.ShooterSubsystem;
+>>>>>>> Began work on manipulating the shooter's hood.
 
 /* Operator Controls
     - Auto flywheel and hood (RT) - hold
@@ -132,6 +136,16 @@ public class Operator {
         // if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
         //     Robot.spinnerSubsystem.resetColorChecks();
         // }
+    }
+
+    public void shooterHoodPosition() {
+        System.out.println(gamepad.getPOV());
+        if ((gamepad.getPOV() >= 315 && gamepad.getPOV() <= 360) || 
+            (gamepad.getPOV() >= 0 && gamepad.getPOV() <= 45)) {
+                Robot.shooterSubsystem.shooterFullExtend();
+        } else if (gamepad.getPOV() >= 135 && gamepad.getPOV() <= 225) {
+                Robot.shooterSubsystem.shooterFullRetract();
+        }
     }
 
     private boolean outsideDeadband(double inputValue){
