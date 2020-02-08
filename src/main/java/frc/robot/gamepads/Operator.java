@@ -44,6 +44,7 @@ public class Operator {
     {
         if (gamepad.getTriggerAxis(Hand.kRight)!=0)
         {
+            
             // Code to shoot
         }
         else
@@ -66,12 +67,20 @@ public class Operator {
 
     public void Intake()
     {
-        if (gamepad.getBumper(Hand.kLeft)){
+        if (gamepad.getBumper(Hand.kLeft))
+        {
+            Robot.intakeSubsystem.dropIntake();
             Robot.intakeSubsystem.intakeBalls(-1);
-        }else if (gamepad.getBumper(Hand.kRight)){
-            Robot.intakeSubsystem.intakeSpit(.5);
-        }else{
-            Robot.intakeSubsystem.intakeSpit(0);
+        }
+        else if (gamepad.getBumper(Hand.kRight))
+        {
+            Robot.intakeSubsystem.liftIntake();
+
+        }
+        else
+        {
+            Robot.intakeSubsystem.dropIntake();
+            Robot.intakeSubsystem.intakeBalls(0);
         }
     }
 

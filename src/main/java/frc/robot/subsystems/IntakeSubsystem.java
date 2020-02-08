@@ -18,7 +18,7 @@ public class IntakeSubsystem {
       //Initializes the victor
     private final VictorSPX stateVictor = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_1);
 
-    private CANSparkMax intakeLift = new CANSparkMax(10, MotorType.kBrushless);
+    private VictorSPX intakeLift = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_1);
 
     private VictorSPX intakeWheels = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_WHEELS);
 
@@ -26,7 +26,7 @@ public class IntakeSubsystem {
     double motorPercentSpeed = .5;
 
     public void initialize(){
-        intakeLift.setIdleMode(CANSparkMax.IdleMode.kBrake);
+       // intakeLift.set(CANSparkMax.IdleMode.kBrake);
     }
 
     public void intakeBalls(double speed){
@@ -45,6 +45,5 @@ public class IntakeSubsystem {
         intakeLift.set(ControlMode.PercentOutput, 0.2);    }
 
     public void dropIntake(){
-        
-    }
+        intakeLift.set(ControlMode.PercentOutput, -0.2);    }
 }
