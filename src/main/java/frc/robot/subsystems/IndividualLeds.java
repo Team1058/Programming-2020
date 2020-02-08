@@ -5,6 +5,7 @@ import java.util.Arrays;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.gamepads.Driver;
 
 public class IndividualLeds{
@@ -18,7 +19,6 @@ public class IndividualLeds{
         // PWM port 9
         // Must be a PWM header, not MXP or DIO
         led = new AddressableLED(9);
-        ledBuffer = new AddressableLEDBuffer(59);
         // Reuse buffer
         // Default to a length of 60, start empty output
         // Length is expensive to set, so only set it once, then just update data
@@ -112,7 +112,7 @@ public class IndividualLeds{
    }
    public void teloscipsLeds1(int r, int g, int b, int r1, int g1, int b1, int d){
     double percentOn;
-    percentOn =  d/100000 * 59;
+    percentOn =   59;
     // build an array of length N that has all of the values of getN(1) to getN(n)
     // build arrays and check if numbers are in arrays
     // check the array in the function scrollN then build an array based of the variable n to send info to an array
@@ -129,12 +129,12 @@ public class IndividualLeds{
     }
    public void teloscipsLeds2(int r, int g, int b, int r1, int g1, int b1, int d){
     double percentOn;
-    percentOn =  d * 59;
+    double x = gamepad.getX(Hand.kLeft);
+    percentOn = x * ledBuffer.getLength();
     // build an array of length N that has all of the values of getN(1) to getN(n)
     // build arrays and check if numbers are in arrays
     // check the array in the function scrollN then build an array based of the variable n to send info to an array
     if (percentOn <= -0.01){
-        percentOn += 59;
         for (var i = 0; i < ledBuffer.getLength(); i++) {
                 // Sets the specified LED to the RGB values for red
             if (i >= percentOn) {
