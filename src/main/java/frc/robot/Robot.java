@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
+import frc.robot.gamepads.Operator;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -16,8 +17,11 @@ public class Robot extends TimedRobot {
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   public static IndividualLeds individualLeds = new IndividualLeds();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-  public static Driver driverGP = new Driver();
   public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); 
+
+  public static Operator operatorGP = new Operator();
+  public static Driver driverGP = new Driver();
+
 
 
   @Override
@@ -34,11 +38,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    shooterSubsystem.Encoder();
+    shooterSubsystem.tuneShooterFromDashboard();
     driverGP.splitArcadeDrive();
-    ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
-    
-    individualLeds.climbBalance(climberSubsystem.balanceLED());
+    operatorGP.shooterHoodPosition();
 
     // TODO: Figure out how we want to dispatch commands
 
