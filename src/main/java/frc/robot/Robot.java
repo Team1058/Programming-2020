@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
 import frc.robot.gamepads.Operator;
-import frc.robot.sensing.Limelight;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.gamepads.*;
@@ -32,6 +31,10 @@ public class Robot extends TimedRobot {
   public boolean UpDown = true;
   public static Limelight limelight = new Limelight();
   public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); 
+
+  public static Operator operatorGP = new Operator();
+  public static Driver driverGP = new Driver();
+
 
 
   @Override
@@ -63,6 +66,7 @@ public class Robot extends TimedRobot {
     driverGP.BarDriving();
     driverGP.Climber();
     operatorGP.Intake();
+    operatorGP.shooterHoodPosition();
   } 
 
   @Override
