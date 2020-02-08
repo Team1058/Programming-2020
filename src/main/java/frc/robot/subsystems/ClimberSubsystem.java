@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -21,12 +22,21 @@ public class ClimberSubsystem {
     private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
     private TalonSRX climberTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
 
+    private int FALCON_REVERSE_SOFT_LIMIT = 100;
+    private int FALCON_FORWARD_SOFT_LIMIT = 180000;
     double angleInit;
 
     private AnalogGyro climberGyro;
 
     public void initialize(){
         initializeGyro();
+        falcon2.follow(falcon1);
+        falcon1.setSelectedSensorPosition(0);
+        falcon2.setSelectedSensorPosition(0);
+        falcon1.configReverseSoftLimitEnable(true);
+        falcon1.configForwardSoftLimitEnable(true);
+        falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
+        falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
     }
 
     private void initializeGyro(){
@@ -37,17 +47,26 @@ public class ClimberSubsystem {
         angleInit = climberGyro.getAngle();
     }
 
+    public void printFalconsPos(){
+        System.out.println("falcon1: " + falcon1.getSelectedSensorPosition());
+        System.out.println("falcon2: " + falcon2.getSelectedSensorPosition());
+    }
+
     public void printGyroPos(){
         System.out.println("Init Pos: " + angleInit);
         System.out.println("Cur Pos : " + climberGyro.getAngle());
     }
 
     public void climberExtend(){
-
+        falcon1.set(ControlMode.PercentOutput, .75);
     }
     
     public void climberRetract(){
-
+        falcon1.set(ControlMode.PercentOutput, -.75);
+    }
+    
+    public void climberStop(){
+        falcon1.set(ControlMode.PercentOutput, 0);
     }
 
     public void driveLeft(){

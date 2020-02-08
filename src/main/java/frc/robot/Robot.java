@@ -6,7 +6,6 @@ import frc.robot.gamepads.Driver;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.gamepads.*;
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IndividualLeds;
 
@@ -18,6 +17,7 @@ public class Robot extends TimedRobot {
   public static IndividualLeds individualLeds = new IndividualLeds();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public static Driver driverGP = new Driver();
+  public static Operator operatorGP = new Operator();
 
 
   @Override
@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
     driverGP.splitArcadeDrive();
+    operatorGP.Climber();
+    climberSubsystem.printFalconsPos();
     // TODO: Figure out how we want to dispatch commands
   } 
 
