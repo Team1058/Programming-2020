@@ -49,7 +49,11 @@ public class Driver {
         omegaZ = clampDeadband(omegaZ);
         vX *= drivetrain.getMaxVelocityX();
         omegaZ *= drivetrain.getMaxOmegaZ();
-        drivetrain.setTargetVelocity(vX, omegaZ);
+        if (!gamepad.getBumper(Hand.kLeft)){
+            drivetrain.setTargetVelocity(vX * .5, omegaZ * .25);
+        }else if(gamepad.getBumper(Hand.kLeft)){
+            drivetrain.setTargetVelocity(vX * .25, omegaZ * .25);
+        }
         if (gamepad.getBackButtonPressed()) {
             drivetrain.resetOdometry();
         }

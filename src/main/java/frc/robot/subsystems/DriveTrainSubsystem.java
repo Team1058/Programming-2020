@@ -37,8 +37,8 @@ public class DriveTrainSubsystem {
     sparkMaxMotorSetLeft.setInverted(true);
 
     // Enables brake mode for all motors
-    sparkMaxMotorSetLeft.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    sparkMaxMotorSetRight.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    sparkMaxMotorSetLeft.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    sparkMaxMotorSetRight.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     sparkMaxMotorSetLeft.setPIDConstants(kP, kI, kD, kIz, kFF);
     sparkMaxMotorSetRight.setPIDConstants(kP, kI, kD, kIz, kFF);

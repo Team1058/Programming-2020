@@ -19,23 +19,38 @@ public class TestGP {
     private XboxController gamepad;
     private final double DEADBAND_VALUE = 0.025;
     private MotionPlanner motionPlanner;
+    boolean forward;
 
     public TestGP(int gamepadNum, MotionPlanner motionPlanner) {
         this.motionPlanner = motionPlanner;
         gamepad = new XboxController(gamepadNum);
+        forward = true;
     }
 
     public void testDrive() {
-
+        
         if (gamepad.getXButtonPressed()){
-            motionPlanner.moveTo(1, 1, Math.PI/2);
+            motionPlanner.moveTo(1, -1.5, -Math.PI / 4,forward);
         }
 
         if (gamepad.getBumperPressed(Hand.kRight)) {
             Robot.driveTrainSubsystem.getDrivetrain().resetOdometry();
+            motionPlanner.resetNAVX();
         }
 
-        motionPlanner.followPath();
+        if (gamepad.getAButtonPressed()){
+            forward = true;
+        }
+
+        if (gamepad.getBButtonPressed()){
+            forward = false;
+        }
+        //motionPlanner.followPath();
+        if (forward){
+            motionPlanner.forwardPath();
+        }else if (!forward){
+            motionPlanner.reversePath();
+        }
     }
 
     public boolean isTestGPEnabled() {

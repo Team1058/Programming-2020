@@ -3,6 +3,8 @@ package frc.robot.actuation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.geometry.Pose;
 import frc.robot.interfaces.Spinnable;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 public class DifferentialDrive {
 
@@ -19,6 +21,8 @@ public class DifferentialDrive {
     private double theta;
     private double previousLeftPosition;
     private double previousRightPosition;
+    double highestSpeed;
+    AHRS navx;
 
     public DifferentialDrive(Spinnable rightDrive, Spinnable leftDrive, double trackWidth, double wheelRadius, double maxWheelOmega) {
         this.rightDrive = rightDrive;
@@ -28,7 +32,13 @@ public class DifferentialDrive {
         this.maxWheelOmega = maxWheelOmega;
         this.omegaR = 0;
         this.omegaL = 0;
-        resetOdometry();
+        x = 0;
+        y = 0;
+        theta = 0;
+        previousLeftPosition = leftDrive.getPosition() * wheelRadius;
+        previousRightPosition = rightDrive.getPosition() * wheelRadius;
+        //resetOdometry();
+        navx = new AHRS(SPI.Port.kMXP);
     }
 
     // omega: angular velocity
@@ -61,6 +71,15 @@ public class DifferentialDrive {
         return maxVelocityX;
     }
 
+    
+    public double getTrackWidth() {
+        return trackWidth;
+    }
+
+    public double getWheelRadius() {
+        return wheelRadius;
+    }
+
     public double normalizeTheta(double theta) {
         theta += Math.PI;
         theta %= (2 * Math.PI);
@@ -75,12 +94,12 @@ public class DifferentialDrive {
         // delta: change since last update
         double deltaLeft = leftPosition - previousLeftPosition;
         double deltaRight = rightPosition - previousRightPosition;
-        double deltaTheta = (deltaRight - deltaLeft)/trackWidth;
+        //double deltaTheta = (deltaRight - deltaLeft)/trackWidth;
 
-        theta += deltaTheta;
-        theta = normalizeTheta(theta);
-        x += ((deltaRight + deltaLeft)/2) * Math.cos(theta + (deltaTheta/2));
-        y += ((deltaRight + deltaLeft)/2) * Math.sin(theta + (deltaTheta/2));
+        //theta += deltaTheta;
+        theta = -navx.getYaw() / 180 * Math.PI;
+        x += ((deltaRight + deltaLeft)/2) * Math.cos(theta);
+        y += ((deltaRight + deltaLeft)/2) * Math.sin(theta);
 
         previousLeftPosition = leftPosition;
         previousRightPosition = rightPosition;
@@ -90,6 +109,14 @@ public class DifferentialDrive {
         SmartDashboard.putNumber("driveTrain X", x);
         SmartDashboard.putNumber("driveTrain Y", y);
         SmartDashboard.putNumber("driveTrain Theta", theta);
+
+        if (rightDrive.getActualVelocity() > highestSpeed){
+            highestSpeed = rightDrive.getActualVelocity();
+        }
+
+        SmartDashboard.putNumber("Highest Velocity", highestSpeed);
+        
+
     }
     
     public Pose getPose() {
@@ -102,6 +129,7 @@ public class DifferentialDrive {
         theta = 0;
         previousLeftPosition = leftDrive.getPosition() * wheelRadius;
         previousRightPosition = rightDrive.getPosition() * wheelRadius;
+        navx.reset();
     }
 
     public void readInputs() {
@@ -115,4 +143,20 @@ public class DifferentialDrive {
         SmartDashboard.putNumber("leftDrive SetVel", omegaL);
     }
 
+    public int getLeftEncoderTicks(){
+       int leftEncoderTicks =  (int) (leftDrive.getPosition() / (2 *Math.PI) * 42);
+
+       return leftEncoderTicks;
+    }
+
+    public int getRightEncoderTicks(){
+        int rightEncoderTicks = (int) (rightDrive.getPosition() / (2 * Math.PI) * 42);
+
+        return rightEncoderTicks;
+    }
+
+    public void setLeftRightDrive(double left, double right, double turn){
+        leftDrive.setTargetVelocity(left * maxWheelOmega - (turn * maxWheelOmega));
+        rightDrive.setTargetVelocity(right * maxWheelOmega + (turn * maxWheelOmega));
+    }
 } 

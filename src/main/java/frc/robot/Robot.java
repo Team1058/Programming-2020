@@ -79,25 +79,25 @@ public class Robot extends TimedRobot {
     } else {
 >>>>>>> Basic trajectory tracking functional
       driverGP.splitArcadeDrive();
+      driveTrainSubsystem.getDrivetrain().setOutputs();
     }
 <<<<<<< HEAD
   } 
 =======
     
+    motionPlanner.printNAVX();
     ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
     
     individualLeds.climbBalance(climberSubsystem.balanceLED());
 
     // TODO: Figure out how we want to dispatch commands
 
-    
-
   }
 
   @Override
   public void robotPeriodic() {
     super.robotPeriodic();
-    driveTrainSubsystem.getDrivetrain().setOutputs();
+    // driveTrainSubsystem.getDrivetrain().setOutputs();
     driveTrainSubsystem.getDrivetrain().readInputs();
   }
 
