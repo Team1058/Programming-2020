@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public static Operator operatorGP = new Operator();
   public XboxController gamepad = new XboxController(1);
-
+  public boolean UpDown = true;
 
   @Override
   public void robotInit() {
@@ -42,6 +42,15 @@ public class Robot extends TimedRobot {
     driverGP.BarDriving();
     operatorGP.Climber();
     operatorGP.Intake();
+    if (UpDown == true && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 )
+        {
+            UpDown = false;
+        }
+        else if(UpDown == false && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0)
+        {
+            UpDown = true;
+        }
+    System.out.println(UpDown);    
   } 
 
   @Override

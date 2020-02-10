@@ -38,6 +38,12 @@ public class Operator {
 
     public double FwdLimit = Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed();
     public double RevLimit = Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed();
+    public boolean UpDown = true;
+    public double BallSpeed = 0.5;
+    double LiftSlow = 0.1;
+    double LiftFast = 0.5;
+    double DropSlow = -0.1;
+    double DropFast = -0.5;
 
     public void Climber()
     {
@@ -79,36 +85,48 @@ public class Operator {
             // Does nothing
         }
     }
-    public void Intake()
-    {// limit switches default to 1 when not pressed
+    public void Intake() {
+        if (UpDown == true && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 )
+        {
+            UpDown = false;
+        }
+        else if(UpDown == false && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0)
+        {
+            UpDown = true;
+        }
+     //  System.out.println(UpDown);   
+     // limit switches default to 1 when not pressed
      // fwd = green wire = left bumper
      // rev = white wire = right bumper
      //this keeps intake up mapped to left bumper
-        if (Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 && gamepad.getBumper(Hand.kLeft)) // If the forward limit switch is pressed, we want to keep the values between -1 and 0
+        if (Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 && UpDown == true) // If the forward limit switch is pressed, we want to keep the values between -1 and 0
         {
-            Robot.intakeSubsystem.liftIntake();
+            Robot.intakeSubsystem.liftIntake(LiftSlow);
         }
-        else if(Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed()==1 && gamepad.getBumper(Hand.kLeft)) // if the limit switch is open and the bumper is pressed then the motor gets more power
+        else if(Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed()==1 && UpDown == true) // if the limit switch is open and the bumper is pressed then the motor gets more power
         {
-            Robot.intakeSubsystem.liftIntakeFast();
+            Robot.intakeSubsystem.liftIntake(LiftFast);
         }
-        else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0 && gamepad.getBumper(Hand.kRight)) // If the reversed limit switch is pressed, we want to keep the values between 0 and 1
+        else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0 && UpDown == false) // If the reversed limit switch is pressed, we want to keep the values between 0 and 1
         { 
-            Robot.intakeSubsystem.dropIntake();
+           Robot.intakeSubsystem.liftIntake(DropSlow);
+           Robot.intakeSubsystem.intakeBalls(BallSpeed);
         }   
-        else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 1 && gamepad.getBumper(Hand.kRight)) // if the limit switch is open and the bumper is pressed then the motor gets more power
+        else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 1 && UpDown == false) // if the limit switch is open and the bumper is pressed then the motor gets more power
         {
-            Robot.intakeSubsystem.dropIntakeFast();
+            Robot.intakeSubsystem.liftIntake(DropFast);
+            Robot.intakeSubsystem.intakeBalls(BallSpeed);
         }
         else
         {
             Robot.intakeSubsystem.intakeOff();
-        }
-
-
+        }      
     }
 
-    public void ShootingAngle()
+
+
+     
+   public void ShootingAngle()
     {
         // Gets values of each joystick
         double change = gamepad.getY(Hand.kRight);

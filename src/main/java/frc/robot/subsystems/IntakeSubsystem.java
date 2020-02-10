@@ -17,7 +17,7 @@ public class IntakeSubsystem {
 
     //Variables Initialized
     double motorPercentSpeed = .5;
-
+    double speed = 0;
     public void initialize(){
        // intakeLift.set(CANSparkMax.IdleMode.kBrake);
         intakeLift.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled, 30);
@@ -26,12 +26,8 @@ public class IntakeSubsystem {
         intakeLift.configForwardSoftLimitEnable(false);
     }
 
-    public void intakeBalls(double speed){
-        intakeWheels.set(ControlMode.PercentOutput, speed);
-    }
-
-    public void intakeSpit(double speed){
-        intakeWheels.set(ControlMode.PercentOutput, speed);
+    public void intakeBalls(double BallSpeed){
+        intakeWheels.set(ControlMode.PercentOutput, BallSpeed);
     }
 
     public void intakeOff(){
@@ -39,19 +35,8 @@ public class IntakeSubsystem {
         intakeLift.set(ControlMode.PercentOutput, 0);
 
     }
-    public void liftIntake(){
-        intakeLift.set(ControlMode.PercentOutput, 0.1);
+    public void liftIntake(double Speed){
+        intakeLift.set(ControlMode.PercentOutput, Speed);
     }
 
-    public void liftIntakeFast(){
-        intakeLift.set(ControlMode.PercentOutput, 0.5);
-    }    
-
-    public void dropIntake(){
-        intakeLift.set(ControlMode.PercentOutput, -0.1);
-    }
-
-    public void dropIntakeFast(){
-        intakeLift.set(ControlMode.PercentOutput, -0.5);
-    }
-}
+}   
