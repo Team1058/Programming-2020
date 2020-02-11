@@ -142,9 +142,9 @@ public class Operator {
         System.out.println(gamepad.getPOV());
         if ((gamepad.getPOV() >= 315 && gamepad.getPOV() <= 360) || 
             (gamepad.getPOV() >= 0 && gamepad.getPOV() <= 45)) {
-                Robot.shooterSubsystem.shooterFullExtend();
+                Robot.shooterSubsystem.shooterExtendHood();
         } else if (gamepad.getPOV() >= 135 && gamepad.getPOV() <= 225) {
-                Robot.shooterSubsystem.shooterFullRetract();
+                Robot.shooterSubsystem.shooterRetractHood();
         }
     }
 
