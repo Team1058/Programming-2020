@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 import edu.wpi.first.wpilibj.XboxController;
@@ -65,11 +66,11 @@ public class ShooterSubsystem {
     
     updatePIDValues();
     
-    flywheel.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    booster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    flywheel.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
+    booster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
 
-    flywheel.setFeedbackCoefficientFactor(1/2048, 0, 10);
-    booster.setFeedbackCoefficientFactor(1/2048, 0, 10);
+    flywheel.configSelectedFeedbackCoefficient(1/2048, 0, 10);
+    booster.configSelectedFeedbackCoefficient(1/2048, 0, 10);
   }
 
   public void enable() {
