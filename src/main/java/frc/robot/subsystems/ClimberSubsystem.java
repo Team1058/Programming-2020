@@ -37,6 +37,9 @@ public class ClimberSubsystem {
         falcon1.configForwardSoftLimitEnable(true);
         falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
         falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
+        climberTalon.setSelectedSensorPosition(1);
+        climberTalon.configForwardSoftLimitEnable(false);
+        climberTalon.configReverseSoftLimitEnable(false);
     }
 
     private void initializeGyro(){
@@ -48,8 +51,8 @@ public class ClimberSubsystem {
     }
 
     public void printFalconsPos(){
-        System.out.println("falcon1: " + falcon1.getSelectedSensorPosition());
-        System.out.println("falcon2: " + falcon2.getSelectedSensorPosition());
+        //System.out.println("falcon1: " + falcon1.getSelectedSensorPosition());
+        //System.out.println("falcon2: " + falcon2.getSelectedSensorPosition());
     }
 
     public void printGyroPos(){
@@ -69,12 +72,14 @@ public class ClimberSubsystem {
         falcon1.set(ControlMode.PercentOutput, 0);
     }
 
-    public void driveLeft(){
-
+    public void DriveBar(double speed)
+    {
+        climberTalon.set(ControlMode.PercentOutput,speed);
     }
 
-    public void driveRight(){
-
+    public void driveStop()
+    {
+        climberTalon.set(ControlMode.PercentOutput,0);
     }
 
 }
