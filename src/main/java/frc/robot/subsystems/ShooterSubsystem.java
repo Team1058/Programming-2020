@@ -27,7 +27,7 @@ public class ShooterSubsystem {
 
   
   private final double minTargetVelocity = 500;
-  private final double boosterScaleFactor = 2;
+  private final double boosterScaleFactor = -1 /*2*/;
   
   final XboxController controller = new XboxController(0);
   final TalonFX flywheel = new TalonFX(9);
@@ -38,10 +38,18 @@ public class ShooterSubsystem {
   private boolean enabled = false;
   private Servo servo = new Servo(1);
   private double servoPosition = 0;
-  private double MAXSERVOPOSITION = 1;
-  private double MINSERVOPOSITION = 0;
-  private double HOODMOVESTEPSIZE = 0.1;
+  private double MAX_SERVO_POSITION = 1;
+  private double MIN_SERVO_POSITION = 0;
+  private double HOOD_MOVE_STEP_SIZE = 0.1;
   private boolean setManually = false;
+  private double flywheelF = 0;
+  private double flywheelP = 0;
+  private double flywheelI = 0;
+  private double flywheelD = 0;
+  private double boosterF = 0;
+  private double boosterP = 0;
+  private double boosterI = 0;
+  private double boosterD = 0;
 
   public BufferedWriter printwriter;
   long current_time = System.currentTimeMillis();
@@ -54,26 +62,13 @@ public class ShooterSubsystem {
     SmartDashboard.putBoolean("flywheel Enable", false);
     SmartDashboard.putBoolean("booster Enable", false);
     
-    SmartDashboard.putNumber("flywheel F", 0);
-    SmartDashboard.putNumber("flywheel P", 0);
-    SmartDashboard.putNumber("flywheel I", 0);
-    SmartDashboard.putNumber("flywheel D", 0);
-   
+    updatePIDValues();
+    
+    flywheel.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    booster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 
-    SmartDashboard.putNumber("booster F", 0);
-    SmartDashboard.putNumber("booster P", 0);
-    SmartDashboard.putNumber("booster I", 0);
-    SmartDashboard.putNumber("booster D", 0);
-
-    flywheel.config_kF(0, 0, 30);
-    flywheel.config_kP(0, 0, 30);
-  	flywheel.config_kI(0, 0, 30);
-    flywheel.config_kD(0, 0, 30);
-
-    booster.config_kF(0, 0, 30);
-	  booster.config_kP(0, 0, 30);
-  	booster.config_kI(0, 0, 30);
-    booster.config_kD(0, 0, 30);
+    flywheel.setFeedbackCoefficientFactor(1/2048, 0, 10);
+    booster.setFeedbackCoefficientFactor(1/2048, 0, 10);
   }
 
   public void enable() {
@@ -125,6 +120,34 @@ public class ShooterSubsystem {
     lastTargetVelocity = 0;
   }
 
+  private void updateDashboard() {
+    double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 4096.0) * 600.0);
+    double rpm_booster = Math.abs((booster.getSelectedSensorVelocity() / 4096.0) * 600.0);
+    SmartDashboard.putNumber("Actual RPM Flywheel", rpm_flywheel);
+    SmartDashboard.putNumber("Actual RPM Booster", rpm_booster);
+    SmartDashboard.putString("Shooter State", currentState.toString());
+  }
+
+  private void updatePIDValues() {
+       flywheelF = SmartDashboard.getNumber("flywheelF", 0);
+       flywheel.config_kF(0, flywheelF, 30);
+       flywheelP = SmartDashboard.getNumber("flywheelP", 0);
+       flywheel.config_kP(0, flywheelP, 30);
+       flywheelI = SmartDashboard.getNumber("flywheelI", 0);
+       flywheel.config_kI(0, flywheelI, 30);
+       flywheelD = SmartDashboard.getNumber("flywheelD", 0);
+       flywheel.config_kD(0, flywheelD, 30);
+   
+       boosterF = SmartDashboard.getNumber("boosterF", 0);
+       booster.config_kF(0, boosterF, 30);
+       boosterP = SmartDashboard.getNumber("boosterP", 0);
+       booster.config_kP(0, boosterP, 30);
+       boosterI = SmartDashboard.getNumber("boosterI", 0);
+       booster.config_kI(0, boosterI, 30);
+       boosterD = SmartDashboard.getNumber("boosterD", 0);
+       booster.config_kD(0, boosterD, 30);
+  }
+
   public void runStateMachine() {
     switch (currentState) {
       case DISABLED:
@@ -157,6 +180,7 @@ public class ShooterSubsystem {
         }
         break;
     }
+    updateDashboard();
   }
 
   public enum State {
@@ -182,9 +206,9 @@ public class ShooterSubsystem {
 
   public void shooterHoodExtend() {
     servoPosition = servo.get();
-    servoPosition += HOODMOVESTEPSIZE;
-    if (servoPosition > MAXSERVOPOSITION) {
-      servoPosition = MAXSERVOPOSITION;
+    servoPosition += HOOD_MOVE_STEP_SIZE;
+    if (servoPosition > MAX_SERVO_POSITION) {
+      servoPosition = MAX_SERVO_POSITION;
     }
     System.out.println("set servo to: " + servoPosition);
     servo.set(servoPosition);
@@ -192,20 +216,20 @@ public class ShooterSubsystem {
 
   public void shooterHoodRetract() {
     servoPosition = servo.get();
-    servoPosition -= HOODMOVESTEPSIZE;
-    if (servoPosition < MINSERVOPOSITION) {
-      servoPosition = MINSERVOPOSITION;
+    servoPosition -= HOOD_MOVE_STEP_SIZE;
+    if (servoPosition < MIN_SERVO_POSITION) {
+      servoPosition = MIN_SERVO_POSITION;
     }
     System.out.println("set servo to: " + servoPosition);
     servo.set(servoPosition);
   }
 
   public void shooterFullExtend() {
-    servo.set(MAXSERVOPOSITION);
+    servo.set(MAX_SERVO_POSITION);
   }
 
   public void shooterFullRetract() {
-    servo.set(MINSERVOPOSITION);
+    servo.set(MIN_SERVO_POSITION);
   }
 
   public void shooterSetToPosition(double position) {
@@ -223,10 +247,6 @@ public class ShooterSubsystem {
     // 0.15 is logical minimum
     // pos is clockwise
     // neg is counter clockwise
-		
-    
-    flywheel.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    booster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 
     double flywheelRPMSetPoint = SmartDashboard.getNumber("Motor_1_Speed", 0);
     double boosterPMSetPoint = SmartDashboard.getNumber("Motor_2_Speed", 0);
