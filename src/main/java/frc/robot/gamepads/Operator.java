@@ -102,10 +102,12 @@ public class Operator {
         if (Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 && UpDown == true) // If the forward limit switch is pressed, we want to keep the values between -1 and 0
         {
             Robot.intakeSubsystem.liftIntake(LiftSlow);
+            Robot.intakeSubsystem.intakeBalls(0);
         }
         else if(Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed()==1 && UpDown == true) // if the limit switch is open and the bumper is pressed then the motor gets more power
         {
             Robot.intakeSubsystem.liftIntake(LiftFast);
+            Robot.intakeSubsystem.intakeBalls(0);
         }
         else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0 && UpDown == false) // If the reversed limit switch is pressed, we want to keep the values between 0 and 1
         { 

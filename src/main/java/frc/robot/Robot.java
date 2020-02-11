@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
         {
             UpDown = true;
         }
-    System.out.println(UpDown);    
+        
   } 
 
   @Override
