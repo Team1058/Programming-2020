@@ -20,7 +20,7 @@ public class ClimberSubsystem {
 
     private TalonFX falcon1 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_1);
     private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
-    private TalonSRX climberTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
+    private TalonSRX skootyTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
 
     private int FALCON_REVERSE_SOFT_LIMIT = 100;
     private int FALCON_FORWARD_SOFT_LIMIT = 180000;
@@ -37,9 +37,9 @@ public class ClimberSubsystem {
         falcon1.configForwardSoftLimitEnable(true);
         falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
         falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
-        climberTalon.setSelectedSensorPosition(1);
-        climberTalon.configForwardSoftLimitEnable(false);
-        climberTalon.configReverseSoftLimitEnable(false);
+        skootyTalon.setSelectedSensorPosition(1);
+        skootyTalon.configForwardSoftLimitEnable(false);
+        skootyTalon.configReverseSoftLimitEnable(false);
     }
 
     private void initializeGyro(){
@@ -74,12 +74,12 @@ public class ClimberSubsystem {
 
     public void DriveBar(double speed)
     {
-        climberTalon.set(ControlMode.PercentOutput,speed);
+        skootyTalon.set(ControlMode.PercentOutput,speed);
     }
 
     public void driveStop()
     {
-        climberTalon.set(ControlMode.PercentOutput,0);
+        skootyTalon.set(ControlMode.PercentOutput,0);
     }
 
 }

@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
     driverGP.splitArcadeDrive();
     driverGP.BarDriving();
     operatorGP.Climber();
-    climberSubsystem.printFalconsPos();
     // TODO: Figure out how we want to dispatch commands
   } 
 
