@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -25,11 +26,17 @@ public class Robot extends TimedRobot {
     spinnerSubsystem.initialize();
     driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
+    SmartDashboard.putNumber("R1", 0);
+    SmartDashboard.putNumber("G1", 0);
+    SmartDashboard.putNumber("B1", 0);
   }
 
   @Override
   public void teleopPeriodic() {
-    
+    int R1 = (int) SmartDashboard.getNumber("R1", 0);
+    int G1 = (int) SmartDashboard.getNumber("G1", 0);
+    int B1 = (int) SmartDashboard.getNumber("B1", 0);
+    individualLeds.changeAllColors(R1,G1,B1);
     driverGP.splitArcadeDrive();
     driverGP.BarDriving();
     operatorGP.Climber();

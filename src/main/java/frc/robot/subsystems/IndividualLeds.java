@@ -17,11 +17,10 @@ public class IndividualLeds{
         // PWM port 9
         // Must be a PWM header, not MXP or DIO
         led = new AddressableLED(9);
-        ledBuffer = new AddressableLEDBuffer(59);
         // Reuse buffer
         // Default to a length of 60, start empty output
         // Length is expensive to set, so only set it once, then just update data
-        ledBuffer = new AddressableLEDBuffer(60);
+        ledBuffer = new AddressableLEDBuffer(120);
         led.setLength(ledBuffer.getLength());
     }
 
