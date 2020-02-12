@@ -25,7 +25,6 @@ public class Robot extends TimedRobot {
   public static Driver driverGP = new Driver();
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public static Operator operatorGP = new Operator();
-  public XboxController gamepad = new XboxController(1);
   public boolean UpDown = true;
 
   @Override
