@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
@@ -36,7 +38,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
-    driveTrainSubsystem.initialize();
+  // driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
     intakeSubsystem.initialize();
     CameraServer.getInstance().startAutomaticCapture();
@@ -45,6 +47,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     intakeSubsystem.inferState();
+    SmartDashboard.putNumber("SHOOTER_SPEED", 0);
+
   }
 
 
@@ -61,8 +65,11 @@ public class Robot extends TimedRobot {
     driverGP.Climber();
     operatorGP.Intake();
     
+   // shooterSubsystem.tuneShooterFromDashboard();
+   // driverGP.splitArcadeDrive();
+   double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
+   Robot.shooterSubsystem.setSpeed(shooterRPM);
     operatorGP.shooterHoodPosition();
-
     // TODO: Figure out how we want to dispatch commands
 
   } 
