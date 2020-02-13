@@ -31,10 +31,7 @@ public class Operator {
 
   
     private XboxController gamepad = new XboxController(1);
-
     private final double DEADBAND_VALUE = 0.075;
-
-    IntakeSubsystem intakeSubsystem;
 
     public double FwdLimit = Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed();
     public double RevLimit = Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed();
