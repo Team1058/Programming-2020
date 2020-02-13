@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem {
 
-    public TalonSRX intakeLift = new TalonSRX(RobotMap.CANIds.INTAKE_TALON_1);
+    public TalonSRX intakeLift = new TalonSRX(RobotMap.CANIds.INTAKE_VICTOR_1);
 
     private VictorSPX intakeWheels = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_WHEELS);
 

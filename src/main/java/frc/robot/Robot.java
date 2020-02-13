@@ -41,14 +41,6 @@ public class Robot extends TimedRobot {
     driverGP.BarDriving();
     operatorGP.Climber();
     operatorGP.Intake();
-    if (UpDown == true && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 )
-        {
-            UpDown = false;
-        }
-        else if(UpDown == false && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0)
-        {
-            UpDown = true;
-        }
         
   } 
 
