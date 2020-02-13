@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 import edu.wpi.first.wpilibj.XboxController;
@@ -43,7 +44,7 @@ public class ShooterSubsystem {
   private double MIN_SERVO_POSITION = 0;
   private double HOOD_MOVE_STEP_SIZE = 0.1;
   private boolean setManually = false;
-  private double flywheelF = 0;
+  private double flywheelF = .12;
   private double flywheelP = 0;
   private double flywheelI = 0;
   private double flywheelD = 0;
@@ -56,6 +57,8 @@ public class ShooterSubsystem {
   long current_time = System.currentTimeMillis();
 
   public ShooterSubsystem() {
+    flywheel.configFactoryDefault();
+    booster.configFactoryDefault();
   //  creates input fields on the smart dashboard
     SmartDashboard.putNumber("flywheel Speed", 0);
     SmartDashboard.putNumber("booster Speed", 0);
@@ -64,12 +67,11 @@ public class ShooterSubsystem {
     SmartDashboard.putBoolean("booster Enable", false);
     
     updatePIDValues();
-    
-    flywheel.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
-    booster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
-
+    flywheel.setInverted(true);
     flywheel.configSelectedFeedbackCoefficient(1/2048, 0, 10);
     booster.configSelectedFeedbackCoefficient(1/2048, 0, 10);
+    booster.follow(flywheel);
+    booster.setInverted(TalonFXInvertType.OpposeMaster);
   }
 
   public void enable() {
@@ -92,13 +94,14 @@ public class ShooterSubsystem {
   }
 
   private boolean atVelocity() {
-    return true;
+    return false;
   }
 
   private boolean updateVelocity() {
+
     if (targetVelocity != lastTargetVelocity){
       flywheel.set(ControlMode.Velocity, targetVelocity);
-      booster.set(ControlMode.Velocity, targetVelocity * boosterScaleFactor);
+      //booster.set(ControlMode.Velocity, targetVelocity * boosterScaleFactor);
       lastTargetVelocity = targetVelocity;
       return true;
     } else {
@@ -117,7 +120,7 @@ public class ShooterSubsystem {
   private void goDisabled() {
     currentState = State.DISABLED;
     flywheel.set(ControlMode.Velocity, 0);
-    booster.set(ControlMode.Velocity, 0);
+    //booster.set(ControlMode.Velocity, 0);
     lastTargetVelocity = 0;
   }
 
@@ -130,7 +133,7 @@ public class ShooterSubsystem {
   }
 
   private void updatePIDValues() {
-       flywheelF = SmartDashboard.getNumber("flywheelF", 0);
+       flywheelF = SmartDashboard.getNumber("flywheelF", flywheelF);
        flywheel.config_kF(0, flywheelF, 30);
        flywheelP = SmartDashboard.getNumber("flywheelP", 0);
        flywheel.config_kP(0, flywheelP, 30);
@@ -139,14 +142,14 @@ public class ShooterSubsystem {
        flywheelD = SmartDashboard.getNumber("flywheelD", 0);
        flywheel.config_kD(0, flywheelD, 30);
    
-       boosterF = SmartDashboard.getNumber("boosterF", 0);
-       booster.config_kF(0, boosterF, 30);
-       boosterP = SmartDashboard.getNumber("boosterP", 0);
-       booster.config_kP(0, boosterP, 30);
-       boosterI = SmartDashboard.getNumber("boosterI", 0);
-       booster.config_kI(0, boosterI, 30);
-       boosterD = SmartDashboard.getNumber("boosterD", 0);
-       booster.config_kD(0, boosterD, 30);
+      //  boosterF = SmartDashboard.getNumber("boosterF", 0);
+      //  booster.config_kF(0, boosterF, 30);
+      //  boosterP = SmartDashboard.getNumber("boosterP", 0);
+      //  booster.config_kP(0, boosterP, 30);
+      //  boosterI = SmartDashboard.getNumber("boosterI", 0);
+      //  booster.config_kI(0, boosterI, 30);
+      //  boosterD = SmartDashboard.getNumber("boosterD", 0);
+      //  booster.config_kD(0, boosterD, 30);
   }
 
   public void runStateMachine() {
@@ -250,7 +253,7 @@ public class ShooterSubsystem {
     // neg is counter clockwise
 
     double flywheelRPMSetPoint = SmartDashboard.getNumber("Motor_1_Speed", 0);
-    double boosterPMSetPoint = SmartDashboard.getNumber("Motor_2_Speed", 0);
+   // double boosterPMSetPoint = SmartDashboard.getNumber("Motor_2_Speed", 0);
     SmartDashboard.putNumber("CurrentServo Position", servo.get());
 
    // motor 1 PID controll code
@@ -265,13 +268,13 @@ public class ShooterSubsystem {
 
     // motor 2 PID control code
     double motor_2F = SmartDashboard.getNumber("Motor_2F", 0);
-    booster.config_kF(0, motor_2F, 30);
+   // booster.config_kF(0, motor_2F, 30);
     double motor_2P = SmartDashboard.getNumber("Motor_2P", 0);
-    booster.config_kP(0, motor_2P, 30);
+    //booster.config_kP(0, motor_2P, 30);
     double motor_2I = SmartDashboard.getNumber("Motor_2I", 0);
-    booster.config_kI(0, motor_2I, 30);
+   // booster.config_kI(0, motor_2I, 30);
     double motor_2D = SmartDashboard.getNumber("Motor_2D", 0);
-    booster.config_kD(0, motor_2D, 30);
+   // booster.config_kD(0, motor_2D, 30);
 
    
     boolean flywheelEnable = SmartDashboard.getBoolean("Motor_1_Enable", false);
@@ -279,19 +282,9 @@ public class ShooterSubsystem {
     if(flywheelEnable == false){
       flywheelRPMSetPoint = 0.0;
     }
-    if(boosterEnable == false){
-      boosterPMSetPoint = 0.0;
-    }
-   
-    // flywheelSpeed = flywheelSpeed * 4096 / 600;
-    // flywheel.set(ControlMode.Velocity,flywheelSpeed);
-    if (controller.getAButton()){
-      flywheelRPMSetPoint = 1;
-    }else{
-      flywheelRPMSetPoint = 0;
-    }
+
     flywheel.set(ControlMode.Velocity, 4096 * flywheelRPMSetPoint / 600);
-    booster.set(ControlMode.Velocity, 4096 * boosterPMSetPoint / 600);
+   // booster.set(ControlMode.Velocity, 4096 * boosterPMSetPoint / 600);
    
     // motor3.set(ControlMode.PercentOutput, 1 );
 

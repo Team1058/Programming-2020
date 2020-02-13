@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
@@ -40,10 +42,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
-    driveTrainSubsystem.initialize();
+  // driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
     intakeSubsystem.initialize();
     CameraServer.getInstance().startAutomaticCapture();
+    SmartDashboard.putNumber("SHOOTER_SPEED", 0);
+
   }
 
   @Override
@@ -58,6 +62,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     limelight.update();
     intakeSubsystem.updateIntake();
+    shooterSubsystem.runStateMachine();
   }
 
   @Override
@@ -67,12 +72,11 @@ public class Robot extends TimedRobot {
     driverGP.Climber();
     operatorGP.Intake();
     operatorGP.shooterHoodPosition();
+   // shooterSubsystem.tuneShooterFromDashboard();
+   double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
+   Robot.shooterSubsystem.setSpeed(shooterRPM);
   } 
 
-  @Override
-  public void robotPeriodic() {
-    shooterSubsystem.runStateMachine();
-  }
 
   @Override
   public void disabledPeriodic() {
