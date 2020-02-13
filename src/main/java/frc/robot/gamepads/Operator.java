@@ -108,6 +108,10 @@ public class Operator {
         if (gamepad.getStartButtonPressed()) {
             Robot.shooterSubsystem.enable();
         }
+        if (gamepad.getBackButtonPressed()){
+            Robot.shooterSubsystem.disable();
+
+        }
         System.out.println(gamepad.getPOV());
         if ((gamepad.getPOV() >= 315 && gamepad.getPOV() <= 360) || 
             (gamepad.getPOV() >= 0 && gamepad.getPOV() <= 45)) {

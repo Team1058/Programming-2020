@@ -1,6 +1,9 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.gamepads.Driver;
 import frc.robot.gamepads.Operator;
@@ -27,8 +30,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
-    driveTrainSubsystem.initialize();
+  // driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
+    SmartDashboard.putNumber("SHOOTER_SPEED", 0);
+
   }
 
   @Override
@@ -38,10 +43,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    shooterSubsystem.tuneShooterFromDashboard();
-    driverGP.splitArcadeDrive();
+   // shooterSubsystem.tuneShooterFromDashboard();
+   // driverGP.splitArcadeDrive();
+   double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
+   Robot.shooterSubsystem.setSpeed(shooterRPM);
     operatorGP.shooterHoodPosition();
-
     // TODO: Figure out how we want to dispatch commands
 
   } 
