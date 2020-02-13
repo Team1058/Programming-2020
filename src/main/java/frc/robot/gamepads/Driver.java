@@ -51,8 +51,15 @@ public class Driver {
         // Gets values of each trigger
         double right = gamepad.getTriggerAxis(Hand.kRight);
         double left = gamepad.getTriggerAxis(Hand.kLeft);
+        double difference=right-left;
 
-        // Rest of code to apply to climber
+        if (Math.abs(difference) > .05)
+        {
+            Robot.climberSubsystem.DriveBar(difference);
+        } else
+        {
+            Robot.climberSubsystem.driveStop();
+        }
     }
 
     private boolean outsideDeadband(double inputValue){

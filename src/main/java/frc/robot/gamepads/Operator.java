@@ -28,15 +28,15 @@ public class Operator {
     {
         if (gamepad.getYButton())
         {
-            // Code to extend climber
+            Robot.climberSubsystem.climberExtend();
         } 
-        else if (gamepad.getBButton())
+        else if (gamepad.getAButton())
         {
-            // Code to retract climber
+            Robot.climberSubsystem.climberRetract();
         }
         else
         {
-            // Does nothing
+            Robot.climberSubsystem.climberStop();
         }
     }
 
@@ -89,18 +89,19 @@ public class Operator {
     }
 
     public void Spinning(){
-        if(gamepad.getAButton()){
-            Robot.spinnerSubsystem.spinForStageThree();
-        }else if(gamepad.getXButtonPressed()){
-            Robot.spinnerSubsystem.setTrackedColor();
-        }else if(gamepad.getXButton()){
-            Robot.spinnerSubsystem.spinForStageTwo();
-        }else {
-            Robot.spinnerSubsystem.stopMotor();
-        }
-        if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
-            Robot.spinnerSubsystem.resetColorChecks();
-        }
+        //TODO UNCOMMENT AND CHANGE BUTTON MAPPING IF WE HAVE A SPINNER
+        // if(gamepad.getAButton()){
+        //     Robot.spinnerSubsystem.spinForStageThree();
+        // }else if(gamepad.getXButtonPressed()){
+        //     Robot.spinnerSubsystem.setTrackedColor();
+        // }else if(gamepad.getXButton()){
+        //     Robot.spinnerSubsystem.spinForStageTwo();
+        // }else {
+        //     Robot.spinnerSubsystem.stopMotor();
+        // }
+        // if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
+        //     Robot.spinnerSubsystem.resetColorChecks();
+        // }
     }
 
     private boolean outsideDeadband(double inputValue){
