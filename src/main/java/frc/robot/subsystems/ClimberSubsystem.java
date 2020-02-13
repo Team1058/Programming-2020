@@ -51,8 +51,8 @@ public class ClimberSubsystem {
     }
 
     public void printFalconsPos(){
-        //System.out.println("falcon1: " + falcon1.getSelectedSensorPosition());
-        //System.out.println("falcon2: " + falcon2.getSelectedSensorPosition());
+        System.out.println("falcon1: " + falcon1.getSelectedSensorPosition());
+        System.out.println("falcon2: " + falcon2.getSelectedSensorPosition());
     }
 
     public void printGyroPos(){
