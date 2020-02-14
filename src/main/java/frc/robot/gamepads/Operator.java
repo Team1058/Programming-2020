@@ -68,8 +68,10 @@ public class Operator {
             //spins the flywheel at triggeraxix * 3950
         } else {
             // Does nothing
+            Robot.shooterSubsystem.fireOff();
         }
     }
+
     public void Intake() {
         if (UpDown == true && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 )
         {

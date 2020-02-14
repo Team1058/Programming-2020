@@ -35,7 +35,6 @@ public class Driver {
         vX *= Robot.driveTrainSubsystem.drivetrain.getMaxVelocityX();
         omegaZ *= Robot.driveTrainSubsystem.drivetrain.getMaxOmegaZ();
         Robot.driveTrainSubsystem.setDrive(vX, omegaZ);
-
     }
 
     public void BarDriving() {
