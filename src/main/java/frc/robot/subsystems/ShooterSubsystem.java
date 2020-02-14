@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -34,6 +35,7 @@ public class ShooterSubsystem {
   final XboxController controller = new XboxController(0);
   final TalonFX flywheel = new TalonFX(9);
   final TalonFX booster = new TalonFX(10);
+  private final VictorSPX feeder = new VictorSPX(11);
   private State currentState = State.DISABLED;
   private double targetVelocity = minTargetVelocity;
   private double lastTargetVelocity = 0;
@@ -105,7 +107,11 @@ public class ShooterSubsystem {
   }
 
   public void fireOnce() {
+    feeder.set(ControlMode.PercentOutput, -1);
+  }
 
+  public void fireOff() {
+    feeder.set(ControlMode.PercentOutput, 0);
   }
 
   private boolean atVelocity() {

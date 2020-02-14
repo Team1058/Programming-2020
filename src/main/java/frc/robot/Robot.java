@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,8 +26,6 @@ public class Robot extends TimedRobot {
   public static Operator operatorGP = new Operator();
   public static Driver driverGP = new Driver();
 
-
-
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
@@ -47,8 +46,8 @@ public class Robot extends TimedRobot {
    // driverGP.splitArcadeDrive();
    double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
    Robot.shooterSubsystem.setSpeed(shooterRPM);
-    operatorGP.shooterHoodPosition();
-    // TODO: Figure out how we want to dispatch commands
+   operatorGP.shooterHoodPosition();
+   operatorGP.Shoot();
 
   } 
 
@@ -59,7 +58,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    individualLeds.changeAllColors(0,0,0);
+    individualLeds.changeAllColors(0,0,0);    
+    //opetsetRumble​(GenericHID.RumbleType type, double value)
   }
 
 }
