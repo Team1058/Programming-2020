@@ -11,11 +11,8 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Robot;
-<<<<<<< HEAD
 import frc.robot.subsystems.IntakeSubsystem;
-=======
 import frc.robot.subsystems.ShooterSubsystem;
->>>>>>> Began work on manipulating the shooter's hood.
 
 /* Operator Controls
     - Auto flywheel and hood (RT) - hold
@@ -71,6 +68,7 @@ public class Operator {
             //spins the flywheel at triggeraxix * 3950
         } else {
             // Does nothing
+            Robot.shooterSubsystem.fireOff();
         }
     }
     public void Intake() {
