@@ -57,14 +57,14 @@ public class ShooterSubsystem {
   long current_time = System.currentTimeMillis();
 
   public ShooterSubsystem() {
+    initializeSmartDashboad();
     flywheel.configFactoryDefault();
     booster.configFactoryDefault();
-  //  creates input fields on the smart dashboard
-    SmartDashboard.putNumber("flywheel Speed", 0);
-    SmartDashboard.putNumber("booster Speed", 0);
-   
-    SmartDashboard.putBoolean("flywheel Enable", false);
-    SmartDashboard.putBoolean("booster Enable", false);
+    flywheel.setNeutralMode(NeutralMode.Coast);
+    booster.setNeutralMode(NeutralMode.Coast);
+    flywheel.configClosedloopRamp(1);
+    booster.configClosedloopRamp(1);
+    
     
     updatePIDValues();
     flywheel.setInverted(true);
@@ -72,6 +72,18 @@ public class ShooterSubsystem {
     booster.configSelectedFeedbackCoefficient(1/2048, 0, 10);
     booster.follow(flywheel);
     booster.setInverted(TalonFXInvertType.OpposeMaster);
+  }
+  public void initializeSmartDashboad(){
+    //  creates input fields on the smart dashboard
+    SmartDashboard.putNumber("flywheel Speed", 0);
+    SmartDashboard.putNumber("booster Speed", 0);
+    SmartDashboard.putBoolean("flywheel Enable", false);
+    SmartDashboard.putBoolean("booster Enable", false);
+    SmartDashboard.putNumber("flywheelP", flywheelP);
+    SmartDashboard.putNumber("flywheelI", flywheelI);
+    SmartDashboard.putNumber("flywheelD", flywheelD);
+    SmartDashboard.putNumber("flywheelF", flywheelF);
+  
   }
 
   public void enable() {
@@ -83,10 +95,13 @@ public class ShooterSubsystem {
   }
 
   public void setSpeed(double rpm) {
+    rpm = rpm * 2048 / 600;
     if (rpm < minTargetVelocity) {
       rpm = minTargetVelocity;
     }
     targetVelocity = rpm;
+    double motorvoltage_flywheel = flywheel.getMotorOutputVoltage();
+    SmartDashboard.putNumber("MotorVoltage", motorvoltage_flywheel);
   }
 
   public void fireOnce() {
@@ -98,7 +113,7 @@ public class ShooterSubsystem {
   }
 
   private boolean updateVelocity() {
-
+    updatePIDValues();
     if (targetVelocity != lastTargetVelocity){
       flywheel.set(ControlMode.Velocity, targetVelocity);
       //booster.set(ControlMode.Velocity, targetVelocity * boosterScaleFactor);
@@ -125,8 +140,8 @@ public class ShooterSubsystem {
   }
 
   private void updateDashboard() {
-    double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 4096.0) * 600.0);
-    double rpm_booster = Math.abs((booster.getSelectedSensorVelocity() / 4096.0) * 600.0);
+    double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 2048.0) * 600.0);
+    double rpm_booster = Math.abs((booster.getSelectedSensorVelocity() / 2048.0) * 600.0);
     SmartDashboard.putNumber("Actual RPM Flywheel", rpm_flywheel);
     SmartDashboard.putNumber("Actual RPM Booster", rpm_booster);
     SmartDashboard.putString("Shooter State", currentState.toString());
@@ -135,11 +150,11 @@ public class ShooterSubsystem {
   private void updatePIDValues() {
        flywheelF = SmartDashboard.getNumber("flywheelF", flywheelF);
        flywheel.config_kF(0, flywheelF, 30);
-       flywheelP = SmartDashboard.getNumber("flywheelP", 0);
+       flywheelP = SmartDashboard.getNumber("flywheelP", flywheelP);
        flywheel.config_kP(0, flywheelP, 30);
-       flywheelI = SmartDashboard.getNumber("flywheelI", 0);
+       flywheelI = SmartDashboard.getNumber("flywheelI", flywheelI);
        flywheel.config_kI(0, flywheelI, 30);
-       flywheelD = SmartDashboard.getNumber("flywheelD", 0);
+       flywheelD = SmartDashboard.getNumber("flywheelD", flywheelD);
        flywheel.config_kD(0, flywheelD, 30);
    
       //  boosterF = SmartDashboard.getNumber("boosterF", 0);
@@ -283,7 +298,7 @@ public class ShooterSubsystem {
       flywheelRPMSetPoint = 0.0;
     }
 
-    flywheel.set(ControlMode.Velocity, 4096 * flywheelRPMSetPoint / 600);
+    flywheel.set(ControlMode.Velocity, 2048 * flywheelRPMSetPoint / 600);
    // booster.set(ControlMode.Velocity, 4096 * boosterPMSetPoint / 600);
    
     // motor3.set(ControlMode.PercentOutput, 1 );
@@ -292,12 +307,13 @@ public class ShooterSubsystem {
     // equation for converting to rpm --- rpm = (units/ 100 ms) / (units in 1
     // revolution) / 100 milli seconds to 1 minute
     // these are the variables for motor 1
-    double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 4096.0) * 600.0);
+    double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 2048.0) * 600.0);
     int motornumber_flywheel = flywheel.getDeviceID();
     double motorvoltage_flywheel = flywheel.getMotorOutputVoltage();
+    SmartDashboard.putNumber("MotorVoltage", motorvoltage_flywheel);
 
     // motor 2 variables
-    double rpm_booster = Math.abs((booster.getSelectedSensorVelocity() / 4096.0) * 600.0);
+    double rpm_booster = Math.abs((booster.getSelectedSensorVelocity() / 2048.0) * 600.0);
     int motornumber_booster = booster.getDeviceID();
     double motorvoltage_booster = booster.getMotorOutputVoltage();
     long time = System.currentTimeMillis();
