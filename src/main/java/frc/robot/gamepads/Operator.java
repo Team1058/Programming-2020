@@ -136,14 +136,16 @@ public class Operator {
         // }
     }
 
-    public void shooterHoodPosition() {
-        if (gamepad.getStartButtonPressed()) {
+    public void changeShooterState(){
+        
+        if(gamepad.getTriggerAxis(Hand.kRight) > 0.5){
             Robot.shooterSubsystem.enable();
-        }
-        if (gamepad.getBackButtonPressed()){
+        }else{
             Robot.shooterSubsystem.disable();
-
         }
+    }
+
+    public void shooterHoodPosition() {
         System.out.println(gamepad.getPOV());
         if ((gamepad.getPOV() >= 315 && gamepad.getPOV() <= 360) || 
             (gamepad.getPOV() >= 0 && gamepad.getPOV() <= 45)) {
