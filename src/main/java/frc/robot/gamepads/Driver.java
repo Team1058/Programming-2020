@@ -11,9 +11,11 @@ import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 /* Driver Controls
-    - Tank Mode (Joysticks Y)
-    - Moving on bar (Triggers) - hold */
-
+    - Split Arcade Mode (Left Joy - Y  Right Joy - X)
+    - Moving on bar (Lt - left Rt - Right) - hold 
+    - Climber Up (Y) - hold
+    - Climber Down (A) - hold */
+    
 public class Driver {
   
     private XboxController gamepad = new XboxController(0);

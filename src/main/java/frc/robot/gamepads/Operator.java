@@ -29,6 +29,7 @@ public class Operator {
     private XboxController gamepad = new XboxController(1);
     private final double DEADBAND_VALUE = 0.075;
 
+<<<<<<< HEAD
     public void update() {
         intake();
     }
@@ -36,30 +37,44 @@ public class Operator {
 
 
 
+=======
+    public double FwdLimit = Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed();
+    public double RevLimit = Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed();
+    public boolean UpDown = true;
+    public boolean useAuto = true;
+    public double BallSpeed = 0.5;
+    double LiftSlow = 0.1;
+    double LiftFast = 0.5;
+    double DropSlow = -0.1;
+    double DropFast = -0.5;
+>>>>>>> Added comments
 
     public void AutoFlywheelAndHood(){
 
         if (gamepad.getTriggerAxis(Hand.kRight) > 0.1){
-
+            useAuto = true;
+            // Spins flywheel and moves hood to apropriate positions bases on distance using limelight
         }else{
-
+            // Stops the auto
         }
 
     }
 
     public void Feed()
     {
-        if (gamepad.getAButton()){
-            
-            // Code to shoot
+        if (gamepad.getAButton() && useAuto){
+            // Uses the auto feeding function
+        } else if(gamepad.getAButton() && !useAuto){
+            // Enables the feeder motor 
         } else {
-            // Does nothing
-        }
+            // Stops feeding balls
+        } 
     }
 
     public void SpinManualFlywheels() {
         if (gamepad.getTriggerAxis(Hand.kLeft)> 0.1) {
-            // spins shooting motors
+            useAuto = false;
+            //spins the flywheel at triggeraxix * 3950
         } else {
             // Does nothing
         }
@@ -105,15 +120,12 @@ public class Operator {
     }
      
    public void ManualHood(){
-        // Gets values of each joystick
         
         if (outsideDeadband(gamepad.getY(Hand.kLeft))){
-
+            // Moves the hood by using the thumbstick
         }else{
-
+            // Stops moving the hood
         }
-
-        // Rest of code to apply to shoooting angle
     }
 
     public void ControlPanelSpins(){
