@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
-
-import edu.wpi.first.wpilibj.SpeedController;
+ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.actuation.DifferentialDrive;
 import frc.robot.actuation.SparkMaxMotorSet;
