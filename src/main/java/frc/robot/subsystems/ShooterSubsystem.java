@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.gamepads.Operator;
 
 import java.lang.*;
 import java.io.File;
@@ -103,9 +104,7 @@ public class ShooterSubsystem {
       rpm = minTargetVelocity;
     }
     targetVelocity = rpm;
-    double motorvoltage_flywheel = flywheel.getMotorOutputVoltage();
-    SmartDashboard.putNumber("MotorVoltage", motorvoltage_flywheel);
-  }
+    }
 
   public void fireOnce() {
     feeder.set(ControlMode.PercentOutput, -1);
@@ -116,7 +115,17 @@ public class ShooterSubsystem {
   }
 
   private boolean atVelocity() {
-    return false;
+    boolean atVelocity = false;
+    double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 2048.0) * 600.0);
+    targetVelocity = targetVelocity / 2048 * 600;
+    System.out.println("rpm: " + rpm_flywheel + "/ttarget" + targetVelocity);
+    if (rpm_flywheel > targetVelocity - 50 && rpm_flywheel < targetVelocity + 50){
+      atVelocity = true;
+    }else{
+      atVelocity = false;
+    }
+
+    return atVelocity;
   }
 
   private boolean updateVelocity() {
@@ -132,7 +141,7 @@ public class ShooterSubsystem {
   }
 
   private void fireAtCommand() {
-
+    feeder.set(ControlMode.PercentOutput, -1);
   }
 
   private boolean isFiringComplete() {
@@ -149,9 +158,12 @@ public class ShooterSubsystem {
   private void updateDashboard() {
     double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 2048.0) * 600.0);
     double rpm_booster = Math.abs((booster.getSelectedSensorVelocity() / 2048.0) * 600.0);
+    double motorvoltage_flywheel = flywheel.getMotorOutputPercent();
+    SmartDashboard.putNumber("MotorVoltage", motorvoltage_flywheel);
     SmartDashboard.putNumber("Actual RPM Flywheel", rpm_flywheel);
     SmartDashboard.putNumber("Actual RPM Booster", rpm_booster);
     SmartDashboard.putString("Shooter State", currentState.toString());
+  
   }
 
   private void updatePIDValues() {
@@ -194,14 +206,16 @@ public class ShooterSubsystem {
       case READY:
         if (!enabled) {
           goDisabled();
-        } else if (updateVelocity()) {
+        } else if (!atVelocity()) {
           currentState = State.SPINNING_UP;
         } else {
+          System.out.println("Hi");
           fireAtCommand();
         }
         break;
       case FIRING:
-        if (isFiringComplete()) {
+        if(!atVelocity()){
+          feeder.set(ControlMode.PercentOutput, 0);
           currentState = State.SPINNING_UP;
         }
         break;
