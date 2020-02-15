@@ -47,8 +47,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    double R1 = SmartDashboard.getNumber("R1", 0);
     driverGP.splitArcadeDrive();
-    driverGP.BarDriving();
+    climberSubsystem.DriveBar(R1);
     operatorGP.Climber();
     operatorGP.Intake();
   } 

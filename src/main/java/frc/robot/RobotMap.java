@@ -18,7 +18,7 @@ public class RobotMap {
         public static final int DRIVE_RIGHT_2 = 4;
         public static final int CLIMBER_FALCON_1 = 11;
         public static final int CLIMBER_FALCON_2 = 12;
-        public static final int CLIMBER_TALON = 8;
+        public static final int CLIMBER_VICTORSPX = 8;
         public static final int SPINNER = 115;
         public static final int INTAKE_TALON = 6;
         public static final int INTAKE_VICTOR_WHEELS = 5;

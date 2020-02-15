@@ -10,8 +10,10 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.ADXL345_SPI;
@@ -20,7 +22,7 @@ public class ClimberSubsystem {
 
     private TalonFX falcon1 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_1);
     private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
-    private TalonSRX skootyTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
+    private VictorSPX skootyVictorSPX  = new VictorSPX(RobotMap.CANIds.CLIMBER_VICTORSPX);
 
     private int FALCON_REVERSE_SOFT_LIMIT = 100;
     private int FALCON_FORWARD_SOFT_LIMIT = 180000;
@@ -33,13 +35,16 @@ public class ClimberSubsystem {
         falcon2.follow(falcon1);
         falcon1.setSelectedSensorPosition(0);
         falcon2.setSelectedSensorPosition(0);
-        falcon1.configReverseSoftLimitEnable(true);
-        falcon1.configForwardSoftLimitEnable(true);
         falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
         falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
-        skootyTalon.setSelectedSensorPosition(1);
-        skootyTalon.configForwardSoftLimitEnable(false);
-        skootyTalon.configReverseSoftLimitEnable(false);
+        falcon1.configReverseSoftLimitEnable(true);
+        falcon1.configForwardSoftLimitEnable(true);
+        falcon1.setNeutralMode(NeutralMode.Brake);
+        falcon2.setNeutralMode(NeutralMode.Brake);
+        skootyVictorSPX.setSelectedSensorPosition(1);
+        skootyVictorSPX.setNeutralMode(NeutralMode.Brake);
+        skootyVictorSPX.configForwardSoftLimitEnable(false);
+        skootyVictorSPX.configReverseSoftLimitEnable(false);
     }
 
     private void initializeGyro(){
@@ -72,14 +77,12 @@ public class ClimberSubsystem {
         falcon1.set(ControlMode.PercentOutput, 0);
     }
 
-    public void DriveBar(double speed)
-    {
-        skootyTalon.set(ControlMode.PercentOutput,speed);
+    public void DriveBar(double speed){
+        skootyVictorSPX.set(ControlMode.PercentOutput,speed);
     }
 
-    public void driveStop()
-    {
-        skootyTalon.set(ControlMode.PercentOutput,0);
+    public void driveStop(){
+        skootyVictorSPX.set(ControlMode.PercentOutput,0);
     }
 
 }
