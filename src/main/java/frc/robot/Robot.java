@@ -46,8 +46,7 @@ public class Robot extends TimedRobot {
    // driverGP.splitArcadeDrive();
    double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
    Robot.shooterSubsystem.setSpeed(shooterRPM);
-   operatorGP.shooterHoodPosition();
-   operatorGP.Shoot();
+   operatorGP.changeShooterState();
 
   } 
 

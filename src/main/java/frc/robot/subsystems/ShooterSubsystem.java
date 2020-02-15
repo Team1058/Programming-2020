@@ -95,6 +95,7 @@ public class ShooterSubsystem {
 
   public void disable() {
     enabled = false;
+    feeder.set(ControlMode.PercentOutput, 0);
   }
 
   public void setSpeed(double rpm) {
@@ -206,7 +207,7 @@ public class ShooterSubsystem {
         if (!enabled) {
           goDisabled();
         } else if (!atVelocity()) {
-          currentState = State.SPINNING_UP;
+          currentState = State.FIRING;
         } else {
           System.out.println("Hi");
           fireAtCommand();
