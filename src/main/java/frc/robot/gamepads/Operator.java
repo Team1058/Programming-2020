@@ -43,16 +43,16 @@ public class Operator {
 
     public void Shoot()
     {
-        if (gamepad.getTriggerAxis(Hand.kRight) > 0.5)
-        {
-            // Code to shoot
-            Robot.shooterSubsystem.fireOnce();
-        }
-        else
-        {
-            // Does nothing
-            Robot.shooterSubsystem.fireOff();
-        }
+        // if (gamepad.getTriggerAxis(Hand.kRight) > 0.5)
+        // {
+        //     // Code to shoot
+        //     Robot.shooterSubsystem.fireOnce();
+        // }
+        // else
+        // {
+        //     // Does nothing
+        //     Robot.shooterSubsystem.fireOff();
+        // }
     }
 
     public void SpinShootMotors()
