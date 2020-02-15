@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
@@ -33,6 +34,7 @@ public class Robot extends TimedRobot {
     driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
     intakeSubsystem.initialize();
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
