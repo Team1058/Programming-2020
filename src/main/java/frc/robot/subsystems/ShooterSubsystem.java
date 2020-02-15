@@ -48,8 +48,8 @@ public class ShooterSubsystem {
   private double MIN_SERVO_POSITION = 0;
   private double HOOD_MOVE_STEP_SIZE = 0.1;
   private boolean setManually = false;
-  private double flywheelF = .12;
-  private double flywheelP = 0;
+  private double flywheelF = 0.0575;
+  private double flywheelP = 0.375;
   private double flywheelI = 0;
   private double flywheelD = 0;
   private double boosterF = 0;
@@ -96,7 +96,7 @@ public class ShooterSubsystem {
 
   public void disable() {
     enabled = false;
-    feeder.set(ControlMode.PercentOutput, 0);
+    feeder.set(ControlMode.PercentOutput, -1);
   }
 
   public void setSpeed(double rpm) {
@@ -119,7 +119,7 @@ public class ShooterSubsystem {
     boolean atVelocity = false;
     double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 2048.0) * 600.0);
     targetVelocity = targetVelocity / 2048 * 600;
-    System.out.println("rpm: " + rpm_flywheel + "/ttarget" + targetVelocity);
+    System.out.println("rpm: " + rpm_flywheel + "\ttarget" + targetVelocity);
     if (rpm_flywheel > targetVelocity - 50 && rpm_flywheel < targetVelocity + 50){
       atVelocity = true;
     }else{
