@@ -1,11 +1,16 @@
 package frc.robot.subsystems;
- import edu.wpi.first.wpilibj.SpeedController;
+
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import frc.robot.actuation.DifferentialDrive;
 import frc.robot.actuation.SparkMaxMotorSet;
+import frc.robot.sensing.Limelight;
 import frc.robot.RobotMap;
 
 import com.revrobotics.CANSparkMax;
+
+import java.util.Optional;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -27,8 +32,10 @@ public class DriveTrainSubsystem {
   private final double trackWidth = /*(12.657 * 2)*/ 18.5 * 0.0254; // Wheel to wheel diagonal distance in meters
   private final double wheelRadius = /*3*/ 2 * 0.0254; // In meters
   private final double gearRatio = /*8*/ 5;
+  private DriveMode state = DriveMode.ARCADE;
+  private Limelight limelight;
 
-  public void initialize() {
+  public DriveTrainSubsystem(Limelight limelight) {
     int[] leftFollower = {/*2*/4};
     int[] rightFollower = {/*4*/2};
     sparkMaxMotorSetLeft = new SparkMaxMotorSet(/*1*/3, leftFollower);
@@ -52,8 +59,29 @@ public class DriveTrainSubsystem {
     drivetrain = new DifferentialDrive(sparkMaxMotorSetRight, sparkMaxMotorSetLeft, trackWidth, wheelRadius, maxWheelOmega);
   }
 
+  public enum DriveMode {
+    ARCADE,
+    SNAP_TO_TARGET,
+    FOLLOW_PATH,
+  }
+
   public DifferentialDrive getDrivetrain() {
     return drivetrain;
+  }
+
+  public void snapToTarget() {
+    Optional<Double> targetAngle = limelight.getTargetAngle(); 
+    if (targetAngle.isPresent()) {
+      double angleError = targetAngle.get() - drivetrain.getPose().getYaw();
+      drivetrain.setTargetVelocity(0, angleError * 2);
+    } else {
+      stopAll();
+    }
+  }
+
+  public void update() {
+    drivetrain.getInputs();
+    drivetrain.setOutputs();
   }
   
   //Stops all motors
@@ -62,7 +90,7 @@ public class DriveTrainSubsystem {
   }
 
   //Drives the robot with left being turning and right being forward/backward
-  public void setDrive(double speed, double rotation){
+  public void setArcadeDrive(double speed, double rotation){
     drivetrain.setTargetVelocity(speed, rotation);
   }
 

@@ -23,8 +23,6 @@ public class MotionPlanner {
     boolean hasRun = false;
     public int startLeftEncoderTick;
     public int startRightEncoderTick;
-    
-    
 
     Trajectory.Config config = new Trajectory.Config(
         Trajectory.FitMethod.HERMITE_CUBIC,
@@ -85,7 +83,8 @@ public class MotionPlanner {
 
             double turn = angleDifference / 180 * .5;
 
-            drivetrain.setLeftRightDrive(left, right, turn);
+            drivetrain.setPercentVelocity(left - turn, right + turn);
+
 
             // System.out.println("Segment Index: " + segmentIndex + " Velocity: " + segment.velocity);
             segmentIndex++;
@@ -110,7 +109,7 @@ public class MotionPlanner {
 
             double turn = angleDifference / 180 * .5;
 
-            drivetrain.setLeftRightDrive(left, right, turn);
+            drivetrain.setPercentVelocity(left - turn, right + turn);
             
             if (leftFollower.isFinished()){
                 hasRun = false;
@@ -136,7 +135,7 @@ public class MotionPlanner {
 
             double turn = angleDifference / 180 * .5;
 
-            drivetrain.setLeftRightDrive(-right, -left, turn);
+            drivetrain.setPercentVelocity(-right - turn, -left + turn);
 
             if (leftFollower.isFinished()){
                 hasRun = false;

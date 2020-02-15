@@ -109,14 +109,6 @@ public class DifferentialDrive {
         SmartDashboard.putNumber("driveTrain X", x);
         SmartDashboard.putNumber("driveTrain Y", y);
         SmartDashboard.putNumber("driveTrain Theta", theta);
-
-        if (rightDrive.getActualVelocity() > highestSpeed){
-            highestSpeed = rightDrive.getActualVelocity();
-        }
-
-        SmartDashboard.putNumber("Highest Velocity", highestSpeed);
-        
-
     }
     
     public Pose getPose() {
@@ -132,7 +124,7 @@ public class DifferentialDrive {
         navx.reset();
     }
 
-    public void readInputs() {
+    public void getInputs() {
         updatePosition();
     }
 
@@ -155,8 +147,8 @@ public class DifferentialDrive {
         return rightEncoderTicks;
     }
 
-    public void setLeftRightDrive(double left, double right, double turn){
-        leftDrive.setTargetVelocity(left * maxWheelOmega - (turn * maxWheelOmega));
-        rightDrive.setTargetVelocity(right * maxWheelOmega + (turn * maxWheelOmega));
+    public void setPercentVelocitys(double left, double right){
+        omegaL = left * maxWheelOmega;
+        omegaR = right * maxWheelOmega;
     }
 } 

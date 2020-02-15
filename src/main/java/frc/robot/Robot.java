@@ -25,87 +25,57 @@ public class Robot extends TimedRobot {
 
   public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
   public static LEDSubsystem ledSubsystem = new LEDSubsystem();
-  public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  public static DriveTrainSubsystem driveTrainSubsystem;
   public static IndividualLeds individualLeds = new IndividualLeds();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-<<<<<<< HEAD
-  public static Driver driverGP = new Driver();
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  public static Operator operatorGP = new Operator();
-  public boolean UpDown = true;
-  public static Limelight limelight = new Limelight();
-  public static TestGP testGP = new TestGP();
 
-=======
+  public static Driver driverGP;
   public static Operator operatorGP = new Operator();
   public static TestGP testGP;
-  public static Driver driverGP;
+
+  public static Limelight limelight = new Limelight();
   public static MotionPlanner motionPlanner;
->>>>>>> Basic trajectory tracking functional
+
+  public boolean UpDown = true;
+
 
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
-    driveTrainSubsystem.initialize();
+    driveTrainSubsystem = new DriveTrainSubsystem(limelight);
     climberSubsystem.initialize();
-<<<<<<< HEAD
     intakeSubsystem.initialize();
     CameraServer.getInstance().startAutomaticCapture();
-  }
-
-  @Override
-  public void robotPeriodic() {
-    limelight.update();
-=======
     motionPlanner = new MotionPlanner(driveTrainSubsystem.getDrivetrain());
     testGP = new TestGP(5, motionPlanner);
-    driverGP = new Driver(0, driveTrainSubsystem.getDrivetrain());
->>>>>>> Basic trajectory tracking functional
+    driverGP = new Driver(0, driveTrainSubsystem);
   }
   
   @Override
   public void teleopPeriodic() {
-<<<<<<< HEAD
-    driverGP.splitArcadeDrive();
-    driverGP.BarDriving();
     operatorGP.Climber();
     operatorGP.Intake();
-    
-    if (testGP.changeGamepadState()){
-=======
 
     if (testGP.isTestGPEnabled()) {
       testGP.testDrive();
     } else {
->>>>>>> Basic trajectory tracking functional
-      driverGP.splitArcadeDrive();
-      driveTrainSubsystem.getDrivetrain().setOutputs();
+      driverGP.update();
     }
-<<<<<<< HEAD
-  } 
-=======
-    
     motionPlanner.printNAVX();
-    ledSubsystem.setLEDColor(spinnerSubsystem.getSeenColor());
-    
-    individualLeds.climbBalance(climberSubsystem.balanceLED());
-
-    // TODO: Figure out how we want to dispatch commands
-
   }
 
   @Override
   public void robotPeriodic() {
     super.robotPeriodic();
-    // driveTrainSubsystem.getDrivetrain().setOutputs();
-    driveTrainSubsystem.getDrivetrain().readInputs();
+    driveTrainSubsystem.update();
+    limelight.update();
   }
 
   @Override
   public void disabledInit() {
     motionPlanner.cancelPath();
   }
->>>>>>> Basic trajectory tracking functional
 
   @Override
   public void disabledPeriodic(){

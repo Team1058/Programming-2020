@@ -27,8 +27,8 @@ public class Limelight {
   
     if (cam[1] != 0) {
       valid = true;
-      x = cam[2];
-      y = -cam[0];
+      x = cam[2] * .0254;
+      y = -cam[0] * .0254;
       distance = Math.hypot(x, y);
       targetAngle = Math.atan2(-y, -x);
     } else {
