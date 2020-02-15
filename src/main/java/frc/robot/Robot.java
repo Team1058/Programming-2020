@@ -18,6 +18,7 @@ import frc.robot.subsystems.IndividualLeds;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import frc.robot.sensing.Limelight;
 
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -34,9 +35,6 @@ public class Robot extends TimedRobot {
   public boolean UpDown = true;
   public static Limelight limelight = new Limelight();
   public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); 
-
-  public static Operator operatorGP = new Operator();
-  public static Driver driverGP = new Driver();
 
   @Override
   public void robotInit() {
@@ -74,7 +72,7 @@ public class Robot extends TimedRobot {
    // shooterSubsystem.tuneShooterFromDashboard();
    double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
    Robot.shooterSubsystem.setSpeed(shooterRPM);
-   operatorGP.Shoot();
+   operatorGP.changeShooterState();
 
   } 
 
