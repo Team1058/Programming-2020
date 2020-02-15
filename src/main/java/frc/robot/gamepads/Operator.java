@@ -65,7 +65,7 @@ public class Operator {
     public void SpinManualFlywheels() {
         if (gamepad.getTriggerAxis(Hand.kLeft)> 0.1) {
             useAuto = false;
-            //spins the flywheel at triggeraxix * 3950
+            //spins the flywheel at triggeraxis * 3950
         } else {
             // Does nothing
             Robot.shooterSubsystem.fireOff();
