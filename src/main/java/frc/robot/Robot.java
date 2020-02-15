@@ -55,7 +55,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     driverGP.splitArcadeDrive();
     driverGP.BarDriving();
-    operatorGP.update();
+    driverGP.Climber();
+    operatorGP.Intake();
   } 
 
   @Override
