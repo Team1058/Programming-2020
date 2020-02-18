@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     intakeSubsystem.inferState();
     SmartDashboard.putNumber("SHOOTER_SPEED", 0);
+    SmartDashboard.putNumber("servo_SPEED", 0);
 
   }
 
@@ -68,9 +69,8 @@ public class Robot extends TimedRobot {
     
    // shooterSubsystem.tuneShooterFromDashboard();
    // driverGP.splitArcadeDrive();
-   double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
-   Robot.shooterSubsystem.setSpeed(shooterRPM);
-   operatorGP.changeShooterState();
+   int servoRPM = (int)SmartDashboard.getNumber("servo_SPEED", 0);
+   operatorGP.shooterHoodPosition(servoRPM);
 
   } 
 

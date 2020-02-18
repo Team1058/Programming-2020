@@ -44,8 +44,8 @@ public class ShooterSubsystem {
   private boolean enabled = false;
   private Servo servo = new Servo(1);
   private double servoPosition = 0;
-  private double MAX_SERVO_POSITION = 1;
-  private double MIN_SERVO_POSITION = 0;
+  private double RIGHT_SERVO_POSITION = 1;
+  private double LEFT_SERVO_POSITION = 0;
   private double HOOD_MOVE_STEP_SIZE = 0.1;
   private boolean setManually = false;
   private double flywheelF = 0.0575;
@@ -248,8 +248,8 @@ public class ShooterSubsystem {
   public void shooterHoodExtend() {
     servoPosition = servo.get();
     servoPosition += HOOD_MOVE_STEP_SIZE;
-    if (servoPosition > MAX_SERVO_POSITION) {
-      servoPosition = MAX_SERVO_POSITION;
+    if (servoPosition > RIGHT_SERVO_POSITION) {
+      servoPosition = RIGHT_SERVO_POSITION;
     }
     System.out.println("set servo to: " + servoPosition);
     servo.set(servoPosition);
@@ -258,19 +258,19 @@ public class ShooterSubsystem {
   public void shooterHoodRetract() {
     servoPosition = servo.get();
     servoPosition -= HOOD_MOVE_STEP_SIZE;
-    if (servoPosition < MIN_SERVO_POSITION) {
-      servoPosition = MIN_SERVO_POSITION;
+    if (servoPosition < LEFT_SERVO_POSITION) {
+      servoPosition = LEFT_SERVO_POSITION;
     }
     System.out.println("set servo to: " + servoPosition);
     servo.set(servoPosition);
   }
 
   public void shooterFullExtend() {
-    servo.set(MAX_SERVO_POSITION);
+      servo.set(RIGHT_SERVO_POSITION);
   }
 
   public void shooterFullRetract() {
-    servo.set(MIN_SERVO_POSITION);
+      servo.set(LEFT_SERVO_POSITION);
   }
 
   public void shooterSetToPosition(double position) {
