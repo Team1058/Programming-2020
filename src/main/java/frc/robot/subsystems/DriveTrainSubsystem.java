@@ -69,15 +69,29 @@ public class DriveTrainSubsystem {
     return drivetrain;
   }
 
-  public void snapToTarget() {
+  public Optional<Double> snapToTarget() {
     Optional<Double> targetAngle = limelight.getTargetAngle(); 
     if (targetAngle.isPresent()) {
       double angleError = targetAngle.get() - drivetrain.getPose().getYaw();
       drivetrain.setTargetVelocity(0, angleError * 2);
+      return Optional.of(clampDeadband(angleError));
     } else {
       stopAll();
+      return Optional.empty();
     }
   }
+
+  private boolean outsideDeadband(double inputValue){           
+    return (Math.abs(inputValue) > .05);
+  }
+
+  private double clampDeadband(double inputValue){
+      if (outsideDeadband(inputValue)) {
+          return inputValue;
+      } else {
+          return 0;
+      }
+  } 
 
   public void update() {
     drivetrain.getInputs();
@@ -91,7 +105,13 @@ public class DriveTrainSubsystem {
 
   //Drives the robot with left being turning and right being forward/backward
   public void setArcadeDrive(double speed, double rotation){
+    speed *= drivetrain.getMaxVelocityX();
+    rotation *= drivetrain.getMaxOmegaZ();
     drivetrain.setTargetVelocity(speed, rotation);
+  }
+
+  public void resetOdometry() {
+    drivetrain.resetOdometry();
   }
 
 }

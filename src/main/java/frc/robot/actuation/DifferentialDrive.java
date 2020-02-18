@@ -94,9 +94,7 @@ public class DifferentialDrive {
         // delta: change since last update
         double deltaLeft = leftPosition - previousLeftPosition;
         double deltaRight = rightPosition - previousRightPosition;
-        //double deltaTheta = (deltaRight - deltaLeft)/trackWidth;
 
-        //theta += deltaTheta;
         theta = -navx.getYaw() / 180 * Math.PI;
         x += ((deltaRight + deltaLeft)/2) * Math.cos(theta);
         y += ((deltaRight + deltaLeft)/2) * Math.sin(theta);
@@ -147,7 +145,7 @@ public class DifferentialDrive {
         return rightEncoderTicks;
     }
 
-    public void setPercentVelocitys(double left, double right){
+    public void setPercentVelocity(double left, double right){
         omegaL = left * maxWheelOmega;
         omegaR = right * maxWheelOmega;
     }
