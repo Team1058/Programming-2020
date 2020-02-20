@@ -41,16 +41,21 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+  public void teleopInit() {
+    intakeSubsystem.inferState();
+  }
+
+  @Override
   public void robotPeriodic() {
     limelight.update();
+    intakeSubsystem.updateIntake();
   }
 
   @Override
   public void teleopPeriodic() {
     driverGP.splitArcadeDrive();
     driverGP.BarDriving();
-    operatorGP.Climber();
-    operatorGP.Intake();
+    operatorGP.update();
   } 
 
   @Override
