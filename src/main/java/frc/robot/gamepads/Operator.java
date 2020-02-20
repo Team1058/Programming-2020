@@ -29,15 +29,6 @@ public class Operator {
     private XboxController gamepad = new XboxController(1);
     private final double DEADBAND_VALUE = 0.075;
 
-<<<<<<< HEAD
-    public void update() {
-        intake();
-    }
-
-
-
-
-=======
     public double FwdLimit = Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed();
     public double RevLimit = Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed();
     public boolean UpDown = true;
@@ -47,7 +38,6 @@ public class Operator {
     double LiftFast = 0.5;
     double DropSlow = -0.1;
     double DropFast = -0.5;
->>>>>>> Added comments
 
     public void AutoFlywheelAndHood(){
 
