@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem {
-    private TalonSRX intakeLift = new TalonSRX(RobotMap.CANIds.INTAKE_TALON);
+    public TalonSRX intakeLift = new TalonSRX(RobotMap.CANIds.INTAKE_TALON);
     private VictorSPX intakeWheels = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_WHEELS);
     private boolean isUp = true;
     private double ballSpeed = -0.75;

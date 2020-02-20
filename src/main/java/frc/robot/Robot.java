@@ -48,7 +48,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     limelight.update();
-    intakeSubsystem.updateIntake();
   }
 
   @Override
