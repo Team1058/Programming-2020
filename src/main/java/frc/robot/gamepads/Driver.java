@@ -11,19 +11,11 @@ import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 /* Driver Controls
-    - Tank Mode (Joysticks Y)
-    - Moving on bar (Triggers) - hold
-   Operator Controls
-    - Spinning Stage 2 (X) - hold
-    - Spinning Stage 3 (A) - hold
-    - Extend Climber (Y) - hold
-    - Retract Climber (B) - hold
-    - Shoot (Right Trigger) - click
-    - Start two shooting motors (Left trigger) - hold
-    - Intake down and in (Left bumper) - hold
-    - Intake up and out (right bumper) - hold
-    - Shooting angle up/down (right joystick y)*/
-
+    - Split Arcade Mode (Left Joy - Y  Right Joy - X)
+    - Moving on bar (Lt - left Rt - Right) - hold 
+    - Climber Up (Y) - hold
+    - Climber Down (A) - hold */
+    
 public class Driver {
   
     private XboxController gamepad = new XboxController(0);
@@ -46,8 +38,7 @@ public class Driver {
 
     }
 
-    public void BarDriving()
-    {
+    public void BarDriving() {
         // Gets values of each trigger
         double right = gamepad.getTriggerAxis(Hand.kRight);
         double left = gamepad.getTriggerAxis(Hand.kLeft);
@@ -61,6 +52,18 @@ public class Driver {
             Robot.climberSubsystem.driveStop();
         }
     }
+
+    
+    public void Climber() {
+        if (gamepad.getYButton()) {
+            Robot.climberSubsystem.climberExtend();
+        } else if (gamepad.getAButton()) {
+            Robot.climberSubsystem.climberRetract();
+        } else {
+            Robot.climberSubsystem.climberStop();
+        }
+    }
+
 
     private boolean outsideDeadband(double inputValue){
             

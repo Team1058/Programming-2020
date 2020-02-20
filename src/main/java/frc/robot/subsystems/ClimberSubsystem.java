@@ -61,11 +61,11 @@ public class ClimberSubsystem {
     }
 
     public void climberExtend(){
-        falcon1.set(ControlMode.PercentOutput, .75);
+        falcon1.set(ControlMode.PercentOutput, .25);
     }
     
     public void climberRetract(){
-        falcon1.set(ControlMode.PercentOutput, -.75);
+        falcon1.set(ControlMode.PercentOutput, -.25);
     }
     
     public void climberStop(){

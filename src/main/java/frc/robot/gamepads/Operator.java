@@ -13,19 +13,15 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.Robot;
 import frc.robot.subsystems.IntakeSubsystem;
 
-/* Driver Controls
-    - Tank Mode (Joysticks Y)
-    - Moving on bar (Triggers) - hold
-   Operator Controls
-    - Spinning Stage 2 (X) - hold
-    - Spinning Stage 3 (A) - hold
-    - Extend Climber (Y) - hold
-    - Retract Climber (B) - hold
-    - Shoot (Right Trigger) - click
-    - Start two shooting motors (Left trigger) - hold
-    - Intake down and in (Left bumper) - hold
-    - Intake up and out (right bumper) - hold
-    - Shooting angle up/down (right joystick y)*/
+/* Operator Controls
+    - Auto flywheel and hood (RT) - hold
+    - Manual flywheel (LT) - hold
+    - Manual hood (left joystick y)
+    - Feed (A) - hold
+    - Intake up (X) - click
+    - Intake down (B) - click
+    - Intake wheels (RB) - hold */
+    
 
 public class Operator {
 
@@ -33,73 +29,96 @@ public class Operator {
     private XboxController gamepad = new XboxController(1);
     private final double DEADBAND_VALUE = 0.075;
 
-    public void update() {
-        intake();
+    public double FwdLimit = Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed();
+    public double RevLimit = Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed();
+    public boolean UpDown = true;
+    public boolean useAuto = true;
+    public double BallSpeed = 0.5;
+    double LiftSlow = 0.1;
+    double LiftFast = 0.5;
+    double DropSlow = -0.1;
+    double DropFast = -0.5;
+
+    public void AutoFlywheelAndHood(){
+
+        if (gamepad.getTriggerAxis(Hand.kRight) > 0.1){
+            useAuto = true;
+            // Spins flywheel and moves hood to apropriate positions bases on distance using limelight
+        }else{
+            // Stops the auto
+        }
+
     }
 
-
-
-
-
-    public void Climber()
+    public void Feed()
     {
-        if (gamepad.getYButton())
-        {
-            Robot.climberSubsystem.climberExtend();
+        if (gamepad.getAButton() && useAuto){
+            // Uses the auto feeding function
+        } else if(gamepad.getAButton() && !useAuto){
+            // Enables the feeder motor 
+        } else {
+            // Stops feeding balls
         } 
-        else if (gamepad.getAButton())
-        {
-            Robot.climberSubsystem.climberRetract();
-        }
-        else
-        {
-            Robot.climberSubsystem.climberStop();
-        }
     }
 
-    public void Shoot()
-    {
-        if (gamepad.getTriggerAxis(Hand.kRight)!=0)
-        {
-            
-            // Code to shoot
-        }
-        else
-        {
+    public void SpinManualFlywheels() {
+        if (gamepad.getTriggerAxis(Hand.kLeft)> 0.1) {
+            useAuto = false;
+            //spins the flywheel at triggeraxix * 3950
+        } else {
             // Does nothing
         }
     }
-
-    public void SpinShootMotors()
-    {
-        if (gamepad.getTriggerAxis(Hand.kLeft)!=0)
+    public void Intake() {
+        if (UpDown == true && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 )
         {
-            // spins shooting motors
+            UpDown = false;
+        }
+        else if(UpDown == false && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0)
+        {
+            UpDown = true;
+        }
+     //  System.out.println(UpDown);   
+     // limit switches default to 1 when not pressed
+     // fwd = green wire = left bumper
+     // rev = white wire = right bumper
+     //this keeps intake up mapped to left bumper
+        if (Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 && UpDown == true) // If the forward limit switch is pressed, we want to keep the values between -1 and 0
+        {
+            Robot.intakeSubsystem.liftIntake(LiftSlow);
+            Robot.intakeSubsystem.intakeBalls(0);
+        }
+        else if(Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed()==1 && UpDown == true) // if the limit switch is open and the bumper is pressed then the motor gets more power
+        {
+            Robot.intakeSubsystem.liftIntake(LiftFast);
+            Robot.intakeSubsystem.intakeBalls(0);
+        }
+        else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0 && UpDown == false) // If the reversed limit switch is pressed, we want to keep the values between 0 and 1
+        { 
+           Robot.intakeSubsystem.liftIntake(DropSlow);
+           Robot.intakeSubsystem.intakeBalls(BallSpeed);
+        }   
+        else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 1 && UpDown == false) // if the limit switch is open and the bumper is pressed then the motor gets more power
+        {
+            Robot.intakeSubsystem.liftIntake(DropFast);
+            Robot.intakeSubsystem.intakeBalls(BallSpeed);
         }
         else
         {
-            // Does nothing
+            Robot.intakeSubsystem.intakeOff();
+        }      
+    }
+     
+   public void ManualHood(){
+        
+        if (outsideDeadband(gamepad.getY(Hand.kLeft))){
+            // Moves the hood by using the thumbstick
+        }else{
+            // Stops moving the hood
         }
     }
 
-
-    private void intake() {
-        if (gamepad.getBumperPressed(Hand.kLeft)) {
-            Robot.intakeSubsystem.intakeGoDown();
-        } else if (gamepad.getBumper(Hand.kRight)) {
-            Robot.intakeSubsystem.intakeGoUp();
-        }    
-    }
-
-   public void ShootingAngle()
-    {
-        // Gets values of each joystick
-        double change = gamepad.getY(Hand.kRight);
-
-        // Rest of code to apply to shoooting angle
-    }
-
-    public void Spinning(){
+    public void ControlPanelSpins(){
         //TODO UNCOMMENT AND CHANGE BUTTON MAPPING IF WE HAVE A SPINNER
         // if(gamepad.getAButton()){
         //     Robot.spinnerSubsystem.spinForStageThree();
