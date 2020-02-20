@@ -28,6 +28,7 @@ public class Operator {
 
   
     private XboxController gamepad = new XboxController(1);
+
     private final double DEADBAND_VALUE = 0.075;
 
     public double FwdLimit = Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed();
@@ -145,11 +146,11 @@ public class Operator {
         }
     }
 
-    public void shooterHoodPosition(int servoRPM ) {
-        System.out.println(gamepad.getPOV());
-        if (servoRPM > 0.9){
+    public void shooterHoodPosition() {
+        // 0 and 4 are top and bottom for the Dpad
+        if (gamepad.getPOV() == 0){
                 Robot.shooterSubsystem.shooterFullExtend();
-        } else if (servoRPM < 0.1){
+        } else if (gamepad.getPOV() == 4){
                 Robot.shooterSubsystem.shooterFullRetract();
         }
     }

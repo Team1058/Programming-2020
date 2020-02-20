@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     spinnerSubsystem.initialize();
-  // driveTrainSubsystem.initialize();
+    driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
     intakeSubsystem.initialize();
     CameraServer.getInstance().startAutomaticCapture();
@@ -70,7 +70,6 @@ public class Robot extends TimedRobot {
    // shooterSubsystem.tuneShooterFromDashboard();
    // driverGP.splitArcadeDrive();
    int servoRPM = (int)SmartDashboard.getNumber("servo_SPEED", 0);
-   operatorGP.shooterHoodPosition(servoRPM);
 
   } 
 
@@ -84,7 +83,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     individualLeds.changeAllColors(0,0,0);    
-    //opetsetRumble​(GenericHID.RumbleType type, double value)
   }
 
 }
