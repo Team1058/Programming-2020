@@ -176,15 +176,6 @@ public class ShooterSubsystem {
        flywheel.config_kI(0, flywheelI, 30);
        flywheelD = SmartDashboard.getNumber("flywheelD", flywheelD);
        flywheel.config_kD(0, flywheelD, 30);
-   
-      //  boosterF = SmartDashboard.getNumber("boosterF", 0);
-      //  booster.config_kF(0, boosterF, 30);
-      //  boosterP = SmartDashboard.getNumber("boosterP", 0);
-      //  booster.config_kP(0, boosterP, 30);
-      //  boosterI = SmartDashboard.getNumber("boosterI", 0);
-      //  booster.config_kI(0, boosterI, 30);
-      //  boosterD = SmartDashboard.getNumber("boosterD", 0);
-      //  booster.config_kD(0, boosterD, 30);
   }
 
   public void runStateMachine() {
