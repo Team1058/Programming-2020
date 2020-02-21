@@ -31,7 +31,6 @@ public class Operator {
 
     private final double DEADBAND_VALUE = 0.075;
 
-<<<<<<< HEAD
     public double FwdLimit = Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed();
     public double RevLimit = Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed();
     public boolean UpDown = true;
@@ -61,12 +60,6 @@ public class Operator {
             // Enables the feeder motor 
         } else {
             // Stops feeding balls
-=======
-    public void Climber(){
-        if (gamepad.getYButton())
-        {
-            // Code to extend climber
->>>>>>> Fixed brians requests
         } 
     }
 
@@ -88,19 +81,16 @@ public class Operator {
         {
             UpDown = true;
         }
-<<<<<<< HEAD
      //  System.out.println(UpDown);   
      // limit switches default to 1 when not pressed
      // fwd = green wire = left bumper
      // rev = white wire = right bumper
      //this keeps intake up mapped to left bumper
         if (Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 && UpDown == true) // If the forward limit switch is pressed, we want to keep the values between -1 and 0
-=======
     }
 
     public void Intake(){
         if (gamepad.getBumper(Hand.kLeft))
->>>>>>> Fixed brians requests
         {
             Robot.intakeSubsystem.liftIntake(LiftSlow);
             Robot.intakeSubsystem.intakeBalls(0);
