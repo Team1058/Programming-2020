@@ -33,29 +33,32 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    spinnerSubsystem.initialize();
+    // spinnerSubsystem.initialize();
     driveTrainSubsystem.initialize();
     climberSubsystem.initialize();
-    intakeSubsystem.initialize();
-    CameraServer.getInstance().startAutomaticCapture();
+    // intakeSubsystem.initialize();
+    // CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
   public void teleopInit() {
-    intakeSubsystem.inferState();
+    // intakeSubsystem.inferState();
+    
   }
 
   @Override
   public void robotPeriodic() {
-    limelight.update();
+    // limelight.update();
   }
 
   @Override
   public void teleopPeriodic() {
+    climberSubsystem.printFalconsPos();
     driverGP.splitArcadeDrive();
-    driverGP.BarDriving();
+    // driverGP.BarDriving();
     driverGP.Climber();
-    operatorGP.Intake();
+    // operatorGP.Intake();
+
   } 
 
   @Override

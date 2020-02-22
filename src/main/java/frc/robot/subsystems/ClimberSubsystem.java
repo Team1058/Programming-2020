@@ -10,10 +10,12 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.ADXL345_SPI;
 
 public class ClimberSubsystem {
@@ -22,7 +24,7 @@ public class ClimberSubsystem {
     private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
     private TalonSRX skootyTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
 
-    private int FALCON_REVERSE_SOFT_LIMIT = 100;
+    private int FALCON_REVERSE_SOFT_LIMIT = -100000;
     private int FALCON_FORWARD_SOFT_LIMIT = 180000;
     double angleInit;
 
@@ -31,6 +33,9 @@ public class ClimberSubsystem {
     public void initialize(){
         initializeGyro();
         falcon2.follow(falcon1);
+        
+        falcon1.setNeutralMode(NeutralMode.Brake);
+        falcon2.setNeutralMode(NeutralMode.Brake);
         falcon1.setSelectedSensorPosition(0);
         falcon2.setSelectedSensorPosition(0);
         falcon1.configReverseSoftLimitEnable(true);
@@ -40,6 +45,15 @@ public class ClimberSubsystem {
         skootyTalon.setSelectedSensorPosition(1);
         skootyTalon.configForwardSoftLimitEnable(false);
         skootyTalon.configReverseSoftLimitEnable(false);
+       // XboxController.config
+
+        
+    }
+
+    public void setSensorZero(){
+        
+        falcon1.setSelectedSensorPosition(0);
+        falcon2.setSelectedSensorPosition(0);
     }
 
     private void initializeGyro(){
@@ -52,7 +66,7 @@ public class ClimberSubsystem {
 
     public void printFalconsPos(){
         System.out.println("falcon1: " + falcon1.getSelectedSensorPosition());
-        System.out.println("falcon2: " + falcon2.getSelectedSensorPosition());
+        // System.out.println("falcon2: " + falcon2.getSelectedSensorPosition());
     }
 
     public void printGyroPos(){
@@ -61,11 +75,11 @@ public class ClimberSubsystem {
     }
 
     public void climberExtend(){
-        falcon1.set(ControlMode.PercentOutput, .25);
+        falcon1.set(ControlMode.PercentOutput, -.25);
     }
     
     public void climberRetract(){
-        falcon1.set(ControlMode.PercentOutput, -.25);
+        falcon1.set(ControlMode.PercentOutput, .25);
     }
     
     public void climberStop(){

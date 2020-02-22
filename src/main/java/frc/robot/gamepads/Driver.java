@@ -34,7 +34,7 @@ public class Driver {
         omegaZ = clampDeadband(omegaZ);
         vX *= Robot.driveTrainSubsystem.drivetrain.getMaxVelocityX();
         omegaZ *= Robot.driveTrainSubsystem.drivetrain.getMaxOmegaZ();
-        Robot.driveTrainSubsystem.setDrive(vX, omegaZ);
+        Robot.driveTrainSubsystem.setDrive(vX * .5, omegaZ * .5);
 
     }
 
@@ -55,10 +55,13 @@ public class Driver {
 
     
     public void Climber() {
+        
         if (gamepad.getYButton()) {
             Robot.climberSubsystem.climberExtend();
         } else if (gamepad.getAButton()) {
             Robot.climberSubsystem.climberRetract();
+        // } else if (gamepad.getStartButton()){
+        //     Robot.climberSubsystem.setSensorZero();
         } else {
             Robot.climberSubsystem.climberStop();
         }
