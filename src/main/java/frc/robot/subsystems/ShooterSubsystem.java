@@ -47,7 +47,7 @@ public class ShooterSubsystem {
   private double MIN_SERVO_POSITION = 0;
   private double HOOD_MOVE_STEP_SIZE = 0.1;
   private boolean setManually = false;
-  private double flywheelF = 0.0575;
+  private double flywheelF = 0.07;
   private double flywheelP = 0.375;
   private double flywheelI = 0;
   private double flywheelD = 0;
@@ -95,7 +95,8 @@ public class ShooterSubsystem {
 
   public void disable() {
     enabled = false;
-    feeder.set(ControlMode.PercentOutput, -1);
+    flywheel.set(ControlMode.PercentOutput, 0);
+    feeder.set(ControlMode.PercentOutput, 0);
   }
 
   public void setSpeed(double rpm) {
@@ -209,7 +210,6 @@ public class ShooterSubsystem {
         } else if (!atVelocity()) {
           currentState = State.FIRING;
         } else {
-          System.out.println("Hi");
           fireAtCommand();
         }
         break;
