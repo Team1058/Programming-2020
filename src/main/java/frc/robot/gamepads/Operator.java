@@ -41,6 +41,15 @@ public class Operator {
         }
     }
 
+    public void Feed(){
+
+        if (gamepad.getAButton()){
+            Robot.shooterSubsystem.autoFeed = true;
+        }else{
+            Robot.shooterSubsystem.autoFeed = false;
+        }
+    }
+
     public void SpinShootMotors()
     {
         if (gamepad.getTriggerAxis(Hand.kLeft)!=0)

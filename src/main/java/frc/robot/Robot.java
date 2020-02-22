@@ -47,6 +47,8 @@ public class Robot extends TimedRobot {
    double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
    Robot.shooterSubsystem.setSpeed(shooterRPM);
    operatorGP.changeShooterState();
+   operatorGP.shooterHoodPosition();
+   operatorGP.Feed();
 
   } 
 

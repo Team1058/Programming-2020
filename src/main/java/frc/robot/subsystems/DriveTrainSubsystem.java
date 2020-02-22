@@ -48,12 +48,6 @@ public class DriveTrainSubsystem {
     
   }
 
-  
-  //Stops all motors
-  public void stopAll(){
-    drivetrain.setTargetVelocity(0, 0);
-  }
-
   //Drives the robot with left being turning and right being forward/backward
   public void setDrive(double speed, double rotation){
     drivetrain.setTargetVelocity(speed, rotation);
