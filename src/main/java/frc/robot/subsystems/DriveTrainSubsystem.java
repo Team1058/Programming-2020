@@ -69,6 +69,7 @@ public class DriveTrainSubsystem {
 
   public DifferentialDrive getDrivetrain() {
     return drivetrain;
+    
   }
 
   public Optional<Double> snapToTarget() {
@@ -84,15 +85,23 @@ public class DriveTrainSubsystem {
     }
   }
 
-  public void snapToTargetV2() {
+  public boolean snapToTargetV2() {
     double tx = Robot.limelight.getTX();
-    System.out.println("I want die");
+    boolean lookingAtTarget;
     System.out.println("tx: " + tx);
-    if (Math.abs(tx) > 0.5) {
-      drivetrain.setTargetVelocity(0, 5);
-    } else if (Math.abs(tx) < 0.5) {
+    if (Math.abs(tx) > 1) {
+      double multiplier = .06;
+      if (Math.abs(tx) < 3) {
+        multiplier = .2;  
+      }
+      drivetrain.setTargetVelocity(0, -tx * multiplier);
+      lookingAtTarget = false;
+    } else {
       drivetrain.setTargetVelocity(0, 0);
+      lookingAtTarget = true;
     }
+
+    return lookingAtTarget;
   }
 
   private boolean outsideDeadband(double inputValue){           

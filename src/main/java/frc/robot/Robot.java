@@ -56,7 +56,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     operatorGP.Climber();
     operatorGP.Intake();
-    driverGP.turnToTarget();
     driverGP.update();
     /*if (testGP.isTestGPEnabled()) {
       testGP.testDrive();
@@ -67,11 +66,27 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+  public void autonomousInit() {
+    super.autonomousInit();
+    Robot.driveTrainSubsystem.getDrivetrain().resetOdometry();
+    motionPlanner.resetNAVX();
+    motionPlanner.moveTo(.5, 0, 0, false);
+  }
+
+  @Override
+  public void autonomousPeriodic() {
+    super.autonomousPeriodic();
+    motionPlanner.reversePath();
+    if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
+      System.out.println("READY TO SHOOT");
+    }
+  }
+
+  @Override
   public void robotPeriodic() {
     super.robotPeriodic();
     driveTrainSubsystem.update();
     limelight.update();
-    //driveTrainSubsystem.snapToTargetV2();
   }
 
   @Override

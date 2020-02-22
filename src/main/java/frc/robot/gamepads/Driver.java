@@ -32,7 +32,7 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class Driver {
   
     private XboxController gamepad;
-    private final double DEADBAND_VALUE = 0.025;
+    private final double DEADBAND_VALUE = 0.05;
     private DriveTrainSubsystem drivetrain;
     private ClimberSubsystem climber;
 
@@ -41,6 +41,13 @@ public class Driver {
         gamepad = new XboxController(gamepadNum);
     }
    
+    public void tankDrive() {
+        double leftJoystickY = clampDeadband(gamepad.getY(Hand.kLeft));
+        double rightJoystickY = clampDeadband(gamepad.getY(Hand.kRight));
+
+        drivetrain.getDrivetrain().setPercentVelocity(leftJoystickY, rightJoystickY);
+    }
+    
     public void splitArcadeDrive(){
 
         //sets the value for easier implementation
@@ -76,37 +83,15 @@ public class Driver {
 
     public void update() {
         if (gamepad.getXButton()) {
-            Optional<Double> angleError = drivetrain.snapToTarget();
-            if (angleError.isPresent()) {
-                if (angleError.get() < 0) {
-                    gamepad.setRumble(RumbleType.kRightRumble, 1);
-                    gamepad.setRumble(RumbleType.kLeftRumble, 0);
-                } else if (angleError.get() > 0) {
-                    gamepad.setRumble(RumbleType.kRightRumble, 0);
-                    gamepad.setRumble(RumbleType.kLeftRumble, 1);
-                } else {
-                    gamepad.setRumble(RumbleType.kRightRumble, 1);
-                    gamepad.setRumble(RumbleType.kLeftRumble, 1);   
-                }
-            } else {
-                gamepad.setRumble(RumbleType.kRightRumble, 0);
-                gamepad.setRumble(RumbleType.kLeftRumble, 0);
-            }
+            Robot.driveTrainSubsystem.snapToTargetV2();
         } else {
-            gamepad.setRumble(RumbleType.kRightRumble, 0);
-            gamepad.setRumble(RumbleType.kLeftRumble, 0);
-            splitArcadeDrive();
+            //splitArcadeDrive();
+            tankDrive();
         }
         if (gamepad.getBackButtonPressed()) {
             drivetrain.resetOdometry();
         }
 
-    }
-
-    public void turnToTarget(){
-        if(gamepad.getStartButton()){
-            Robot.driveTrainSubsystem.snapToTargetV2();
-        }
     }
 
     private boolean outsideDeadband(double inputValue){

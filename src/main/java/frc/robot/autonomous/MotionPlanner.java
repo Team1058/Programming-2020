@@ -20,7 +20,7 @@ public class MotionPlanner {
     DifferentialDrive drivetrain;
     EncoderFollower leftFollower;
     EncoderFollower rightFollower;
-    boolean hasRun = false;
+    public boolean hasRun = false;
     public int startLeftEncoderTick;
     public int startRightEncoderTick;
 

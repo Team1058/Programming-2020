@@ -134,9 +134,9 @@ public class DifferentialDrive {
     }
 
     public int getLeftEncoderTicks(){
-       int leftEncoderTicks =  (int) (leftDrive.getPosition() / (2 *Math.PI) * 42);
+        int leftEncoderTicks =  (int) (leftDrive.getPosition() / (2 *Math.PI) * 42);
 
-       return leftEncoderTicks;
+        return leftEncoderTicks;
     }
 
     public int getRightEncoderTicks(){
