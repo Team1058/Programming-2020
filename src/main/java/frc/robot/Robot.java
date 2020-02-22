@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     operatorGP.Climber();
     operatorGP.Intake();
-
+    driverGP.turnToTarget();
     driverGP.update();
     /*if (testGP.isTestGPEnabled()) {
       testGP.testDrive();
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
     super.robotPeriodic();
     driveTrainSubsystem.update();
     limelight.update();
-    driveTrainSubsystem.snapToTargetV2();
+    //driveTrainSubsystem.snapToTargetV2();
   }
 
   @Override

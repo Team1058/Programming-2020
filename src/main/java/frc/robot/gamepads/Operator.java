@@ -149,6 +149,7 @@ public class Operator {
         // }
     }
 
+
     private boolean outsideDeadband(double inputValue){
             
         return (Math.abs(inputValue) > DEADBAND_VALUE);

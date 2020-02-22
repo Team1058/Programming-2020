@@ -2,9 +2,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.actuation.DifferentialDrive;
 import frc.robot.actuation.SparkMaxMotorSet;
 import frc.robot.sensing.Limelight;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import com.revrobotics.CANSparkMax;
@@ -83,8 +85,14 @@ public class DriveTrainSubsystem {
   }
 
   public void snapToTargetV2() {
-    Optional<Double> y = limelight.getY();
-    System.out.print("Y: " + y);
+    double tx = Robot.limelight.getTX();
+    System.out.println("I want die");
+    System.out.println("tx: " + tx);
+    if (Math.abs(tx) > 0.5) {
+      drivetrain.setTargetVelocity(0, 5);
+    } else if (Math.abs(tx) < 0.5) {
+      drivetrain.setTargetVelocity(0, 0);
+    }
   }
 
   private boolean outsideDeadband(double inputValue){           

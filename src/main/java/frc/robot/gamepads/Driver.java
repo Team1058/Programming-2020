@@ -101,7 +101,12 @@ public class Driver {
             drivetrain.resetOdometry();
         }
 
-        driveOnBar();
+    }
+
+    public void turnToTarget(){
+        if(gamepad.getStartButton()){
+            Robot.driveTrainSubsystem.snapToTargetV2();
+        }
     }
 
     private boolean outsideDeadband(double inputValue){
