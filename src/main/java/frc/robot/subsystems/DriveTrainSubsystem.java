@@ -74,11 +74,17 @@ public class DriveTrainSubsystem {
     if (targetAngle.isPresent()) {
       double angleError = targetAngle.get() - drivetrain.getPose().getYaw();
       drivetrain.setTargetVelocity(0, angleError * 2);
+      System.out.println("Angle Error: "+angleError);
       return Optional.of(clampDeadband(angleError));
     } else {
       stopAll();
       return Optional.empty();
     }
+  }
+
+  public void snapToTargetV2() {
+    Optional<Double> y = limelight.getY();
+    System.out.print("Y: " + y);
   }
 
   private boolean outsideDeadband(double inputValue){           

@@ -57,11 +57,12 @@ public class Robot extends TimedRobot {
     operatorGP.Climber();
     operatorGP.Intake();
 
-    if (testGP.isTestGPEnabled()) {
+    driverGP.update();
+    /*if (testGP.isTestGPEnabled()) {
       testGP.testDrive();
     } else {
       driverGP.update();
-    }
+    }*/
     motionPlanner.printNAVX();
   }
 
@@ -70,6 +71,7 @@ public class Robot extends TimedRobot {
     super.robotPeriodic();
     driveTrainSubsystem.update();
     limelight.update();
+    driveTrainSubsystem.snapToTargetV2();
   }
 
   @Override

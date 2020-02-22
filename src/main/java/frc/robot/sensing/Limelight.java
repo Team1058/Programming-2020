@@ -27,8 +27,8 @@ public class Limelight {
   
     if (cam[1] != 0) {
       valid = true;
-      x = cam[2] * .0254;
-      y = -cam[0] * .0254;
+      x = cam[2]; //* .0254;
+      y = -cam[0]; //* .0254;
       distance = Math.hypot(x, y);
       targetAngle = Math.atan2(-y, -x);
     } else {
@@ -36,9 +36,12 @@ public class Limelight {
     }
 
     SmartDashboard.putNumber("X", x);
+    //System.out.println("X: " + x);
     SmartDashboard.putNumber("Y", y);
     SmartDashboard.putNumber("Distance", distance);
+    //System.out.println("Distance: " + distance);
     SmartDashboard.putNumber("Target Angle", targetAngle);
+    System.out.println("Target Angle "+targetAngle);
     SmartDashboard.putBoolean("Valid", valid);
   }
 
