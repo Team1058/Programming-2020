@@ -55,6 +55,7 @@ public class ShooterSubsystem {
   private double boosterP = 0;
   private double boosterI = 0;
   private double boosterD = 0;
+  public boolean autoFeed = false;
 
   public BufferedWriter printwriter;
   long current_time = System.currentTimeMillis();
@@ -209,7 +210,7 @@ public class ShooterSubsystem {
           goDisabled();
         } else if (!atVelocity()) {
           currentState = State.FIRING;
-        } else {
+        } else if (autoFeed){
           fireAtCommand();
         }
         break;

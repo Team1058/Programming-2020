@@ -51,15 +51,16 @@ public class Operator {
 
     }
 
-    public void Feed()
-    {
-        if (gamepad.getAButton() && useAuto){
-            // Uses the auto feeding function
-        } else if(gamepad.getAButton() && !useAuto){
-            // Enables the feeder motor 
-        } else {
-            // Stops feeding balls
-        } 
+    public void Feed(){
+
+        // THIS SHOULD CHECK IF THE LEFT (AUTO) TRIGGER IS HELD IN AND/OR THE RIGHT TRIGGER
+        // WE SHOULDN'T SET THE FEED MOTOR UNLESS THE FLYWHEELS ARE SPINNING EITHER MANUALLY
+        // OR AUTOMATICALLY
+        if (gamepad.getAButton()){
+            Robot.shooterSubsystem.autoFeed = true;
+        }else{
+            Robot.shooterSubsystem.autoFeed = false;
+        }
     }
 
     public void SpinManualFlywheels() {
@@ -73,14 +74,6 @@ public class Operator {
     }
 
     public void Intake() {
-        if (UpDown == true && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 )
-        {
-            UpDown = false;
-        }
-        else if(UpDown == false && gamepad.getBumper(Hand.kRight) && Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0)
-        {
-            UpDown = true;
-        }
      //  System.out.println(UpDown);   
      // limit switches default to 1 when not pressed
      // fwd = green wire = left bumper
