@@ -9,8 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class IntakeSubsystem {
-    private TalonSRX intakeLift = new TalonSRX(RobotMap.CANIds.INTAKE_TALON);
-    private VictorSPX intakeWheels = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_WHEELS);
+    public TalonSRX intakeLift = new TalonSRX(RobotMap.CANIds.INTAKE_TALON);
+    public VictorSPX intakeWheels = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_WHEELS);
     private boolean isUp = true;
     private double ballSpeed = -0.75;
     double liftSlow = 0.1;
@@ -31,7 +31,6 @@ public class IntakeSubsystem {
         // limit switches default to 0 when not pressed 
         // fwd = green wire = left bumper = makes it go down
         // rev = white wire = right bumper = makes it go up
-
         if (intakeLift.isFwdLimitSwitchClosed() == 1 && isUp == true) {
             intakeLift.set(ControlMode.PercentOutput, liftSlow);
             intakeWheels.set(ControlMode.PercentOutput, 0); 

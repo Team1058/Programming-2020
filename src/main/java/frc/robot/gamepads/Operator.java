@@ -74,35 +74,11 @@ public class Operator {
     }
 
     public void Intake() {
-     //  System.out.println(UpDown);   
-     // limit switches default to 1 when not pressed
-     // fwd = green wire = left bumper
-     // rev = white wire = right bumper
-     //this keeps intake up mapped to left bumper
-        if (Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed() == 0 && UpDown == true) // If the forward limit switch is pressed, we want to keep the values between -1 and 0
-        {
-            Robot.intakeSubsystem.liftIntake(LiftSlow);
-            Robot.intakeSubsystem.intakeBalls(0);
+        if (gamepad.getBumper(Hand.kRight)){
+            Robot.intakeSubsystem.intakeGoDown();
+        }else{
+            Robot.intakeSubsystem.intakeGoUp();
         }
-        else if(Robot.intakeSubsystem.intakeLift.isFwdLimitSwitchClosed()==1 && UpDown == true) // if the limit switch is open and the bumper is pressed then the motor gets more power
-        {
-            Robot.intakeSubsystem.liftIntake(LiftFast);
-            Robot.intakeSubsystem.intakeBalls(0);
-        }
-        else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 0 && UpDown == false) // If the reversed limit switch is pressed, we want to keep the values between 0 and 1
-        { 
-           Robot.intakeSubsystem.liftIntake(DropSlow);
-           Robot.intakeSubsystem.intakeBalls(BallSpeed);
-        }   
-        else if(Robot.intakeSubsystem.intakeLift.isRevLimitSwitchClosed() == 1 && UpDown == false) // if the limit switch is open and the bumper is pressed then the motor gets more power
-        {
-            Robot.intakeSubsystem.liftIntake(DropFast);
-            Robot.intakeSubsystem.intakeBalls(BallSpeed);
-        }
-        else
-        {
-            Robot.intakeSubsystem.intakeOff();
-        }      
     }
      
    public void ManualHood(){
@@ -132,7 +108,7 @@ public class Operator {
 
     public void changeShooterState(){
         
-        if(gamepad.getTriggerAxis(Hand.kRight) > 0.5){
+        if(gamepad.getTriggerAxis(Hand.kRight) > 0.1){
             Robot.shooterSubsystem.enable();
         }else{
             Robot.shooterSubsystem.disable();

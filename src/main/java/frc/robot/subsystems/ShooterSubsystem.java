@@ -55,6 +55,7 @@ public class ShooterSubsystem {
   private double boosterP = 0;
   private double boosterI = 0;
   private double boosterD = 0;
+
   public boolean autoFeed = false;
 
   public BufferedWriter printwriter;
@@ -108,10 +109,6 @@ public class ShooterSubsystem {
     targetVelocity = rpm;
     }
 
-  public void fireOnce() {
-    feeder.set(ControlMode.PercentOutput, -1);
-  }
-
   public void fireOff() {
     feeder.set(ControlMode.PercentOutput, 0);
   }
@@ -143,7 +140,11 @@ public class ShooterSubsystem {
   }
 
   private void fireAtCommand() {
-    feeder.set(ControlMode.PercentOutput, -1);
+    if (autoFeed){
+      feeder.set(ControlMode.PercentOutput, -1);
+    }else{
+      feeder.set(ControlMode.PercentOutput,0 );
+    }
   }
 
   private boolean isFiringComplete() {
@@ -177,15 +178,6 @@ public class ShooterSubsystem {
        flywheel.config_kI(0, flywheelI, 30);
        flywheelD = SmartDashboard.getNumber("flywheelD", flywheelD);
        flywheel.config_kD(0, flywheelD, 30);
-   
-      //  boosterF = SmartDashboard.getNumber("boosterF", 0);
-      //  booster.config_kF(0, boosterF, 30);
-      //  boosterP = SmartDashboard.getNumber("boosterP", 0);
-      //  booster.config_kP(0, boosterP, 30);
-      //  boosterI = SmartDashboard.getNumber("boosterI", 0);
-      //  booster.config_kI(0, boosterI, 30);
-      //  boosterD = SmartDashboard.getNumber("boosterD", 0);
-      //  booster.config_kD(0, boosterD, 30);
   }
 
   public void runStateMachine() {
@@ -210,13 +202,13 @@ public class ShooterSubsystem {
           goDisabled();
         } else if (!atVelocity()) {
           currentState = State.FIRING;
-        } else if (autoFeed){
+        } else {
           fireAtCommand();
         }
         break;
       case FIRING:
         if(!atVelocity()){
-          feeder.set(ControlMode.PercentOutput, 0);
+          fireOff();
           currentState = State.SPINNING_UP;
         }
         break;
@@ -303,28 +295,6 @@ public class ShooterSubsystem {
     double motor_1D = SmartDashboard.getNumber("Motor_1D", 0);
     flywheel.config_kD(0, motor_1D, 30);
 
-    // motor 2 PID control code
-    double motor_2F = SmartDashboard.getNumber("Motor_2F", 0);
-   // booster.config_kF(0, motor_2F, 30);
-    double motor_2P = SmartDashboard.getNumber("Motor_2P", 0);
-    //booster.config_kP(0, motor_2P, 30);
-    double motor_2I = SmartDashboard.getNumber("Motor_2I", 0);
-   // booster.config_kI(0, motor_2I, 30);
-    double motor_2D = SmartDashboard.getNumber("Motor_2D", 0);
-   // booster.config_kD(0, motor_2D, 30);
-
-   
-    boolean flywheelEnable = SmartDashboard.getBoolean("Motor_1_Enable", false);
-    boolean boosterEnable = SmartDashboard.getBoolean("Motor_2_Enable", false);
-    if(flywheelEnable == false){
-      flywheelRPMSetPoint = 0.0;
-    }
-
-    flywheel.set(ControlMode.Velocity, 2048 * flywheelRPMSetPoint / 600);
-   // booster.set(ControlMode.Velocity, 4096 * boosterPMSetPoint / 600);
-   
-    // motor3.set(ControlMode.PercentOutput, 1 );
-
 
     // equation for converting to rpm --- rpm = (units/ 100 ms) / (units in 1
     // revolution) / 100 milli seconds to 1 minute
@@ -368,10 +338,6 @@ public class ShooterSubsystem {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-   
-        
+  
     }
-
-    
-
 }  
