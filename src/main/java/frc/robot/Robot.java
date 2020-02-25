@@ -53,8 +53,7 @@ public class Robot extends TimedRobot {
    // shooterSubsystem.tuneShooterFromDashboard();
    //driverGP.splitArcadeDrive();
    driverGP.Climber();
-   //driverGP.update();
-   driverGP.tankDrive();
+   driverGP.update();
    motionPlanner.printNAVX();
    double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
    Robot.shooterSubsystem.setSpeed(shooterRPM);
