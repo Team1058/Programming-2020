@@ -320,7 +320,7 @@ public class ShooterSubsystem {
       flywheelRPMSetPoint = 0.0;
     }
 
-    flywheel.set(ControlMode.Velocity, 2048 * flywheelRPMSetPoint / 600);
+    //flywheel.set(ControlMode.Velocity, 2048 * flywheelRPMSetPoint / 600);
    // booster.set(ControlMode.Velocity, 4096 * boosterPMSetPoint / 600);
    
     // motor3.set(ControlMode.PercentOutput, 1 );

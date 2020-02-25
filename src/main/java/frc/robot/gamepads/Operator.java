@@ -64,20 +64,14 @@ public class Operator {
 
     public void Intake()
     {
-        if (gamepad.getBumper(Hand.kLeft))
+        if (gamepad.getBumper(Hand.kRight))
         {
-            // Code to intake
+            Robot.intakeSubsystem.intakeGoDown();
         }
-        else if (gamepad.getBumper(Hand.kRight))
-        {
-            // code to outttake
-        }
-        else
-        {
-            // stops wheels
+        else{
+            Robot.intakeSubsystem.intakeGoUp();
         }
     }
-
     public void ShootingAngle()
     {
         // Gets values of each joystick
