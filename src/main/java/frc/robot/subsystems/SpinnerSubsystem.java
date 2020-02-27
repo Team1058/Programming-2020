@@ -69,7 +69,7 @@ public class SpinnerSubsystem {
   private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
   private final Color kDefaultColor = ColorMatch.makeColor(0.327, 0.469, 0.203);
 
-  public void initialize (){
+  public void initialize () {
 
     //Adds the colors to the colorMatcher
     colorMatcher.addColorMatch(kBlueTarget);
@@ -106,7 +106,7 @@ public class SpinnerSubsystem {
 
   } 
 
-  public String getSeenColor (){
+  public String getSeenColor () {
     /*
      * The method GetColor() returns a normalized color value from the sensor and can be
      * useful if outputting the color to an RGB LED or similar. To
@@ -143,13 +143,13 @@ public class SpinnerSubsystem {
   }
 
   // Gets the FMS code from the driver station and converts it to what the robot should see when the field sees the FMS color
-  public String getRobotObj(){
+  public String getRobotObj() {
 
     String gameData;
     gameData = DriverStation.getInstance().getGameSpecificMessage();
     String robotObj = "";
 
-    if(gameData.length() > 0){
+    if (gameData.length() > 0) {
       String gameDataFMS = gameData.substring(0, 1);
       robotObj = fieldObjToRobotObj.getOrDefault(gameDataFMS, "");
     }
@@ -159,46 +159,46 @@ public class SpinnerSubsystem {
 
   //Stage 2 Has a bug where if you drive up to the spinner while holding X button and color sensor is Unknown the number of times is inconsistent
   //This could be because it's using unkown as the wanted color
-  public void spinForStageTwo(){
+  public void spinForStageTwo() {
     String currentColor = this.getSeenColor();
 
-    if(trackedColor.equals("Nothing")){
+    if (trackedColor.equals("Nothing")) {
       trackedColor = currentColor;
     }
     
-    if(stageTwoColorChecked == false){
-      if(currentColor.equals(this.trackedColor)){
+    if (stageTwoColorChecked == false) {
+      if (currentColor.equals(this.trackedColor)) {
         totalTimesSeen = totalTimesSeen + 1;
         stageTwoColorChecked = true;
       }
     }
 
     //6 times done for 3 full rotations
-    if(totalTimesSeen < 7){
+    if (totalTimesSeen < 7) {
       spinnerVictor.set(ControlMode.PercentOutput, motorPercentSpeed);
-    }else if(totalTimesSeen >= 7){
+    } else if (totalTimesSeen >= 7) {
       this.stopMotor();
     }
 
     //When it has seen the color it waits until it no longer sees the color to reset the check
-    if (stageTwoColorChecked == true){
-      if(!currentColor.equals(this.trackedColor)){
+    if (stageTwoColorChecked == true) {
+      if (!currentColor.equals(this.trackedColor)) {
         stageTwoColorChecked = false;
       }
     }
 
   }
 
-  public void spinForStageThree(){
+  public void spinForStageThree() {
 
     String robotObj = getRobotObj();
     String seenColor = this.getSeenColor();
     String spinInstructions = "On" + seenColor + "Find" + robotObj;
 
-    if(stageThreeColorChecked == false){
+    if (stageThreeColorChecked == false) {
       intDirection = desiredDirection.get(spinInstructions);
   
-      if(intDirection == null){
+      if (intDirection == null) {
         intDirection = 1;
       }
       stageThreeColorChecked = true;
@@ -206,26 +206,26 @@ public class SpinnerSubsystem {
   
     //if the seen color isn't the color we should see it rotates when it is the color we should see it resets
     // the color check and stops the motor
-    if(!seenColor.equals(robotObj)){
+    if (!seenColor.equals(robotObj)) {
       spinnerVictor.set(ControlMode.PercentOutput, intDirection * motorPercentSpeed);
-    }else if(seenColor.equals(robotObj)){
+    } else if (seenColor.equals(robotObj)) {
       this.stopMotor();
       stageThreeColorChecked = false;
     }
     
   }
 
-  public void stopMotor(){
+  public void stopMotor() {
     spinnerVictor.set(ControlMode.PercentOutput, 0);
   }
 
-  public void resetColorChecks(){
+  public void resetColorChecks() {
     stageTwoColorChecked = false;
     stageThreeColorChecked = false;
     totalTimesSeen = 0;
   }
 
-  public void setTrackedColor(){
+  public void setTrackedColor() {
     trackedColor = (this.getSeenColor());
   }
 

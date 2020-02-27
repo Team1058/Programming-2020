@@ -34,14 +34,17 @@ public class DriveTrainSubsystem {
   private final double trackWidth = (12.657 * 2) * 0.0254; /*18.5 * 0.0254;*/ // Wheel to wheel diagonal distance in meters
   private final double wheelRadius = 3 * 0.0254; /*2 * 0.0254;*/ // In meters
   private final double gearRatio = 8; /*5;*/
-  private DriveMode state = DriveMode.ARCADE;
   private Limelight limelight;
+  private final double RAMP_RATE = 0.5;
 
   public DriveTrainSubsystem(Limelight limelight) {
-    int[] leftFollower = {/*2*/4};
-    int[] rightFollower = {/*4*/2};
-    sparkMaxMotorSetLeft = new SparkMaxMotorSet(/*1*/3, leftFollower);
-    sparkMaxMotorSetRight = new SparkMaxMotorSet(/*3*/1, rightFollower);
+    int[] leftFollower = {2/*4*/};
+    int[] rightFollower = {4/*2*/};
+    sparkMaxMotorSetLeft = new SparkMaxMotorSet(1/*3*/, leftFollower);
+    sparkMaxMotorSetRight = new SparkMaxMotorSet(3/*1*/, rightFollower);
+    
+    sparkMaxMotorSetLeft.setMotorRamp(RAMP_RATE);
+    sparkMaxMotorSetRight.setMotorRamp(RAMP_RATE);
     //sparkMaxMotorSetRight.setInverted(true);
     sparkMaxMotorSetLeft.setInverted(true);
 
@@ -104,11 +107,11 @@ public class DriveTrainSubsystem {
     return lookingAtTarget;
   }
 
-  private boolean outsideDeadband(double inputValue){           
+  private boolean outsideDeadband(double inputValue) {           
     return (Math.abs(inputValue) > .05);
   }
 
-  private double clampDeadband(double inputValue){
+  private double clampDeadband(double inputValue) {
       if (outsideDeadband(inputValue)) {
           return inputValue;
       } else {
@@ -122,12 +125,12 @@ public class DriveTrainSubsystem {
   }
   
   //Stops all motors
-  public void stopAll(){
+  public void stopAll() {
     drivetrain.setTargetVelocity(0, 0);
   }
 
   //Drives the robot with left being turning and right being forward/backward
-  public void setArcadeDrive(double speed, double rotation){
+  public void setArcadeDrive(double speed, double rotation) {
     speed *= drivetrain.getMaxVelocityX();
     rotation *= drivetrain.getMaxOmegaZ();
     drivetrain.setTargetVelocity(speed, rotation);

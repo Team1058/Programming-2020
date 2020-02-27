@@ -29,13 +29,18 @@ public class SparkMaxMotorSet implements Spinnable {
             followerMotors[i].follow(masterMotor, false);
             followerMotors[i].getEncoder();
         }
+
         pidController = masterMotor.getPIDController();
     }
 
     public void setGearRatio(double gearRatio) {
         this.gearRatio = gearRatio;
         masterEncoder.setVelocityConversionFactor((2 * Math.PI)/(60 * gearRatio));
-         masterEncoder.setPositionConversionFactor((2 * Math.PI)/(gearRatio));
+        masterEncoder.setPositionConversionFactor((2 * Math.PI)/(gearRatio));
+    }
+
+    public void setMotorRamp(double rate) {
+        masterMotor.setClosedLoopRampRate(rate);
     }
     
     public SparkMaxMotorSet setPIDConstants(double kP, double kI, double kD, double kIz, double kFF) {

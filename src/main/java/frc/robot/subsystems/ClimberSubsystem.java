@@ -10,26 +10,27 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.ADXL345_SPI;
 
 public class ClimberSubsystem {
 
     private TalonFX falcon1 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_1);
     private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
-    private TalonSRX skootyTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
+    // private TalonSRX skootyTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
+    private Servo climberServo = new Servo(RobotMap.PWMIds.CLIMBER_SERVO);
+    // private AnalogGyro climberGyro;
 
-    private int FALCON_REVERSE_SOFT_LIMIT = 100;
-    private int FALCON_FORWARD_SOFT_LIMIT = 180000;
-    double angleInit;
+    private final int FALCON_REVERSE_SOFT_LIMIT = 100;
+    private final int FALCON_FORWARD_SOFT_LIMIT = 180000;
+    // private double angleInit;
 
-    //private AnalogGyro climberGyro;
-
-    public void initialize(){
-        //initializeGyro();
+    public void initialize() {
+        // initializeGyro();
         falcon2.follow(falcon1);
         falcon1.setSelectedSensorPosition(0);
         falcon2.setSelectedSensorPosition(0);
@@ -37,9 +38,11 @@ public class ClimberSubsystem {
         falcon1.configForwardSoftLimitEnable(true);
         falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
         falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
-        skootyTalon.setSelectedSensorPosition(1);
-        skootyTalon.configForwardSoftLimitEnable(false);
-        skootyTalon.configReverseSoftLimitEnable(false);
+        falcon1.setNeutralMode(NeutralMode.Brake);
+        falcon2.setNeutralMode(NeutralMode.Brake);
+        // skootyTalon.setSelectedSensorPosition(1);
+        // skootyTalon.configForwardSoftLimitEnable(false);
+        // skootyTalon.configReverseSoftLimitEnable(false);
     }
 
     // private void initializeGyro(){
@@ -50,31 +53,31 @@ public class ClimberSubsystem {
     //     angleInit = climberGyro.getAngle();
     // }
 
-    public void printFalconsPos(){
-        System.out.println("falcon1: " + falcon1.getSelectedSensorPosition());
-        System.out.println("falcon2: " + falcon2.getSelectedSensorPosition());
-    }
-
-    public void climberExtend(){
-        falcon1.set(ControlMode.PercentOutput, .25);
-    }
-    
-    public void climberRetract(){
+    public void climberExtend() {
         falcon1.set(ControlMode.PercentOutput, -.25);
     }
-    
-    public void climberStop(){
+
+    public void climberRetract() {
+        falcon1.set(ControlMode.PercentOutput, .25);
+    }
+
+    public void climberStop() {
         falcon1.set(ControlMode.PercentOutput, 0);
     }
 
-    public void DriveBar(double speed)
-    {
-        skootyTalon.set(ControlMode.PercentOutput,speed);
+    public void driveBar(double speed) {
+        // skootyTalon.set(ControlMode.PercentOutput,speed);
     }
 
-    public void driveStop()
-    {
-        skootyTalon.set(ControlMode.PercentOutput,0);
+    public void resetClimberServo() {
+        climberServo.set(.8);
     }
 
+    public void lockRatchet() {
+        climberServo.set(.3);
+    }
+
+    public void driveStop() {
+        // skootyTalon.set(ControlMode.PercentOutput,0);
+    }
 }

@@ -14,17 +14,17 @@ public class LEDSubsystem {
 
     Spark blinkin = new Spark(0);
 
-    public void setLEDColor(String colorString){
+    public void setLEDColor(String colorString) {
 
-        if (colorString == "Blue"){
+        if (colorString == "Blue") {
             blinkin.set(PirateBlinkingLib.solid_blue);
-        }else if(colorString == "Red"){
+        } else if (colorString == "Red") {
             blinkin.set(PirateBlinkingLib.solid_red);
-        }else if(colorString == "Green"){
+        } else if (colorString == "Green") {
             blinkin.set(PirateBlinkingLib.solid_green);
-        }else if(colorString == "Yellow"){
+        } else if (colorString == "Yellow") {
             blinkin.set(PirateBlinkingLib.solid_yellow);
-        }else{
+        } else {
             blinkin.set(PirateBlinkingLib.bpm_rainbow);
         }
 

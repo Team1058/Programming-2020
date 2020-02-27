@@ -92,7 +92,7 @@ public class MotionPlanner {
     }
 
     public void forwardPath() {
-        if (hasRun){
+        if (hasRun) {
             double left = leftFollower.calculate(drivetrain.getLeftEncoderTicks());
             double right = rightFollower.calculate(drivetrain.getRightEncoderTicks());
             double degreeNAVX = Pathfinder.r2d(drivetrain.getPose().getYaw());
@@ -111,14 +111,14 @@ public class MotionPlanner {
 
             drivetrain.setPercentVelocity(left - turn, right + turn);
             
-            if (leftFollower.isFinished()){
+            if (leftFollower.isFinished()) {
                 hasRun = false;
             }
         }
     }
 
     public void reversePath() {
-        if (hasRun){
+        if (hasRun) {
             double left = leftFollower.calculate(startLeftEncoderTick - (drivetrain.getRightEncoderTicks() - startLeftEncoderTick));
             double right = rightFollower.calculate(startRightEncoderTick - (drivetrain.getLeftEncoderTicks() - startRightEncoderTick));
             double degreeNAVX = Pathfinder.r2d(drivetrain.getPose().getYaw());
@@ -137,7 +137,7 @@ public class MotionPlanner {
 
             drivetrain.setPercentVelocity(-right - turn, -left + turn);
 
-            if (leftFollower.isFinished()){
+            if (leftFollower.isFinished()) {
                 hasRun = false;
             }
         }
@@ -147,11 +147,11 @@ public class MotionPlanner {
         trajectory = null;
     }
 
-    public void printNAVX(){
+    public void printNAVX() {
       
     }
 
-    public void resetNAVX(){
+    public void resetNAVX() {
         
     }
 

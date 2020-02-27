@@ -11,12 +11,15 @@ public class Limelight {
 
   NetworkTableEntry camtran;
   NetworkTableEntry tx;
+  NetworkTableEntry ta;
   double x;
   double y;
   double distance;
   double targetAngle;
   boolean valid = false;
   double txAngle;
+  double taArea;
+  double simpleDistance;
   
 
   public Limelight() {
@@ -24,19 +27,26 @@ public class Limelight {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     camtran = table.getEntry("camtran");
     tx = table.getEntry("tx");
+    ta = table.getEntry("ta");
   }
 
   public void update() {
     double[] cam = camtran.getDoubleArray(new double[6]);
     txAngle = tx.getDouble(0.0);
+    taArea = ta.getDouble(0.0);
     if (cam[1] != 0) {
       valid = true;
       x = cam[2]; //* .0254;
       y = -cam[0]; //* .0254;
       distance = Math.hypot(x, y);
+      simpleDistance = x;
       targetAngle = Math.atan2(-y, -x);
     } else {
       valid = false;
+      // "k" is a magic number, like 3
+      double k = 153.17408;
+      simpleDistance = k / Math.sqrt(taArea);
+      SmartDashboard.putNumber("simpleDistance",simpleDistance);
     }
 
     SmartDashboard.putNumber("tx",txAngle);
@@ -50,7 +60,11 @@ public class Limelight {
     SmartDashboard.putBoolean("Valid", valid);
   }
 
-  public double getTX(){
+  public double getSimpleDistance() {
+    return simpleDistance;
+  }
+
+  public double getTX() {
     return txAngle;
   }
 
@@ -72,7 +86,7 @@ public class Limelight {
   
   public Optional<Double> getDistance() {
     if (valid) {
-      return Optional.of(distance);
+      return Optional.of(Math.abs(distance));
     } else {
       return Optional.empty();
     }

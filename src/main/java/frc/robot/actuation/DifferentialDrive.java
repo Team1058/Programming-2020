@@ -24,7 +24,8 @@ public class DifferentialDrive {
     double highestSpeed;
     AHRS navx;
 
-    public DifferentialDrive(Spinnable rightDrive, Spinnable leftDrive, double trackWidth, double wheelRadius, double maxWheelOmega) {
+    public DifferentialDrive(Spinnable rightDrive, Spinnable leftDrive, double trackWidth, 
+                             double wheelRadius, double maxWheelOmega) {
         this.rightDrive = rightDrive;
         this.leftDrive = leftDrive;
         this.trackWidth = trackWidth;
@@ -133,19 +134,19 @@ public class DifferentialDrive {
         SmartDashboard.putNumber("leftDrive SetVel", omegaL);
     }
 
-    public int getLeftEncoderTicks(){
+    public int getLeftEncoderTicks() {
         int leftEncoderTicks =  (int) (leftDrive.getPosition() / (2 *Math.PI) * 42);
 
         return leftEncoderTicks;
     }
 
-    public int getRightEncoderTicks(){
+    public int getRightEncoderTicks() {
         int rightEncoderTicks = (int) (rightDrive.getPosition() / (2 * Math.PI) * 42);
 
         return rightEncoderTicks;
     }
 
-    public void setPercentVelocity(double left, double right){
+    public void setPercentVelocity(double left, double right) {
         omegaL = left * maxWheelOmega;
         omegaR = right * maxWheelOmega;
     }

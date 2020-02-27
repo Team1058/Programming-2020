@@ -2,6 +2,7 @@ package frc.robot.gamepads;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -23,89 +24,62 @@ public class Operator {
   
     private XboxController gamepad = new XboxController(1);
 
-    private final double DEADBAND_VALUE = 0.075;
+    private final double DEADBAND_VALUE = 0.5;
 
-    public void Climber()
-    {
-        if (gamepad.getYButton())
-        {
-            // Code to extend climber
-        } 
-        else if (gamepad.getBButton())
-        {
-            // Code to retract climber
-        }
-        else
-        {
-            // Does nothing
-        }
-    }
-
-    public void Feed(){
-
-        if (gamepad.getAButton()){
+    public void Feed() {
+        if (gamepad.getAButton()) {
             Robot.shooterSubsystem.autoFeed = true;
-        }else{
+        } else {
             Robot.shooterSubsystem.autoFeed = false;
         }
     }
 
-    public void SpinShootMotors()
-    {
-        if (gamepad.getTriggerAxis(Hand.kLeft)!=0)
-        {
-            // spins shooting motors
-        }
-        else
-        {
-            // Does nothing
-        }
-    }
-
-    public void Intake()
-    {
-        if (gamepad.getBumper(Hand.kRight))
-        {
+    public void Intake() {
+        if (gamepad.getBumperPressed(Hand.kRight)) {
             Robot.intakeSubsystem.intakeGoDown();
-        }
-        else{
+            Robot.ballPath.ballsToShooter();
+        } else if (gamepad.getBumperReleased(Hand.kRight)) {
+            Robot.ballPath.stopBalls();
             Robot.intakeSubsystem.intakeGoUp();
         }
     }
-    public void ShootingAngle()
-    {
-        // Gets values of each joystick
-        double change = gamepad.getY(Hand.kRight);
 
-        // Rest of code to apply to shoooting angle
-    }
+    // public void Spinning() {
+    //     if (gamepad.getAButton()) {
+    //         Robot.spinnerSubsystem.spinForStageThree();
+    //     } else if (gamepad.getXButtonPressed()) {
+    //         Robot.spinnerSubsystem.setTrackedColor();
+    //     } else if (gamepad.getXButton()) {
+    //         Robot.spinnerSubsystem.spinForStageTwo();
+    //     } else {
+    //         Robot.spinnerSubsystem.stopMotor();
+    //     }
 
-    public void Spinning(){
-        if(gamepad.getAButton()){
-            Robot.spinnerSubsystem.spinForStageThree();
-        }else if(gamepad.getXButtonPressed()){
-            Robot.spinnerSubsystem.setTrackedColor();
-        }else if(gamepad.getXButton()){
-            Robot.spinnerSubsystem.spinForStageTwo();
-        }else {
-            Robot.spinnerSubsystem.stopMotor();
-        }
-        if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()){
-            Robot.spinnerSubsystem.resetColorChecks();
-        }
-    }
+    //     if (gamepad.getXButtonReleased() || gamepad.getAButtonReleased()) {
+    //         Robot.spinnerSubsystem.resetColorChecks();
+    //     }
+    // }
 
-    public void changeShooterState(){
-        
-        if(gamepad.getTriggerAxis(Hand.kRight) > 0.5){
+    public void changeShooterState() {
+        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
+            //This equation gets the rpm (We got this equation using point 1 as .1,2000 and point 2 as 1,3950)
+            double rpm = 2166.666 * gamepad.getTriggerAxis(Hand.kLeft) + 1783.334;
+            Robot.shooterSubsystem.manualFlywheel(rpm);
+        } else if (outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
             Robot.shooterSubsystem.enable();
-        }else{
-            Robot.shooterSubsystem.disable();
+            if (Robot.shooterSubsystem.hoodAtMax()) {
+                Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
+                SmartDashboard.putNumber("Ideal RPM", Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
+            } else {
+                Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
+                //Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMinHood(Robot.limelight.getSimpleDistance()));
+            }
+        } else {
+            Robot.shooterSubsystem.disable();      
         }
     }
 
     public void shooterHoodPosition() {
-        System.out.println(gamepad.getPOV());
         if ((gamepad.getPOV() >= 315 && gamepad.getPOV() <= 360) || 
             (gamepad.getPOV() >= 0 && gamepad.getPOV() <= 45)) {
                 Robot.shooterSubsystem.shooterHoodExtend();
@@ -114,9 +88,7 @@ public class Operator {
         }
     }
 
-    private boolean outsideDeadband(double inputValue){
-            
+    private boolean outsideDeadband(double inputValue) {
         return (Math.abs(inputValue) > DEADBAND_VALUE);
- 
     }
 }

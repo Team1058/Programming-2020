@@ -36,18 +36,18 @@ public class Driver {
     public void tankDrive() {
         double leftJoystickY = clampDeadband(gamepad.getY(Hand.kLeft));
         double rightJoystickY = clampDeadband(gamepad.getY(Hand.kRight));
-        if (gamepad.getBumper(Hand.kRight)){
+        if (gamepad.getBumper(Hand.kRight)) {
             leftJoystickY *= .5;
             rightJoystickY *= .5;
-        }else if (gamepad.getBumper(Hand.kLeft)){
+        } else if (gamepad.getBumper(Hand.kLeft)) {
             leftJoystickY *= .25;
             rightJoystickY *= .25;
         }
-        drivetrain.getDrivetrain().setPercentVelocity(leftJoystickY, rightJoystickY);
 
+        drivetrain.getDrivetrain().setPercentVelocity(leftJoystickY, rightJoystickY);
     }
     
-    public void splitArcadeDrive(){
+    public void splitArcadeDrive() {
 
         //sets the value for easier implementation
         double vX = -gamepad.getY(Hand.kLeft);
@@ -68,8 +68,7 @@ public class Driver {
         drivetrain.setArcadeDrive(vX, omegaZ);
     }
 
-    public void driveOnBar()
-    {
+    public void driveOnBar() {
         // Gets values of each trigger
         double right = gamepad.getTriggerAxis(Hand.kRight);
         double left = gamepad.getTriggerAxis(Hand.kLeft);
@@ -83,7 +82,7 @@ public class Driver {
     }
 
     
-    public void Climber() {
+    public void climber() {
         if (gamepad.getYButton()) {
             Robot.climberSubsystem.climberExtend();
         } else if (gamepad.getAButton()) {
@@ -91,25 +90,26 @@ public class Driver {
         } else {
             Robot.climberSubsystem.climberStop();
         }
+
+        if (gamepad.getBButton()) {
+            Robot.climberSubsystem.lockRatchet();
+        }
     }
 
     public void update() {
         if (gamepad.getXButton()) {
             Robot.driveTrainSubsystem.snapToTargetV2();
         } else {
-            //splitArcadeDrive();
             tankDrive();
         }
+
         if (gamepad.getBackButtonPressed()) {
             drivetrain.resetOdometry();
         }
-
     }
 
-    private boolean outsideDeadband(double inputValue){
-            
+    private boolean outsideDeadband(double inputValue) {
         return (Math.abs(inputValue) > DEADBAND_VALUE);
- 
     }
 
     private double clampDeadband(double inputValue){
