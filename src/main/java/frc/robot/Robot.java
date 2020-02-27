@@ -80,10 +80,14 @@ public class Robot extends TimedRobot {
     driverGP.update();
     motionPlanner.printNAVX();
 
+    driverGP.toggleLed();
+    operatorGP.toggleLed();
+
     operatorGP.changeShooterState();
     operatorGP.shooterHoodPosition();
     operatorGP.Feed();
     operatorGP.Intake();
+    operatorGP.BallPath();
   }
 
   @Override

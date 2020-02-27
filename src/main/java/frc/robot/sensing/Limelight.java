@@ -20,11 +20,14 @@ public class Limelight {
   double txAngle;
   double taArea;
   double simpleDistance;
+  NetworkTable table;
+
+  boolean toggle = false;
   
 
   public Limelight() {
     // creates network table
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    table = NetworkTableInstance.getDefault().getTable("limelight");
     camtran = table.getEntry("camtran");
     tx = table.getEntry("tx");
     ta = table.getEntry("ta");
@@ -100,6 +103,25 @@ public class Limelight {
     } else {
       return Optional.empty();
     }
+  }
+
+  public void turnOnLed(){
+    table.getEntry("ledMode").setNumber(1);
+  }
+
+  public void turnOffLed(){
+    table.getEntry("ledMode").setNumber(0);
+  }
+
+  public void toggleLed() {
+    toggle = !toggle;
+
+    if (toggle){
+      turnOnLed();
+    }else if(!toggle){
+      turnOffLed();
+    }
+
   }
 
 }

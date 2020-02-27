@@ -97,7 +97,6 @@ public class ShooterSubsystem {
     enabled = false;
     flywheel.set(ControlMode.PercentOutput, 0);
     feeder.set(ControlMode.PercentOutput, 0);
-    Robot.ballPath.ballsToShooter();
   }
 
   public void setSpeed(double rpm) {
@@ -133,7 +132,6 @@ public class ShooterSubsystem {
   }
 
   private void fireAtCommand() {
-    Robot.ballPath.ballsToShooter();
     feeder.set(ControlMode.PercentOutput, -1);
   }
 

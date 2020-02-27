@@ -35,12 +35,26 @@ public class Operator {
     }
 
     public void Intake() {
-        if (gamepad.getBumperPressed(Hand.kRight)) {
-            Robot.intakeSubsystem.intakeGoDown();
-            Robot.ballPath.ballsToShooter();
+        if (gamepad.getBumper(Hand.kRight)) {
+            Robot.intakeSubsystem.intakeGoDown();           
         } else if (gamepad.getBumperReleased(Hand.kRight)) {
-            Robot.ballPath.stopBalls();
             Robot.intakeSubsystem.intakeGoUp();
+        }
+    }
+
+    public void BallPath(){
+        if (gamepad.getBumper(Hand.kRight) || outsideDeadband(gamepad.getTriggerAxis(Hand.kRight)) || outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))){
+            Robot.ballPath.ballsToShooter();
+        } else if (gamepad.getBumper(Hand.kLeft)){
+            Robot.ballPath.ballsToIntake();
+        } else {
+            Robot.ballPath.stopBalls();
+        }
+    }
+
+    public void toggleLed(){
+        if (gamepad.getStickButton(Hand.kRight)){         
+            Robot.limelight.toggleLed();
         }
     }
 

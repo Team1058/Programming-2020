@@ -28,6 +28,8 @@ public class Driver {
     private DriveTrainSubsystem drivetrain;
     private ClimberSubsystem climber;
 
+    boolean runOnce = true;
+
     public Driver(int gamepadNum, DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
         gamepad = new XboxController(gamepadNum);
@@ -96,9 +98,25 @@ public class Driver {
         }
     }
 
+    public void toggleLed(){
+        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft)) && runOnce){
+            Robot.limelight.toggleLed();
+            runOnce = false;
+        } else if (!outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft)) && !runOnce){
+            runOnce = true;
+        }
+    }
+
     public void update() {
-        if (gamepad.getXButton()) {
+        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
             Robot.driveTrainSubsystem.snapToTargetV2();
+            if (Robot.driveTrainSubsystem.snapToTargetV2()){
+                gamepad.setRumble(RumbleType.kLeftRumble, .5);
+                gamepad.setRumble(RumbleType.kRightRumble, .5);
+            }else{   
+                gamepad.setRumble(RumbleType.kLeftRumble, 0);
+                gamepad.setRumble(RumbleType.kRightRumble, 0);
+            }
         } else {
             tankDrive();
         }
