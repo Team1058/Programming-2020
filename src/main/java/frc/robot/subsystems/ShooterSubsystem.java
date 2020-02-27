@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedWriter;
+import frc.robot.subsystems.IndividualLeds;
 
 public class ShooterSubsystem {
 
@@ -194,6 +195,7 @@ public class ShooterSubsystem {
         if (enabled) {
           updateVelocity();
           currentState = State.SPINNING_UP;
+          Robot.individualLeds.red();
         }
         break;
       case SPINNING_UP:
@@ -203,6 +205,7 @@ public class ShooterSubsystem {
           break;
         } else if (atVelocity()) {
           currentState = State.READY;
+          Robot.individualLeds.green();
         }
         break;
       case READY:
@@ -219,6 +222,7 @@ public class ShooterSubsystem {
           feeder.set(ControlMode.PercentOutput, 0);
           currentState = State.SPINNING_UP;
         }
+        Robot.individualLeds.alternateColors(255, 255, 255, 255, 0, 0);
         break;
     }
     updateDashboard();

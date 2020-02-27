@@ -16,12 +16,11 @@ public class IndividualLeds{
     public IndividualLeds() {
         // PWM port 9
         // Must be a PWM header, not MXP or DIO
-        led = new AddressableLED(9);
-        ledBuffer = new AddressableLEDBuffer(59);
+        led = new AddressableLED(0);
+        ledBuffer = new AddressableLEDBuffer(47);
         // Reuse buffer
         // Default to a length of 60, start empty output
         // Length is expensive to set, so only set it once, then just update data
-        ledBuffer = new AddressableLEDBuffer(60);
         led.setLength(ledBuffer.getLength());
     }
 
@@ -83,21 +82,20 @@ public class IndividualLeds{
     led.start();
    }
    public void climbBalance( String direction){
-    ledSides = ledBuffer.getLength() * .5;
     if (direction.equals("TooFarLeft")){
         for (var i = 0; i < ledBuffer.getLength(); i++){
-               if(i <= ledSides){
+               if(i <= ledBuffer.getLength()){
                 ledBuffer.setRGB(i, 255, 0, 0);
                }else{
-                ledBuffer.setRGB(i, 0, 0, 255);
+                ledBuffer.setRGB(i, 255, 0,0);
             }    
         }
     }else if(direction.equals("TooFarRight")){
         for (var i = 0; i < ledBuffer.getLength(); i++){
-            if(i <= ledSides){
+            if(i <= ledBuffer.getLength()){
                 ledBuffer.setRGB(i, 0, 0, 255);
             }else{
-                ledBuffer.setRGB(i, 255, 0, 0);
+                ledBuffer.setRGB(i, 0, 0, 255);
          
             }
         }
@@ -108,6 +106,16 @@ public class IndividualLeds{
     }
     led.setData(ledBuffer);
     led.start();
+   }
+   public void red(){
+    for (var i = 0; i < ledBuffer.getLength(); i++){
+        ledBuffer.setRGB(i, 255, 0, 0);
+    }
+   }
+   public void green(){
+    for (var i = 0; i < ledBuffer.getLength(); i++){
+        ledBuffer.setRGB(i, 0, 255, 0);
+    }
    }
    public void climbLeds(int r, int g, int b, int r1, int g1, int b1){
     double percentOn;
