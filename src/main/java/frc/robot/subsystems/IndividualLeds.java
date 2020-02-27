@@ -111,11 +111,15 @@ public class IndividualLeds{
     for (var i = 0; i < ledBuffer.getLength(); i++){
         ledBuffer.setRGB(i, 255, 0, 0);
     }
+    led.setData(ledBuffer);
+    led.start();
    }
    public void green(){
     for (var i = 0; i < ledBuffer.getLength(); i++){
         ledBuffer.setRGB(i, 0, 255, 0);
     }
+    led.setData(ledBuffer);
+    led.start();
    }
    public void climbLeds(int r, int g, int b, int r1, int g1, int b1){
     double percentOn;
