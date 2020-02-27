@@ -69,6 +69,7 @@ public class Operator {
             Robot.shooterSubsystem.enable();
             if (Robot.shooterSubsystem.hoodAtMax()) {
                 Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
+
                 SmartDashboard.putNumber("Ideal RPM", Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
             } else {
                 Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));

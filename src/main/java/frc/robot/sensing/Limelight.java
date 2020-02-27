@@ -46,22 +46,24 @@ public class Limelight {
       // "k" is a magic number, like 3
       double k = 153.17408;
       simpleDistance = k / Math.sqrt(taArea);
-      SmartDashboard.putNumber("simpleDistance",simpleDistance);
     }
+    SmartDashboard.putNumber("simpleDistance",simpleDistance);
+    SmartDashboard.putNumber("taarea",taArea);
 
-    SmartDashboard.putNumber("tx",txAngle);
-    SmartDashboard.putNumber("X", x);
-    //System.out.println("X: " + x);
-    SmartDashboard.putNumber("Y", y);
-    SmartDashboard.putNumber("Distance", distance);
-    //System.out.println("Distance: " + distance);
-    SmartDashboard.putNumber("Target Angle", targetAngle);
-    System.out.println("Target Angle "+targetAngle);
-    SmartDashboard.putBoolean("Valid", valid);
+
+    // SmartDashboard.putNumber("tx",txAngle);
+    // SmartDashboard.putNumber("X", x);
+    // //System.out.println("X: " + x);
+    // SmartDashboard.putNumber("Y", y);
+    // SmartDashboard.putNumber("Distance", distance);
+    // //System.out.println("Distance: " + distance);
+    // SmartDashboard.putNumber("Target Angle", targetAngle);
+    // System.out.println("Target Angle "+targetAngle);
+    // SmartDashboard.putBoolean("Valid", valid);
   }
 
   public double getSimpleDistance() {
-    return simpleDistance;
+    return Math.abs(simpleDistance);
   }
 
   public double getTX() {

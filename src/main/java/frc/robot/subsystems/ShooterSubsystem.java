@@ -229,8 +229,8 @@ public class ShooterSubsystem {
 
   public double distanceToRPMMaxHood(double distance) {
     if (distance != 0) {
-      returnRPM = ((-5.787 * Math.pow(10,-5)) * Math.pow(distance,3)) + (0.0769 * Math.pow(distance,2)) - 
-                  (-22.7083 * distance) + 4550;
+      returnRPM = ((-5.787 * Math.pow(10,-5)) * Math.pow(distance,3)) + (0.0764 * Math.pow(distance,2)) - 
+                  (22.7083 * distance) + 4550;
       return returnRPM;
     } else {
       return fallbackMaxRPM;
