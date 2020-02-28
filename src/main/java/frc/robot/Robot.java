@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("SHOOTER_SPEED", 0);
     motionPlanner = new MotionPlanner(driveTrainSubsystem.getDrivetrain());
     driverGP = new Driver(0, driveTrainSubsystem);
+    intakeSubsystem.inferState();
   }
 
   @Override
@@ -61,13 +62,12 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     motionPlanner.cancelPath();
     //individualLeds.changeAllColors(0,0,0);    
-    //opetsetRumble​(GenericHID.RumbleType type, double value)
     driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
   }
 
   @Override
   public void teleopInit() {
-    intakeSubsystem.inferState();
+   
   }
 
   @Override
@@ -100,6 +100,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    // TODO Add statemachine and firing
+    // TODO Call ballsToShooter and stopBalls
+    // TODO set autofeed to true
     motionPlanner.reversePath();
     if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
       System.out.println("READY TO SHOOT");

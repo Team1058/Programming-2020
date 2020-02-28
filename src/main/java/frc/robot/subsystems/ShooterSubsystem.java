@@ -79,6 +79,7 @@ public class ShooterSubsystem {
 
   public void initializeSmartDashboad() {
     // creates input fields on the smart dashboard
+    SmartDashboard.putNumber("RPM Offset", 0);
     SmartDashboard.putNumber("flywheel Speed", 0);
     SmartDashboard.putNumber("booster Speed", 0);
     SmartDashboard.putBoolean("flywheel Enable", false);
@@ -228,7 +229,7 @@ public class ShooterSubsystem {
   public double distanceToRPMMaxHood(double distance) {
     if (distance != 0) {
       returnRPM = ((-5.787 * Math.pow(10,-5)) * Math.pow(distance,3)) + (0.0764 * Math.pow(distance,2)) - 
-                  (22.7083 * distance) + 4550;
+                  (22.7083 * distance) + 4550 + SmartDashboard.getNumber("RPM Offset", 0);
       return returnRPM;
     } else {
       return fallbackMaxRPM;
