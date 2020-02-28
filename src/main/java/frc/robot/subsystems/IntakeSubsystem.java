@@ -13,7 +13,7 @@ public class IntakeSubsystem {
     TalonSRX intakeLift = new TalonSRX(RobotMap.CANIds.INTAKE_TALON);
     VictorSPX intakeWheels = new VictorSPX(RobotMap.CANIds.INTAKE_VICTOR_WHEELS);
     boolean isUp = true;
-    double ballSpeed = -0.75;
+    double ballSpeed = -1.0;
     double liftSlow = 0.1;
     double liftFast = 0.5;
     double dropSlow = -0.00;

@@ -27,9 +27,12 @@ public class Operator {
     private final double DEADBAND_VALUE = 0.5;
 
     public void Feed() {
-        if (gamepad.getAButton()) {
+        if (gamepad.getAButton() && outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
             Robot.shooterSubsystem.autoFeed = true;
-        } else {
+        } else if (gamepad.getAButton() && outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
+            Robot.shooterSubsystem.autoFeed = false;
+            Robot.shooterSubsystem.fireAtCommand();
+        }else {
             Robot.shooterSubsystem.autoFeed = false;
         }
     }
@@ -53,7 +56,7 @@ public class Operator {
     }
 
     public void toggleLed(){
-        if (gamepad.getStickButton(Hand.kRight)){         
+        if (gamepad.getStickButtonPressed(Hand.kRight)){         
             Robot.limelight.toggleLed();
         }
     }

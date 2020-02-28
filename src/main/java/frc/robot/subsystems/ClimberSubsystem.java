@@ -74,7 +74,7 @@ public class ClimberSubsystem {
     }
 
     public void lockRatchet() {
-        climberServo.set(.3);
+        climberServo.set(.2);
     }
 
     public void driveStop() {

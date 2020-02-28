@@ -132,7 +132,7 @@ public class ShooterSubsystem {
     }
   }
 
-  private void fireAtCommand() {
+  public void fireAtCommand() {
     feeder.set(ControlMode.PercentOutput, -1);
   }
 

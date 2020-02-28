@@ -95,6 +95,8 @@ public class Driver {
 
         if (gamepad.getBButton()) {
             Robot.climberSubsystem.lockRatchet();
+        }else{
+            Robot.climberSubsystem.resetClimberServo();
         }
     }
 

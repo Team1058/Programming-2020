@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
@@ -42,6 +43,7 @@ public class Robot extends TimedRobot {
     motionPlanner = new MotionPlanner(driveTrainSubsystem.getDrivetrain());
     driverGP = new Driver(0, driveTrainSubsystem);
     intakeSubsystem.inferState();
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
@@ -103,9 +105,12 @@ public class Robot extends TimedRobot {
     // TODO Add statemachine and firing
     // TODO Call ballsToShooter and stopBalls
     // TODO set autofeed to true
-    motionPlanner.reversePath();
+    motionPlanner.forwardPath();
     if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
       System.out.println("READY TO SHOOT");
+      shooterSubsystem.enable();
+      shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()));
+      shooterSubsystem.autoFeed = true;
     }
   }
 }

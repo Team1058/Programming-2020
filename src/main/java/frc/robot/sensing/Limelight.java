@@ -42,12 +42,12 @@ public class Limelight {
       x = cam[2]; //* .0254;
       y = -cam[0]; //* .0254;
       distance = Math.hypot(x, y);
-      simpleDistance = x;
+      simpleDistance = distance - 6;
       targetAngle = Math.atan2(-y, -x);
     } else {
       valid = false;
       // "k" is a magic number, like 3
-      double k = 153.17408;
+      double k = 153;
       simpleDistance = k / Math.sqrt(taArea);
     }
     SmartDashboard.putNumber("simpleDistance",simpleDistance);
