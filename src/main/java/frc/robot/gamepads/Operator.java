@@ -48,7 +48,7 @@ public class Operator {
     }
 
     public void BallPath(){
-        if (gamepad.getBumper(Hand.kRight) || outsideDeadband(gamepad.getTriggerAxis(Hand.kRight)) || outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))){
+        if (gamepad.getBumper(Hand.kRight) || gamepad.getAButton()){
             Robot.ballPath.ballsToShooter();
         } else if (gamepad.getBumper(Hand.kLeft)){
             Robot.ballPath.ballsToIntake();

@@ -105,12 +105,12 @@ public class Limelight {
   }
 
   public void turnOnLed(){
-    table.getEntry("ledMode").setNumber(1);
+    table.getEntry("ledMode").setNumber(0);
 
   }
 
   public void turnOffLed(){
-    table.getEntry("ledMode").setNumber(0);
+    table.getEntry("ledMode").setNumber(1);
   }
 
   public void toggleLed() {

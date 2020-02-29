@@ -11,21 +11,19 @@ public class IndividualLeds{
     AddressableLED led;
     int ledCounter;
     double ledSides;
-    private XboxController gamepad = new XboxController(0);
     
     public IndividualLeds() {
         // PWM port 9
         // Must be a PWM header, not MXP or DIO
-        led = new AddressableLED(9);
-        ledBuffer = new AddressableLEDBuffer(59);
+        led = new AddressableLED(0);
+        ledBuffer = new AddressableLEDBuffer(44);
         // Reuse buffer
         // Default to a length of 60, start empty output
         // Length is expensive to set, so only set it once, then just update data
-        ledBuffer = new AddressableLEDBuffer(60);
         led.setLength(ledBuffer.getLength());
     }
 
-    public void changeAllColors(int r, int g, int b) {
+    public void changeAllColors(int r, int g, int b){
         for (var i = 0; i < ledBuffer.getLength(); i++) {
             // Sets the specified LED to the RGB values for red
             ledBuffer.setRGB(i, r,g,b);
@@ -35,12 +33,12 @@ public class IndividualLeds{
         led.start();
     }
 
-    public void alternateColors(int r1, int g1, int b1, int r2, int g2, int b2) {
+    public void alternateColors(int r1, int g1, int b1, int r2, int g2, int b2){
        for (var i = 0; i < ledBuffer.getLength(); i++) {
            if (i%2==0){
                 // Sets the specified LED to the RGB values for red
                 ledBuffer.setRGB(i, r1,g1,b1);
-           } else {
+           }else {
             ledBuffer.setRGB(i, r2,g2,b2);
            }
        }
@@ -50,19 +48,18 @@ public class IndividualLeds{
    }
 
    
-    public int getN(int n) { 
-        return (ledCounter + n) % (ledBuffer.getLength());
+   public int getN(int n){ 
+       return (ledCounter + n) % (ledBuffer.getLength());
    }
 
-    public static boolean contains(final int[] arr, final int key) {
-        return Arrays.stream(arr).anyMatch(i -> i == key);
+   public static boolean contains(final int[] arr, final int key) {
+    return Arrays.stream(arr).anyMatch(i -> i == key);
     }
 
-    public void scrollNColorsWithBackround(int r, int g, int b, int r1, int g1, int b1,
-                                           int r2, int g2, int b2, int n, int x, int y) {
+   public void scrollNColorsWithBackround(int r, int g, int b, int r1, int g1, int b1, int r2, int g2, int b2, int n, int x, int y){
     ledCounter = getN(1);
     int[] intArray = new int[n];
-    for (var i = 0; i < n; i++) {
+    for (var i = 0; i < n; i++){
         intArray[i] =getN(i+1);
     }
     // build an array of length N that has all of the values of getN(1) to getN(n)
@@ -70,77 +67,91 @@ public class IndividualLeds{
     // check the array in the function scrollN then build an array based of the variable n to send info to an array
     for (var i = 0; i < ledBuffer.getLength(); i++) {
              // Sets the specified LED to the RGB values for red
-        if (contains(intArray, i)) {
-            if (i%x==y) {
+        if (contains(intArray, i)){
+            if(i%x==y){
              ledBuffer.setRGB(i, r,g,b);
-            } else {
+            }else{
               ledBuffer.setRGB(i, r2,g2,b2);
             }
-        } else {
+        }else {
          ledBuffer.setRGB(i,r1,g1,b1);
         }
     }
     led.setData(ledBuffer);
     led.start();
    }
-    public void climbBalance( String direction) {
-        ledSides = ledBuffer.getLength() * .5;
-        if (direction.equals("TooFarLeft")) {  
-            for (var i = 0; i < ledBuffer.getLength(); i++) {
-                if (i <= ledSides) {
-                    ledBuffer.setRGB(i, 255, 0, 0);
-                } else {
-                    ledBuffer.setRGB(i, 0, 0, 255);
-                }    
-            }
-        } else if (direction.equals("TooFarRight")) {
-            for (var i = 0; i < ledBuffer.getLength(); i++) {
-                if (i <= ledSides){
-                    ledBuffer.setRGB(i, 0, 0, 255);
-                } else {
-                    ledBuffer.setRGB(i, 255, 0, 0);
-                }
-            }
-        } else {
-            for (var i = 0; i < ledBuffer.getLength(); i++) {
-                ledBuffer.setRGB(i, 0, 255, 0);
+   public void climbBalance( String direction){
+    if (direction.equals("TooFarLeft")){
+        for (var i = 0; i < ledBuffer.getLength(); i++){
+               if(i <= ledBuffer.getLength()){
+                ledBuffer.setRGB(i, 255, 0, 0);
+               }else{
+                ledBuffer.setRGB(i, 255, 0,0);
+            }    
+        }
+    }else if(direction.equals("TooFarRight")){
+        for (var i = 0; i < ledBuffer.getLength(); i++){
+            if(i <= ledBuffer.getLength()){
+                ledBuffer.setRGB(i, 0, 0, 255);
+            }else{
+                ledBuffer.setRGB(i, 0, 0, 255);
+         
             }
         }
-        led.setData(ledBuffer);
-        led.start();
+    }else{
+        for (var i = 0; i < ledBuffer.getLength(); i++){
+            ledBuffer.setRGB(i, 0, 255, 0);
+        }
+    }
+    led.setData(ledBuffer);
+    led.start();
    }
-    public void climbLeds(int r, int g, int b, int r1, int g1, int b1){
-        double percentOn;
-        percentOn =  Math.abs(gamepad.getX())* 59;
-        // build an array of length N that has all of the values of getN(1) to getN(n)
-        // build arrays and check if numbers are in arrays
-        // check the array in the function scrollN then build an array based of the variable n to send info to an array
-        for (var i = 0; i < ledBuffer.getLength(); i++) {
-            // Sets the specified LED to the RGB values for red
-            if (i <= percentOn) {
-                ledBuffer.setRGB(i, r,g,b);
-            } else {
-                ledBuffer.setRGB(i, r1,g1,b1);
+   public void red(){
+    for (var i = 0; i < ledBuffer.getLength(); i++){
+        ledBuffer.setRGB(i, 255, 0, 0);
+    }
+    led.setData(ledBuffer);
+    led.start();
+   }
+   public void green(){
+    for (var i = 0; i < ledBuffer.getLength(); i++){
+        ledBuffer.setRGB(i, 0, 255, 0);
+    }
+    led.setData(ledBuffer);
+    led.start();
+   }
+
+   public void climbLeds(int r, int g, int b, int r1, int g1, int b1,double percentOn){
+    // build an array of length N that has all of the values of getN(1) to getN(n)
+    // build arrays and check if numbers are in arrays
+    // check the array in the function scrollN then build an array based of the variable n to send info to an array
+    for (var i = 0; i < ledBuffer.getLength(); i++) {
+             // Sets the specified LED to the RGB values for red
+        if (i <= percentOn){
+             ledBuffer.setRGB(i, r,g,b);
+            }else{
+              ledBuffer.setRGB(i, r1,g1,b1);
             }
         }
-        led.setData(ledBuffer);
-        led.start();
+    led.setData(ledBuffer);
+    led.start();
     }
 
 
 
-    public void scrollColor(int r, int g, int b){
-        ledCounter = (ledCounter + 1) % (ledBuffer.getLength());
-        int ledCounter1 = (ledCounter + 2) % (ledBuffer.getLength());
-        int ledCounter2 = (ledCounter + 3) % (ledBuffer.getLength());
-        int ledCounter3 = (ledCounter + 4) % (ledBuffer.getLength());
+   public void scrollColor(int r, int g, int b){
+    ledCounter = (ledCounter + 1) % (ledBuffer.getLength());
+    int ledCounter1 = (ledCounter + 2) % (ledBuffer.getLength());
+    int ledCounter2 = (ledCounter + 3) % (ledBuffer.getLength());
+    int ledCounter3 = (ledCounter + 4) % (ledBuffer.getLength());
 
-        for (var i = 0; i < ledBuffer.getLength(); i++) {
-            // Sets the specified LED to the RGB values for red
-            if (i == ledCounter || i == ledCounter1 || i == ledCounter2 || i == ledCounter3) {
-                ledBuffer.setRGB(i, r,g,b);
-            } else {
-                ledBuffer.setRGB(i,0,0,0);
+
+    for (var i = 0; i < ledBuffer.getLength(); i++) {
+             // Sets the specified LED to the RGB values for red
+        if (i == ledCounter || i == ledCounter1 || i == ledCounter2 || i == ledCounter3){
+             ledBuffer.setRGB(i, r,g,b);
+        }else {
+         ledBuffer.setRGB(i,0,0,0);
         }
     }
    

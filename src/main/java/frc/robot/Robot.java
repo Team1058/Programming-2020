@@ -21,7 +21,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class Robot extends TimedRobot {
 
-  public static LEDSubsystem ledSubsystem = new LEDSubsystem();
+  // public static LEDSubsystem ledSubsystem = new LEDSubsystem();
   public static DriveTrainSubsystem driveTrainSubsystem;
   public static IndividualLeds individualLeds = new IndividualLeds();
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
@@ -98,13 +98,11 @@ public class Robot extends TimedRobot {
     driveTrainSubsystem.getDrivetrain().resetOdometry();
     motionPlanner.moveTo(1, 0, 0, false);
     climberSubsystem.resetClimberServo();
+    limelight.turnOnLed();
   }
 
   @Override
   public void autonomousPeriodic() {
-    // TODO Add statemachine and firing
-    // TODO Call ballsToShooter and stopBalls
-    // TODO set autofeed to true
     motionPlanner.forwardPath();
     if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
       System.out.println("READY TO SHOOT");

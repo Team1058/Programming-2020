@@ -59,25 +59,25 @@ public class Driver {
     public void splitArcadeDrive() {
 
         //sets the value for easier implementation
-        double vX = -gamepad.getY(Hand.kLeft);
-        vX *= Math.abs(vX);
-        double omegaZ = -gamepad.getX(Hand.kRight);
-        omegaZ *= Math.abs(omegaZ);
-        SmartDashboard.putNumber("Left Joystick", vX);
-        SmartDashboard.putNumber("Right Joystick", omegaZ);
-        vX = clampDeadband(vX);
-        omegaZ = clampDeadband(omegaZ);
-        vX *= Robot.driveTrainSubsystem.drivetrain.getMaxVelocityX();
-        omegaZ *= Robot.driveTrainSubsystem.drivetrain.getMaxOmegaZ();
-        if (gamepad.getBumper(Hand.kRight)) {
-            vX *= 0.5;
-            omegaZ *= 0.5;
-        }else if (gamepad.getBumper(Hand.kLeft)){
-            vX *= .25;
-            omegaZ *= .25;
+        if(outsideDeadband(gamepad.getY(Hand.kLeft)) || outsideDeadband(gamepad.getX(Hand.kRight))) {
+            double vX = gamepad.getY(Hand.kLeft);
+            double omegaZ = gamepad.getX(Hand.kRight);
+            SmartDashboard.putNumber("Left Joystick", vX);
+            SmartDashboard.putNumber("Right Joystick", omegaZ);
+            vX *= Robot.driveTrainSubsystem.drivetrain.getMaxVelocityX();
+            omegaZ *= Robot.driveTrainSubsystem.drivetrain.getMaxOmegaZ();
+            if (gamepad.getBumper(Hand.kRight)) {
+                vX *= 0.5;
+                omegaZ *= 0.5;
+            }else if (gamepad.getBumper(Hand.kLeft)){
+                vX *= .25;
+                omegaZ *= .25;
+            }
+        
+            drivetrain.setArcadeDrive(vX, omegaZ);
+        }else {
+            drivetrain.setArcadeDrive(0,0);
         }
-       
-        drivetrain.setArcadeDrive(vX, omegaZ);
     }
 
     public void driveOnBar() {
@@ -129,8 +129,8 @@ public class Driver {
                 gamepad.setRumble(RumbleType.kRightRumble, 0);
             }
         } else {
-            //splitArcadeDrive();
-            tankDrive();
+            splitArcadeDrive();
+            //tankDrive();
         }
 
         if (gamepad.getBackButtonPressed()) {

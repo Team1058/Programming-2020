@@ -12,22 +12,22 @@ import frc.robot.PirateBlinkingLib;
 
 public class LEDSubsystem {
 
-    Spark blinkin = new Spark(0);
+    // Spark blinkin = new Spark(0);
 
-    public void setLEDColor(String colorString) {
+    // public void setLEDColor(String colorString) {
 
-        if (colorString == "Blue") {
-            blinkin.set(PirateBlinkingLib.solid_blue);
-        } else if (colorString == "Red") {
-            blinkin.set(PirateBlinkingLib.solid_red);
-        } else if (colorString == "Green") {
-            blinkin.set(PirateBlinkingLib.solid_green);
-        } else if (colorString == "Yellow") {
-            blinkin.set(PirateBlinkingLib.solid_yellow);
-        } else {
-            blinkin.set(PirateBlinkingLib.bpm_rainbow);
-        }
+    //     if (colorString == "Blue") {
+    //         blinkin.set(PirateBlinkingLib.solid_blue);
+    //     } else if (colorString == "Red") {
+    //         blinkin.set(PirateBlinkingLib.solid_red);
+    //     } else if (colorString == "Green") {
+    //         blinkin.set(PirateBlinkingLib.solid_green);
+    //     } else if (colorString == "Yellow") {
+    //         blinkin.set(PirateBlinkingLib.solid_yellow);
+    //     } else {
+    //         blinkin.set(PirateBlinkingLib.bpm_rainbow);
+    //     }
 
-    }
+    // }
 
 }

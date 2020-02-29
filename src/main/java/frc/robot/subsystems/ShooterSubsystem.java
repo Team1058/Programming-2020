@@ -180,17 +180,20 @@ public class ShooterSubsystem {
           updateVelocity();
           currentState = State.SPINNING_UP;
         }
+        Robot.individualLeds.red();
         break;
       case SPINNING_UP:
         if (!enabled) {
           goDisabled();
         } else if (updateVelocity()) {
+          Robot.individualLeds.scrollColor(0, 0, 255);
           break;
         } else if (atVelocity()) {
           currentState = State.READY;
         }
         break;
       case READY:
+        Robot.individualLeds.green();
         if (!enabled) {
           goDisabled();
         } else if (!atVelocity()) {

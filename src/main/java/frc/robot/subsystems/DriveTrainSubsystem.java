@@ -133,8 +133,6 @@ public class DriveTrainSubsystem {
 
   //Drives the robot with left being turning and right being forward/backward
   public void setArcadeDrive(double speed, double rotation) {
-    speed *= drivetrain.getMaxVelocityX();
-    rotation *= drivetrain.getMaxOmegaZ();
     drivetrain.setTargetVelocity(speed, rotation);
   }
 
