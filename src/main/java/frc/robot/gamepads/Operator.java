@@ -32,7 +32,9 @@ public class Operator {
         } else if (gamepad.getAButton() && outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
             Robot.shooterSubsystem.autoFeed = false;
             Robot.shooterSubsystem.fireAtCommand();
-        }else if(gamepad.getBumper(Hand.kLeft)) {
+        } else if (gamepad.getAButtonReleased()){
+            Robot.shooterSubsystem.stopFeeder();
+        } else if(gamepad.getBumper(Hand.kLeft)) {
             Robot.shooterSubsystem.reverseFeeder();
         } else {
             Robot.shooterSubsystem.autoFeed = false;
@@ -84,7 +86,13 @@ public class Operator {
             Robot.shooterSubsystem.manualDisableStateMachine();
             //This equation gets the rpm (We got this equation using point 1 as .1,2000 and point 2 as 1,3950)
             double rpm = 2166.666 * gamepad.getTriggerAxis(Hand.kLeft) + 1783.334;
+            rpm = Robot.shooterSubsystem.distanceToRPMMaxHood(156);
             Robot.shooterSubsystem.manualFlywheel(rpm);
+            if (Robot.shooterSubsystem.manualAtSpeed(rpm)){
+                Robot.individualLeds.changeAllColors(0,0,255);
+            }else{
+                Robot.individualLeds.changeAllColors(255, 255, 255);
+            }
         } else if (outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
             Robot.shooterSubsystem.enable();
             if (Robot.shooterSubsystem.hoodAtMax()) {
@@ -97,6 +105,10 @@ public class Operator {
             }
         } else {
             Robot.shooterSubsystem.disable();      
+        }
+
+        if (!outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft)) && !outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))){
+            Robot.individualLeds.red();
         }
     }
 

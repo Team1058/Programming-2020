@@ -111,6 +111,14 @@ public class ShooterSubsystem {
     targetVelocity = rpm;
   }
 
+  public boolean manualAtSpeed(double rpm){
+    if (Math.abs(flywheel.getSelectedSensorPosition() / 2048 * 600) < rpm + 50 && Math.abs(flywheel.getSelectedSensorPosition() / 2048 * 600) > rpm - 50){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   private boolean atVelocity() {
     boolean atVelocity = false;
     double rpm_flywheel = Math.abs((flywheel.getSelectedSensorVelocity() / 2048.0) * 600.0);
@@ -141,6 +149,10 @@ public class ShooterSubsystem {
 
   public void reverseFeeder() {
     feeder.set(ControlMode.PercentOutput, 1);
+  }
+
+  public void stopFeeder(){
+    feeder.set(ControlMode.PercentOutput,0);
   }
 
   private void goDisabled() {
@@ -180,7 +192,6 @@ public class ShooterSubsystem {
           updateVelocity();
           currentState = State.SPINNING_UP;
         }
-        Robot.individualLeds.red();
         break;
       case SPINNING_UP:
         if (!enabled) {
