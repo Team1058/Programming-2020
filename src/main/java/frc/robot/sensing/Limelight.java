@@ -22,8 +22,7 @@ public class Limelight {
   double simpleDistance;
   NetworkTable table;
 
-  boolean toggle = false;
-  
+  boolean toggle = false;  
 
   public Limelight() {
     // creates network table
@@ -107,6 +106,7 @@ public class Limelight {
 
   public void turnOnLed(){
     table.getEntry("ledMode").setNumber(1);
+
   }
 
   public void turnOffLed(){
@@ -115,13 +115,20 @@ public class Limelight {
 
   public void toggleLed() {
     toggle = !toggle;
+    int status = 1;
 
     if (toggle){
       turnOnLed();
+      status = 1;
     }else if(!toggle){
       turnOffLed();
+      status = 0;
     }
+    printLimelightLEDs(status);
+  }
 
+  public void printLimelightLEDs(int status){
+    SmartDashboard.putNumber("LimelightLeds", status);
   }
 
 }

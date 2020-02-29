@@ -38,6 +38,13 @@ public class Driver {
     public void tankDrive() {
         double leftJoystickY = clampDeadband(gamepad.getY(Hand.kLeft));
         double rightJoystickY = clampDeadband(gamepad.getY(Hand.kRight));
+
+        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))){
+            leftJoystickY = (rightJoystickY + leftJoystickY) / 2;
+            rightJoystickY = leftJoystickY;
+        }
+
+
         if (gamepad.getBumper(Hand.kRight)) {
             leftJoystickY *= .5;
             rightJoystickY *= .5;
@@ -62,9 +69,12 @@ public class Driver {
         omegaZ = clampDeadband(omegaZ);
         vX *= Robot.driveTrainSubsystem.drivetrain.getMaxVelocityX();
         omegaZ *= Robot.driveTrainSubsystem.drivetrain.getMaxOmegaZ();
-        if (gamepad.getBumper(Hand.kLeft)) {
+        if (gamepad.getBumper(Hand.kRight)) {
             vX *= 0.5;
             omegaZ *= 0.5;
+        }else if (gamepad.getBumper(Hand.kLeft)){
+            vX *= .25;
+            omegaZ *= .25;
         }
        
         drivetrain.setArcadeDrive(vX, omegaZ);
@@ -85,10 +95,18 @@ public class Driver {
 
     
     public void climber() {
+        double multiplier = 1.0;
+
+        if (gamepad.getBumper(Hand.kLeft)){
+            multiplier = .25;
+        }else if(gamepad.getBumper(Hand.kRight)){
+            multiplier = .5;
+        }
+
         if (gamepad.getYButton()) {
-            Robot.climberSubsystem.climberExtend();
+            Robot.climberSubsystem.climberExtend(1 * multiplier);
         } else if (gamepad.getAButton()) {
-            Robot.climberSubsystem.climberRetract();
+            Robot.climberSubsystem.climberRetract(1 * multiplier);
         } else {
             Robot.climberSubsystem.climberStop();
         }
@@ -97,15 +115,6 @@ public class Driver {
             Robot.climberSubsystem.lockRatchet();
         }else{
             Robot.climberSubsystem.resetClimberServo();
-        }
-    }
-
-    public void toggleLed(){
-        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft)) && runOnce){
-            Robot.limelight.toggleLed();
-            runOnce = false;
-        } else if (!outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft)) && !runOnce){
-            runOnce = true;
         }
     }
 
@@ -120,6 +129,7 @@ public class Driver {
                 gamepad.setRumble(RumbleType.kRightRumble, 0);
             }
         } else {
+            //splitArcadeDrive();
             tankDrive();
         }
 

@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
     intakeSubsystem.initialize();
     climberSubsystem.initialize();
     SmartDashboard.putNumber("SHOOTER_SPEED", 0);
+    SmartDashboard.putNumber("RPM Offset", -50);
     motionPlanner = new MotionPlanner(driveTrainSubsystem.getDrivetrain());
     driverGP = new Driver(0, driveTrainSubsystem);
     intakeSubsystem.inferState();
@@ -82,7 +83,6 @@ public class Robot extends TimedRobot {
     driverGP.update();
     motionPlanner.printNAVX();
 
-    driverGP.toggleLed();
     operatorGP.toggleLed();
 
     operatorGP.changeShooterState();
@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     motionPlanner.resetNAVX();
     driveTrainSubsystem.getDrivetrain().resetOdometry();
-    motionPlanner.moveTo(0.5, 0, 0, false);
+    motionPlanner.moveTo(1, 0, 0, false);
     climberSubsystem.resetClimberServo();
   }
 
@@ -109,8 +109,10 @@ public class Robot extends TimedRobot {
     if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
       System.out.println("READY TO SHOOT");
       shooterSubsystem.enable();
-      shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()));
+      shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()) - SmartDashboard.getNumber("RPM Offset", -50));
       shooterSubsystem.autoFeed = true;
+      ballPath.ballsToShooter();
+
     }
   }
 }

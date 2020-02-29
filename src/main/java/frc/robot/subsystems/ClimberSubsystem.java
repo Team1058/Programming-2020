@@ -25,7 +25,7 @@ public class ClimberSubsystem {
     private Servo climberServo = new Servo(RobotMap.PWMIds.CLIMBER_SERVO);
     // private AnalogGyro climberGyro;
 
-    private final int FALCON_REVERSE_SOFT_LIMIT = 100;
+    private final int FALCON_REVERSE_SOFT_LIMIT = -10000;
     private final int FALCON_FORWARD_SOFT_LIMIT = 180000;
     // private double angleInit;
 
@@ -34,10 +34,10 @@ public class ClimberSubsystem {
         falcon2.follow(falcon1);
         falcon1.setSelectedSensorPosition(0);
         falcon2.setSelectedSensorPosition(0);
-        falcon1.configReverseSoftLimitEnable(true);
-        falcon1.configForwardSoftLimitEnable(true);
-        falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
-        falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
+        falcon1.configReverseSoftLimitEnable(false);
+        falcon1.configForwardSoftLimitEnable(false);
+        // falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
+        // falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
         falcon1.setNeutralMode(NeutralMode.Brake);
         falcon2.setNeutralMode(NeutralMode.Brake);
         // skootyTalon.setSelectedSensorPosition(1);
@@ -53,12 +53,12 @@ public class ClimberSubsystem {
     //     angleInit = climberGyro.getAngle();
     // }
 
-    public void climberExtend() {
-        falcon1.set(ControlMode.PercentOutput, -.25);
+    public void climberExtend(double multiplier) {
+        falcon1.set(ControlMode.PercentOutput, -1 * multiplier);
     }
 
-    public void climberRetract() {
-        falcon1.set(ControlMode.PercentOutput, .25);
+    public void climberRetract(double multiplier) {
+        falcon1.set(ControlMode.PercentOutput, 1 * multiplier);
     }
 
     public void climberStop() {

@@ -79,7 +79,6 @@ public class ShooterSubsystem {
 
   public void initializeSmartDashboad() {
     // creates input fields on the smart dashboard
-    SmartDashboard.putNumber("RPM Offset", 0);
     SmartDashboard.putNumber("flywheel Speed", 0);
     SmartDashboard.putNumber("booster Speed", 0);
     SmartDashboard.putBoolean("flywheel Enable", false);
@@ -98,6 +97,10 @@ public class ShooterSubsystem {
     enabled = false;
     flywheel.set(ControlMode.PercentOutput, 0);
     feeder.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void manualDisableStateMachine(){
+    enabled = false;
   }
 
   public void setSpeed(double rpm) {
@@ -134,6 +137,10 @@ public class ShooterSubsystem {
 
   public void fireAtCommand() {
     feeder.set(ControlMode.PercentOutput, -1);
+  }
+
+  public void reverseFeeder() {
+    feeder.set(ControlMode.PercentOutput, 1);
   }
 
   private void goDisabled() {

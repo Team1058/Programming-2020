@@ -92,10 +92,12 @@ public class DriveTrainSubsystem {
     double tx = Robot.limelight.getTX();
     boolean lookingAtTarget;
     System.out.println("tx: " + tx);
-    if (Math.abs(tx) > 1) {
-      double multiplier = .1;
+    if (Math.abs(tx) > 1.5) {
+      double multiplier = .2;
       if (Math.abs(tx) < 3) {
-        multiplier = .5;  
+        multiplier = .4;  
+      } else if (Math.abs(tx) < 5){
+        multiplier = .3;
       }
       drivetrain.setTargetVelocity(0, tx * multiplier);
       lookingAtTarget = false;

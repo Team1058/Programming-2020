@@ -32,7 +32,9 @@ public class Operator {
         } else if (gamepad.getAButton() && outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
             Robot.shooterSubsystem.autoFeed = false;
             Robot.shooterSubsystem.fireAtCommand();
-        }else {
+        }else if(gamepad.getBumper(Hand.kLeft)) {
+            Robot.shooterSubsystem.reverseFeeder();
+        } else {
             Robot.shooterSubsystem.autoFeed = false;
         }
     }
@@ -79,6 +81,7 @@ public class Operator {
 
     public void changeShooterState() {
         if (outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
+            Robot.shooterSubsystem.manualDisableStateMachine();
             //This equation gets the rpm (We got this equation using point 1 as .1,2000 and point 2 as 1,3950)
             double rpm = 2166.666 * gamepad.getTriggerAxis(Hand.kLeft) + 1783.334;
             Robot.shooterSubsystem.manualFlywheel(rpm);
