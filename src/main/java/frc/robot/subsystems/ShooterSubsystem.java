@@ -195,7 +195,7 @@ public class ShooterSubsystem {
         if (enabled) {
           updateVelocity();
           currentState = State.SPINNING_UP;
-          Robot.individualLeds.red();
+          Robot.individualLeds.changeAllColors(255, 0, 0);
         }
         break;
       case SPINNING_UP:
@@ -205,7 +205,7 @@ public class ShooterSubsystem {
           break;
         } else if (atVelocity()) {
           currentState = State.READY;
-          Robot.individualLeds.green();
+          Robot.individualLeds.changeAllColors(0,255,0);
         }
         break;
       case READY:

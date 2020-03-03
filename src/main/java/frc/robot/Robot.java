@@ -50,17 +50,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-   // shooterSubsystem.tuneShooterFromDashboard();
-   //driverGP.splitArcadeDrive();
-   driverGP.Climber();
-   driverGP.update();
-   motionPlanner.printNAVX();
-   double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
-   Robot.shooterSubsystem.setSpeed(shooterRPM);
-   operatorGP.changeShooterState();
-   operatorGP.shooterHoodPosition();
-   operatorGP.Feed();
-   operatorGP.Intake();
+    shooterSubsystem.tuneShooterFromDashboard();
+    driverGP.splitArcadeDrive();
+    driverGP.Climber();
+    driverGP.update();
+    motionPlanner.printNAVX();
+    double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
+    Robot.shooterSubsystem.setSpeed(shooterRPM);
+    operatorGP.changeShooterState();
+    operatorGP.shooterHoodPosition();
+    operatorGP.Feed();
+    operatorGP.Intake();
+     individualLeds.scroll3colors(255, 0, 0, 255, 255, 255, 0, 0, 0, 30);
   
   }
 
@@ -95,9 +96,9 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     motionPlanner.cancelPath();
-    //individualLeds.changeAllColors(0,0,0);    
-    //opetsetRumble​(GenericHID.RumbleType type, double value)
+    // opetsetRumble​(GenericHID.RumbleType type, double value);
     driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
+    individualLeds.scroll3colors(255, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   }
 
 }
