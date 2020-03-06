@@ -27,7 +27,7 @@ public class SpinnerSubsystem {
   private final double THROTTLE_VAULE = .5;
 
   //Initializes the victor
-  private final VictorSPX spinnerVictor = new VictorSPX(RobotMap.CANIds.SPINNER);
+  private final VictorSPX spinnerVictor = new VictorSPX(RobotMap.CANIds.SPINNER_SKOOTY);
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
