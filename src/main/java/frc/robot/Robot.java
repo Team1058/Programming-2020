@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.autonomous.MotionPlanner;
@@ -33,8 +34,11 @@ public class Robot extends TimedRobot {
   public static MotionPlanner motionPlanner;
   public static Driver driverGP;
 
+  public static Timer autoTimer;
+
   @Override
   public void robotInit() {
+    autoTimer = new Timer();
     climberSubsystem.initialize();
     driveTrainSubsystem = new DriveTrainSubsystem(limelight);
     intakeSubsystem.initialize();
@@ -45,6 +49,7 @@ public class Robot extends TimedRobot {
     driverGP = new Driver(0, driveTrainSubsystem);
     intakeSubsystem.inferState();
     CameraServer.getInstance().startAutomaticCapture();
+    
   }
 
   @Override
@@ -70,7 +75,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-   
   }
 
   @Override
@@ -81,7 +85,6 @@ public class Robot extends TimedRobot {
 
     driverGP.climber();
     driverGP.update();
-    motionPlanner.printNAVX();
 
     operatorGP.toggleLed();
 
@@ -94,23 +97,34 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    motionPlanner.resetNAVX();
     driveTrainSubsystem.getDrivetrain().resetOdometry();
     motionPlanner.moveTo(1, 0, 0, false);
     climberSubsystem.resetClimberServo();
     limelight.turnOnLed();
+    autoTimer.start();
   }
 
   @Override
   public void autonomousPeriodic() {
-    motionPlanner.forwardPath();
-    if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
-      System.out.println("READY TO SHOOT");
+    if (autoTimer.get() < 5) {
+      motionPlanner.reversePath();
+    }
+
+    if (!motionPlanner.running  && autoTimer.get() < 7 && driveTrainSubsystem.snapToTargetV2(0)) {
       shooterSubsystem.enable();
-      shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()) - SmartDashboard.getNumber("RPM Offset", -50));
+      shooterSubsystem.setSpeed(shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()) - SmartDashboard.getNumber("RPM Offset", -50));
       shooterSubsystem.autoFeed = true;
       ballPath.ballsToShooter();
+    }
+    
+    if (autoTimer.get() >= 7 && autoTimer.get() <= 8) {
+      shooterSubsystem.disable();
+      ballPath.stopBalls();
+      motionPlanner.moveTo(1, 0, 0, true);
+    }
 
+    if (autoTimer.get() > 8) {
+      motionPlanner.forwardPath();
     }
   }
 }
