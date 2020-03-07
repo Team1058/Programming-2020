@@ -56,47 +56,16 @@ public class Driver {
         drivetrain.getDrivetrain().setPercentVelocity(leftJoystickY, rightJoystickY);
     }
 
-    public void VideoGameDrive()
-    {
-        double rightTrigger = (m_xXboxController.getTriggerAxis(Hand.kRight));
-        double leftTrigger = (m_xXboxController.getTriggerAxis(Hand.kLeft));
-        double speed= rightTrigger-leftTrigger;
+    public void VideoGameDrive() {
 
-        double turnInPlace = m_xXboxController.getX(Hand.kLeft);
-        double turnControl =  turnInPlace/1.2;
-        
-        if (Math.abs(turnInPlace)<.05)
-        {
-            turnControl=0;
-            turnInPlace=0;
-        }
+        double rightTrigger = -clampDeadband(gamepad.getTriggerAxis(Hand.kRight));
+        double leftTrigger = -clampDeadband(gamepad.getTriggerAxis(Hand.kLeft));
 
-        if (Math.abs(speed)>.05)
-        {
-            if (speed>0){
-                if (turnControl<0){
-                    m_myRobot.tankDrive(-speed, speed+turnControl);
-                } else if (turnControl>0){
-                    m_myRobot.tankDrive(-(speed-turnControl), speed);
-                } else{
-                    m_myRobot.tankDrive(-(speed), speed);
-                }
-                } else if (speed<0){
-                if (turnControl<0){
-                    m_myRobot.tankDrive(-(speed+turnControl), speed);
-                } else if (turnControl>0){
-                    m_myRobot.tankDrive(-speed, speed-turnControl);
-                } else{
-                    m_myRobot.tankDrive(-(speed), speed);
-                }
-            }
-        } else{
-            if (Math.abs(turnInPlace)>0){
-                m_myRobot.tankDrive(turnInPlace*.6, turnInPlace*.6);
-            } else{
-                m_myRobot.tankDrive(0, 0);
-            }
-        }
+        double speed = rightTrigger - leftTrigger;
+        double turn = clampDeadband(gamepad.getX(Hand.kLeft));
+
+        drivetrain.setArcadeDrive(speed, turn);
+
     }
     
     public void splitArcadeDrive() {
@@ -170,6 +139,8 @@ public class Driver {
                 gamepad.setRumble(RumbleType.kRightRumble, 0);
             }
         } else {
+            gamepad.setRumble(RumbleType.kLeftRumble, 0);
+            gamepad.setRumble(RumbleType.kRightRumble, 0);
             VideoGameDrive();
             //splitArcadeDrive();
             //tankDrive();
