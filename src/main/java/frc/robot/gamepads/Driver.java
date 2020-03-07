@@ -45,6 +45,18 @@ public class Driver {
 
         drivetrain.setTankDrive(leftJoystickY,  rightJoystickY);
     }
+
+    public void videoGameDrive() {
+
+        double rightTrigger = gamepad.getTriggerAxis(Hand.kRight);
+        double leftTrigger = gamepad.getTriggerAxis(Hand.kLeft);
+
+        double speed = rightTrigger - leftTrigger;
+        double turn = -clampDeadband(gamepad.getX(Hand.kLeft));
+
+        drivetrain.setArcadeDrive(speed, turn * .25);
+
+    }
     
     public void splitArcadeDrive() {
         double vX = -clampDeadband(gamepad.getY(Hand.kLeft));
@@ -103,30 +115,42 @@ public class Driver {
     }
 
     public void update() {
-        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
+        if (gamepad.getXButton()) {
             double forward;
-            if (outsideDeadband(gamepad.getY(Hand.kLeft))){
-                forward = -gamepad.getY(Hand.kLeft) * .75;
-            } else {
-                forward = 0;
-            }
+
+            double rightTrigger = gamepad.getTriggerAxis(Hand.kRight);
+            double leftTrigger = gamepad.getTriggerAxis(Hand.kLeft);
+
+            forward = rightTrigger - leftTrigger;
+
             if (drivetrain.snapToTargetV2(forward)){
-                gamepad.setRumble(RumbleType.kLeftRumble, .5);
-                gamepad.setRumble(RumbleType.kRightRumble, .5);
+                rumbleOn();
+                Robot.operatorGP.rumbleOn();
             }else{   
-                gamepad.setRumble(RumbleType.kLeftRumble, 0);
-                gamepad.setRumble(RumbleType.kRightRumble, 0);
+                rumbleOff();
+                Robot.operatorGP.rumbleOff();
             }
         } else {
-            gamepad.setRumble(RumbleType.kLeftRumble, 0);
-            gamepad.setRumble(RumbleType.kRightRumble, 0);
-            splitArcadeDrive();
+            rumbleOff();
+            Robot.operatorGP.rumbleOff();
+            videoGameDrive();
+            //splitArcadeDrive();
             //tankDrive();
         }
 
         if (gamepad.getBackButtonPressed()) {
             drivetrain.resetOdometry();
         }
+    }
+
+    public void rumbleOn(){
+        gamepad.setRumble(RumbleType.kLeftRumble, .5);
+        gamepad.setRumble(RumbleType.kRightRumble, .5);
+    }
+
+    public void rumbleOff(){
+        gamepad.setRumble(RumbleType.kLeftRumble, 0);
+        gamepad.setRumble(RumbleType.kRightRumble, 0);
     }
 
     private boolean outsideDeadband(double inputValue) {

@@ -2,6 +2,7 @@ package frc.robot.gamepads;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -27,6 +28,7 @@ public class Operator {
     private final double DEADBAND_VALUE = 0.5;
 
     public void Feed() {
+
         if (gamepad.getAButton() && outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
             Robot.shooterSubsystem.autoFeed = true;
         } else if (gamepad.getAButton() && outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
@@ -119,6 +121,16 @@ public class Operator {
         } else if (gamepad.getPOV() >= 135 && gamepad.getPOV() <= 225) {
                 Robot.shooterSubsystem.shooterHoodRetract();
         }
+    }
+
+    public void rumbleOn(){
+        gamepad.setRumble(RumbleType.kLeftRumble, .5);
+        gamepad.setRumble(RumbleType.kRightRumble, .5);
+    } 
+
+    public void rumbleOff(){
+        gamepad.setRumble(RumbleType.kLeftRumble, 0);
+        gamepad.setRumble(RumbleType.kRightRumble, 0);
     }
 
     private boolean outsideDeadband(double inputValue) {
