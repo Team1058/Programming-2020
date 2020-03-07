@@ -125,12 +125,10 @@ public class Driver {
 
     public void driveOnBar() {
         // Gets values of each trigger
-        double right = gamepad.getTriggerAxis(Hand.kRight);
-        double left = gamepad.getTriggerAxis(Hand.kLeft);
-        double difference=right-left;
+        double move = gamepad.getX(Hand.kRight);
 
-        if (Math.abs(difference) > .05) {
-            //climber.DriveBar(difference);
+        if (Math.abs(move) > .05) {
+            //climber.DriveBar(move);
         } else {
             //climber.driveStop();
         }
@@ -162,7 +160,7 @@ public class Driver {
     }
 
     public void update() {
-        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
+        if (gamepad.getXButton()) {
             Robot.driveTrainSubsystem.snapToTargetV2();
             if (Robot.driveTrainSubsystem.snapToTargetV2()){
                 gamepad.setRumble(RumbleType.kLeftRumble, .5);
@@ -172,7 +170,8 @@ public class Driver {
                 gamepad.setRumble(RumbleType.kRightRumble, 0);
             }
         } else {
-            splitArcadeDrive();
+            VideoGameDrive();
+            //splitArcadeDrive();
             //tankDrive();
         }
 
