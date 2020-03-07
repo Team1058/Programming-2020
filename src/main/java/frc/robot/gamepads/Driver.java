@@ -99,18 +99,13 @@ public class Driver {
         }
 
         if (gamepad.getYButton()) {
-            Robot.climberSubsystem.climberExtend(1 * multiplier);
+            Robot.climberSubsystem.telescopeExtend(1 * multiplier);
         } else if (gamepad.getAButton()) {
             Robot.climberSubsystem.climberRetract(1 * multiplier);
         } else {
             Robot.climberSubsystem.climberStop();
         }
 
-        if (gamepad.getBButton()) {
-            Robot.climberSubsystem.lockRatchet();
-        }else{
-            Robot.climberSubsystem.resetClimberServo();
-        }
     }
 
     public void update() {

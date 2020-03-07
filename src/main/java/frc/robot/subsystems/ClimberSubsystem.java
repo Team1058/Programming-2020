@@ -12,6 +12,7 @@ import frc.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -21,9 +22,10 @@ import edu.wpi.first.wpilibj.ADXL345_SPI;
 public class ClimberSubsystem {
 
     private TalonFX falcon1 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_1);
-    //private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
+    private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
+    private TalonSRX telescopeVictor = new TalonSRX(RobotMap.CANIds.TELESCOPE_TALON);
     private VictorSPX skootyVictor  = new VictorSPX(RobotMap.CANIds.SPINNER_SKOOTY);
-    // private AnalogGyro climberGyro;
+    // 3private AnalogGyro climberGyro;
 
     private final int FALCON_REVERSE_SOFT_LIMIT = -10000;
     private final int FALCON_FORWARD_SOFT_LIMIT = 180000;
@@ -33,19 +35,16 @@ public class ClimberSubsystem {
         // initializeGyro();
         //falcon2.follow(falcon1);
         falcon1.setSelectedSensorPosition(0);
-        //falcon2.setSelectedSensorPosition(0);
-        falcon1.configReverseSoftLimitEnable(false);
-        falcon1.configForwardSoftLimitEnable(false);
+        falcon2.setSelectedSensorPosition(0);
+        falcon1.configReverseSoftLimitEnable(true);
+        falcon1.configForwardSoftLimitEnable(true);
         falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
         falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
         falcon1.setNeutralMode(NeutralMode.Brake);
-        //falcon2.setNeutralMode(NeutralMode.Brake);
-        skootyVictor.setSelectedSensorPosition(1);
-        skootyVictor.configForwardSoftLimitEnable(true);
-        skootyVictor.configReverseSoftLimitEnable(true);
-        // limits for skooty/spinner
-        // skootyVictor.configForwardSoftLimitThreshold(forwardSensorLimit);
-        // skootyVictor.configReverseSoftLimitThreshold(reverseSensorLimit);
+        falcon2.setNeutralMode(NeutralMode.Brake);
+        telescopeVictor.setNeutralMode(NeutralMode.Brake);
+        telescopeVictor.setSelectedSensorPosition(0);
+        skootyVictor.setSelectedSensorPosition(0);
     }
 
     // private void initializeGyro(){
@@ -55,12 +54,18 @@ public class ClimberSubsystem {
     //     climberGyro.reset();
     //     angleInit = climberGyro.getAngle();
     // }
+    
+    public void telescopeExtend(double multiplier){
+        telescopeVictor.set(ControlMode.PercentOutput, 1 * multiplier);
+    }
+
     public void climberRetract(double multiplier) {
         falcon1.set(ControlMode.PercentOutput, 1 * multiplier);
     }
 
     public void climberStop() {
         falcon1.set(ControlMode.PercentOutput, 0);
+        telescopeVictor.set(ControlMode.PercentOutput,0);
     }
 
     public void driveBar(double speed) {
