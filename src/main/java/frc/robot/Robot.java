@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
     motionPlanner.cancelPath();
     //individualLeds.changeAllColors(0,0,0);    
     driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
+    //operatorGP.printGPValues();
   }
 
   @Override
@@ -81,7 +82,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
    // double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
    // Robot.shooterSubsystem.setSpeed(shooterRPM);
-   // driverGP.splitArcadeDrive();
 
     driverGP.climber();
     driverGP.update();
@@ -123,8 +123,19 @@ public class Robot extends TimedRobot {
       motionPlanner.moveTo(1, 0, 0, true);
     }
 
-    if (autoTimer.get() > 8) {
+    if (autoTimer.get() > 8 && autoTimer.get() < 12) {
       motionPlanner.forwardPath();
+    }
+
+    if (autoTimer.get() > 12 && autoTimer.get() < 13){
+      motionPlanner.moveTo(1, 1, 45, false);
+    }
+
+    if (autoTimer.get() > 13){
+      motionPlanner.reversePath();
+      // TODO Test Intake code when intake is mounted
+      // intakeSubsystem.intakeGoDown();
+      // ballPath.ballsToShooter();
     }
   }
 }
