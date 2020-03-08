@@ -99,8 +99,9 @@ public class Driver {
             Robot.climberSubsystem.telescopeExtend(1 * multiplier);
         } else if (gamepad.getAButton()) {
             Robot.climberSubsystem.telescopeRetract(1 * multiplier);
+        } else if (gamepad.getBButton()) {
             Robot.climberSubsystem.climberRetract(1 * multiplier);
-        } else {
+        }else {
             Robot.climberSubsystem.climberStop();
         }
 
