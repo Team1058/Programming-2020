@@ -123,19 +123,19 @@ public class Robot extends TimedRobot {
       motionPlanner.moveTo(1, 0, 0, true);
     }
 
-    if (autoTimer.get() > 8 && autoTimer.get() < 12) {
-      motionPlanner.forwardPath();
-    }
+    // if (autoTimer.get() > 8 && autoTimer.get() < 12) {
+    //   motionPlanner.forwardPath();
+    // }
 
-    if (autoTimer.get() > 12 && autoTimer.get() < 13){
-      motionPlanner.moveTo(1, 1, 45, false);
-    }
+    // if (autoTimer.get() > 12 && autoTimer.get() < 13){
+    //   motionPlanner.moveTo(1, -1, 35, false);
+    // }
 
-    if (autoTimer.get() > 13){
-      motionPlanner.reversePath();
-      // TODO Test Intake code when intake is mounted
-      // intakeSubsystem.intakeGoDown();
-      // ballPath.ballsToShooter();
-    }
+    // if (autoTimer.get() > 13){
+    //   motionPlanner.reversePath();
+    //   // TODO Test Intake code when intake is mounted
+    //   // intakeSubsystem.intakeGoDown();
+    //   // ballPath.ballsToShooter();
+    // }
   }
 }
