@@ -59,6 +59,10 @@ public class ClimberSubsystem {
         telescopeVictor.set(ControlMode.PercentOutput, 1 * multiplier);
     }
 
+    public void telescopeRetract(double multiplier){
+        telescopeVictor.set(ControlMode.PercentOutput, -1 * multiplier);
+    }
+
     public void climberRetract(double multiplier) {
         falcon1.set(ControlMode.PercentOutput, 1 * multiplier);
     }
