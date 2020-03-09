@@ -81,7 +81,6 @@ public class Robot extends TimedRobot {
 
     driverGP.climber();
     driverGP.update();
-    motionPlanner.printNAVX();
 
     operatorGP.toggleLed();
 
@@ -94,7 +93,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    motionPlanner.resetNAVX();
     driveTrainSubsystem.getDrivetrain().resetOdometry();
     motionPlanner.moveTo(1, 0, 0, false);
     climberSubsystem.resetClimberServo();
@@ -104,7 +102,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     motionPlanner.forwardPath();
-    if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2(0)) {
+    if (!Robot.motionPlanner.running && Robot.driveTrainSubsystem.snapToTargetV2(0)) {
       System.out.println("READY TO SHOOT");
       shooterSubsystem.enable();
       shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()) - SmartDashboard.getNumber("RPM Offset", -50));
