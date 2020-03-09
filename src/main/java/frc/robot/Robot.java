@@ -104,7 +104,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     motionPlanner.forwardPath();
-    if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
+    if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2(0)) {
       System.out.println("READY TO SHOOT");
       shooterSubsystem.enable();
       shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()) - SmartDashboard.getNumber("RPM Offset", -50));
