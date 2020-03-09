@@ -64,6 +64,10 @@ public class Limelight {
     // SmartDashboard.putBoolean("Valid", valid);
   }
 
+  public double staticSimpleDistance(double distance){
+    return distance;
+  }
+
   public double getSimpleDistance() {
     return Math.abs(simpleDistance);
   }

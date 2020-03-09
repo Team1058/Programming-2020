@@ -82,6 +82,8 @@ public class Operator {
     //         Robot.spinnerSubsystem.resetColorChecks();
     //     }
     // }
+    boolean ran = false;
+    double staticDistance;
 
     public void changeShooterState() {
         if (triggerDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
@@ -105,6 +107,17 @@ public class Operator {
                 Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
                 //Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMinHood(Robot.limelight.getSimpleDistance()));
             }
+            
+        } else if (gamepad.getYButton()){
+            Robot.shooterSubsystem.enable();
+            if (!ran){
+            staticDistance = Robot.limelight.staticSimpleDistance(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
+            ran = true;
+            }else {
+                Robot.shooterSubsystem.setSpeed(staticDistance);
+            }
+
+
         } else {
             Robot.shooterSubsystem.disable();      
         }
