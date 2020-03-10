@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
     // motionPlanner.cancelPath();
     // opetsetRumble​(GenericHID.RumbleType type, double value);
     // driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
-    individualLeds.holygrailbackandforth(255,0,0,255,255,255,0,0,0,255,0,0,60,.1,2,1);
+    individualLeds.holygrailbackandforth(255,0,0,255,255,255,0,0,0,255,0,0,20,.5,2,0);
     //individualLeds.flipColorsBackAndForth(255,0,0,255,255,255,5);
 
     
