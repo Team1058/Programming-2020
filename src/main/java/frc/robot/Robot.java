@@ -33,72 +33,74 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    spinnerSubsystem.initialize();
-    climberSubsystem.initialize();
-    driveTrainSubsystem = new DriveTrainSubsystem(limelight);
-    intakeSubsystem.initialize();
-    climberSubsystem.initialize();
-    SmartDashboard.putNumber("SHOOTER_SPEED", 0);
-    motionPlanner = new MotionPlanner(driveTrainSubsystem.getDrivetrain());
-    driverGP = new Driver(0, driveTrainSubsystem);
+    // spinnerSubsystem.initialize();
+    // climberSubsystem.initialize();
+    // driveTrainSubsystem = new DriveTrainSubsystem(limelight);
+    // intakeSubsystem.initialize();
+    // climberSubsystem.initialize();
+    // SmartDashboard.putNumber("SHOOTER_SPEED", 0);
+    // motionPlanner = new MotionPlanner(driveTrainSubsystem.getDrivetrain());
+    // driverGP = new Driver(0, driveTrainSubsystem);
   }
 
   @Override
   public void disabledInit() {
-    shooterSubsystem.disable();
+    // shooterSubsystem.disable();
   }
 
   @Override
   public void teleopPeriodic() {
-    shooterSubsystem.tuneShooterFromDashboard();
-    driverGP.splitArcadeDrive();
-    driverGP.Climber();
-    driverGP.update();
-    motionPlanner.printNAVX();
-    double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
-    Robot.shooterSubsystem.setSpeed(shooterRPM);
-    operatorGP.changeShooterState();
-    operatorGP.shooterHoodPosition();
-    operatorGP.Feed();
-    operatorGP.Intake();
-     individualLeds.scroll3colors(255, 0, 0, 255, 255, 255, 0, 0, 0, 30);
+    // shooterSubsystem.tuneShooterFromDashboard();
+    // driverGP.splitArcadeDrive();
+    // driverGP.Climber();
+    // driverGP.update();
+    // motionPlanner.printNAVX();
+    // double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
+    // Robot.shooterSubsystem.setSpeed(shooterRPM);
+    // operatorGP.changeShooterState();
+    // operatorGP.shooterHoodPosition();
+    // operatorGP.Feed();
+    // operatorGP.Intake();
   
   }
 
   @Override
   public void autonomousInit() {
-    motionPlanner.resetNAVX();
-    driveTrainSubsystem.getDrivetrain().resetOdometry();
-    motionPlanner.moveTo(.5,0,0,false);
+    // motionPlanner.resetNAVX();
+    // driveTrainSubsystem.getDrivetrain().resetOdometry();
+    // motionPlanner.moveTo(.5,0,0,false);
   }
 
   @Override
   public void autonomousPeriodic() {
-    motionPlanner.reversePath();
-    if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
-      System.out.println("READY TO SHOOT");
-    }
+    // motionPlanner.reversePath();
+    // if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
+    //   System.out.println("READY TO SHOOT");
+    // }
   }
 
   @Override
   public void teleopInit() {
-    intakeSubsystem.inferState();
+    // intakeSubsystem.inferState();
   }
 
   @Override
   public void robotPeriodic() {
-    driveTrainSubsystem.update();
-    limelight.update();
-    shooterSubsystem.runStateMachine();
-    intakeSubsystem.updateIntake();
+    // driveTrainSubsystem.update();
+    // limelight.update();
+    // shooterSubsystem.runStateMachine();
+    // intakeSubsystem.updateIntake();
   }
 
   @Override
   public void disabledPeriodic() {
-    motionPlanner.cancelPath();
+    // motionPlanner.cancelPath();
     // opetsetRumble​(GenericHID.RumbleType type, double value);
-    driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
-    individualLeds.scroll3colors(255, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    // driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
+    individualLeds.holygrailbackandforth(255,0,0,255,255,255,0,0,0,255,0,0,60,.1,2,1);
+    //individualLeds.flipColorsBackAndForth(255,0,0,255,255,255,5);
+
+    
   }
 
 }
