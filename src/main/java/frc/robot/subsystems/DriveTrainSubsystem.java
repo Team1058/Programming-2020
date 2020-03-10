@@ -1,8 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.actuation.DifferentialDrive;
 import frc.robot.actuation.SparkMaxMotorSet;
 import frc.robot.sensing.Limelight;
@@ -12,13 +9,6 @@ import frc.robot.RobotMap;
 import com.revrobotics.CANSparkMax;
 
 import java.util.Optional;
-
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 
 public class DriveTrainSubsystem {
 
@@ -31,22 +21,22 @@ public class DriveTrainSubsystem {
   private final double kD = 0;
   private final double kIz = 0;
   private final double kFF = 0.0137;
-  private final double trackWidth = (12.657 * 2) * 0.0254; /*18.5 * 0.0254;*/ // Wheel to wheel diagonal distance in meters
-  private final double wheelRadius = 3 * 0.0254; /*2 * 0.0254;*/ // In meters
-  private final double gearRatio = 8; /*5;*/
+  private final double trackWidth = (12.657 * 2) * 0.0254;  // Wheel to wheel diagonal distance in meters
+  private final double wheelRadius = 3 * 0.0254;
+  private final double gearRatio = 8;
   private Limelight limelight;
   private final double RAMP_RATE = 0.5;
 
   public DriveTrainSubsystem(Limelight limelight) {
-    int[] leftFollower = {2/*4*/};
-    int[] rightFollower = {4/*2*/};
-    sparkMaxMotorSetLeft = new SparkMaxMotorSet(1/*3*/, leftFollower);
-    sparkMaxMotorSetRight = new SparkMaxMotorSet(3/*1*/, rightFollower);
+    int[] leftFollower = {RobotMap.CANIds.DRIVE_LEFT_2};
+    int[] rightFollower = {RobotMap.CANIds.DRIVE_RIGHT_2};
+    sparkMaxMotorSetLeft = new SparkMaxMotorSet(RobotMap.CANIds.DRIVE_LEFT_1, leftFollower);
+    sparkMaxMotorSetRight = new SparkMaxMotorSet(RobotMap.CANIds.DRIVE_RIGHT_1, rightFollower);
     
     sparkMaxMotorSetLeft.setMotorRamp(RAMP_RATE);
     sparkMaxMotorSetRight.setMotorRamp(RAMP_RATE);
     //sparkMaxMotorSetRight.setInverted(true);
-    sparkMaxMotorSetLeft.setInverted(true);
+    sparkMaxMotorSetRight.setInverted(true);
 
     // Enables brake mode for all motors
     sparkMaxMotorSetLeft.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -88,21 +78,27 @@ public class DriveTrainSubsystem {
     }
   }
 
-  public boolean snapToTargetV2() {
+  public boolean snapToTargetV2(double forward) {
     double tx = Robot.limelight.getTX();
     boolean lookingAtTarget;
-    System.out.println("tx: " + tx);
-    if (Math.abs(tx) > 1.5) {
+
+    if (Math.abs(tx) >= 13) {
+      tx *= .5;
+    }
+
+    if (Math.abs(tx) > 1.25) {
       double multiplier = .2;
-      if (Math.abs(tx) < 3) {
+      if (Math.abs(tx) < 2) {
         multiplier = .4;  
-      } else if (Math.abs(tx) < 5){
-        multiplier = .3;
+      }else if (Math.abs(tx) < 3) {
+        multiplier = .3;  
+      } else if (Math.abs(tx) < 5) {
+        multiplier = .2;
       }
-      drivetrain.setTargetVelocity(0, tx * multiplier);
+      drivetrain.setTargetVelocity(forward, -tx * multiplier);
       lookingAtTarget = false;
     } else {
-      drivetrain.setTargetVelocity(0, 0);
+      drivetrain.setTargetVelocity(forward, 0);
       lookingAtTarget = true;
     }
 
@@ -127,13 +123,19 @@ public class DriveTrainSubsystem {
   }
   
   //Stops all motors
-  public void stopAll() {
+  public void stopAll() { 
     drivetrain.setTargetVelocity(0, 0);
   }
 
   //Drives the robot with left being turning and right being forward/backward
   public void setArcadeDrive(double speed, double rotation) {
+    speed *= drivetrain.getMaxVelocityX();
+    rotation *= drivetrain.getMaxOmegaZ();
     drivetrain.setTargetVelocity(speed, rotation);
+  }
+
+  public void setTankDrive(double left, double right) {
+    drivetrain.setPercentVelocity(left, right);
   }
 
   public void resetOdometry() {
