@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.ADXL345_SPI;
 public class ClimberSubsystem {
 
     private TalonFX falcon1 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_1);
-    private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
+    // private TalonFX falcon2 = new TalonFX(RobotMap.CANIds.CLIMBER_FALCON_2);
     // private TalonSRX skootyTalon  = new TalonSRX(RobotMap.CANIds.CLIMBER_TALON);
     private Servo climberServo = new Servo(RobotMap.PWMIds.CLIMBER_SERVO);
     // private AnalogGyro climberGyro;
@@ -31,15 +31,15 @@ public class ClimberSubsystem {
 
     public void initialize() {
         // initializeGyro();
-        falcon2.follow(falcon1);
+        //falcon2.follow(falcon1);
         falcon1.setSelectedSensorPosition(0);
-        falcon2.setSelectedSensorPosition(0);
+        //falcon2.setSelectedSensorPosition(0);
         falcon1.configReverseSoftLimitEnable(false);
         falcon1.configForwardSoftLimitEnable(false);
         // falcon1.configReverseSoftLimitThreshold(FALCON_REVERSE_SOFT_LIMIT);
         // falcon1.configForwardSoftLimitThreshold(FALCON_FORWARD_SOFT_LIMIT);
         falcon1.setNeutralMode(NeutralMode.Brake);
-        falcon2.setNeutralMode(NeutralMode.Brake);
+        // falcon2.setNeutralMode(NeutralMode.Brake);
         // skootyTalon.setSelectedSensorPosition(1);
         // skootyTalon.configForwardSoftLimitEnable(false);
         // skootyTalon.configReverseSoftLimitEnable(false);

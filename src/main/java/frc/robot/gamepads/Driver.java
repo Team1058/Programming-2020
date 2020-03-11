@@ -1,18 +1,11 @@
 package frc.robot.gamepads;
 
-import java.util.Optional;
-
-import org.opencv.core.Mat;
-
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.Robot;
-import frc.robot.actuation.DifferentialDrive;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 /* Driver Controls
@@ -22,13 +15,10 @@ import frc.robot.subsystems.DriveTrainSubsystem;
     - Climber Down (A) - hold */
     
 public class Driver {
-  
-    private XboxController gamepad;
     private final double DEADBAND_VALUE = 0.05;
-    private DriveTrainSubsystem drivetrain;
-    private ClimberSubsystem climber;
 
-    boolean runOnce = true;
+    private XboxController gamepad;
+    private DriveTrainSubsystem drivetrain;
 
     public Driver(int gamepadNum, DriveTrainSubsystem drivetrain) {
         this.drivetrain = drivetrain;
@@ -39,11 +29,11 @@ public class Driver {
         double leftJoystickY = clampDeadband(gamepad.getY(Hand.kLeft));
         double rightJoystickY = clampDeadband(gamepad.getY(Hand.kRight));
 
+        /* Drive stright if L2 is pressed */
         if (outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))){
             leftJoystickY = (rightJoystickY + leftJoystickY) / 2;
             rightJoystickY = leftJoystickY;
         }
-
 
         if (gamepad.getBumper(Hand.kRight)) {
             leftJoystickY *= .5;
@@ -53,31 +43,36 @@ public class Driver {
             rightJoystickY *= .25;
         }
 
-        drivetrain.getDrivetrain().setPercentVelocity(leftJoystickY, rightJoystickY);
+        drivetrain.setTankDrive(leftJoystickY,  rightJoystickY);
+    }
+
+    public void videoGameDrive() {
+
+        double rightTrigger = clampTriggerDeadband(gamepad.getTriggerAxis(Hand.kRight));
+        double leftTrigger = clampTriggerDeadband(gamepad.getTriggerAxis(Hand.kLeft));
+        double speed = rightTrigger - leftTrigger;
+        double turn = -clampDeadband(gamepad.getX(Hand.kLeft));
+
+        drivetrain.setArcadeDrive(speed, turn * .25);
+
     }
     
     public void splitArcadeDrive() {
+        double vX = -clampDeadband(gamepad.getY(Hand.kLeft));
+        double omegaZ = -clampDeadband(gamepad.getX(Hand.kRight));
 
-        //sets the value for easier implementation
-        if(outsideDeadband(gamepad.getY(Hand.kLeft)) || outsideDeadband(gamepad.getX(Hand.kRight))) {
-            double vX = gamepad.getY(Hand.kLeft);
-            double omegaZ = gamepad.getX(Hand.kRight);
-            SmartDashboard.putNumber("Left Joystick", vX);
-            SmartDashboard.putNumber("Right Joystick", omegaZ);
-            vX *= Robot.driveTrainSubsystem.drivetrain.getMaxVelocityX();
-            omegaZ *= Robot.driveTrainSubsystem.drivetrain.getMaxOmegaZ();
-            if (gamepad.getBumper(Hand.kRight)) {
-                vX *= 0.5;
-                omegaZ *= 0.5;
-            }else if (gamepad.getBumper(Hand.kLeft)){
-                vX *= .25;
-                omegaZ *= .25;
-            }
-        
-            drivetrain.setArcadeDrive(vX, omegaZ);
-        }else {
-            drivetrain.setArcadeDrive(0,0);
+        SmartDashboard.putNumber("Left Joystick", vX);
+        SmartDashboard.putNumber("Right Joystick", omegaZ);
+
+        if (gamepad.getBumper(Hand.kRight)) {
+            vX *= 0.5;
+            omegaZ *= 0.5;
+        }else if (gamepad.getBumper(Hand.kLeft)){
+            vX *= 0.25;
+            omegaZ *= 0.25;
         }
+    
+        drivetrain.setArcadeDrive(vX, omegaZ);
     }
 
     public void driveOnBar() {
@@ -119,22 +114,53 @@ public class Driver {
     }
 
     public void update() {
-        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
-            Robot.driveTrainSubsystem.snapToTargetV2();
-            if (Robot.driveTrainSubsystem.snapToTargetV2()){
-                gamepad.setRumble(RumbleType.kLeftRumble, .5);
-                gamepad.setRumble(RumbleType.kRightRumble, .5);
+        if (gamepad.getXButton()) {
+            double forward;
+
+            double rightTrigger = clampTriggerDeadband(gamepad.getTriggerAxis(Hand.kRight));
+            double leftTrigger = clampTriggerDeadband(gamepad.getTriggerAxis(Hand.kLeft));
+
+            forward = rightTrigger - leftTrigger;
+
+            if (drivetrain.snapToTargetV2(forward)){
+                rumbleOn();
+                Robot.operatorGP.rumbleOn();
             }else{   
-                gamepad.setRumble(RumbleType.kLeftRumble, 0);
-                gamepad.setRumble(RumbleType.kRightRumble, 0);
+                rumbleOff();
+                Robot.operatorGP.rumbleOff();
             }
         } else {
-            splitArcadeDrive();
+            rumbleOff();
+            Robot.operatorGP.rumbleOff();
+            videoGameDrive();
+            //splitArcadeDrive();
             //tankDrive();
         }
 
         if (gamepad.getBackButtonPressed()) {
             drivetrain.resetOdometry();
+        }
+    }
+
+    public void rumbleOn(){
+        gamepad.setRumble(RumbleType.kLeftRumble, .5);
+        gamepad.setRumble(RumbleType.kRightRumble, .5);
+    }
+
+    public void rumbleOff(){
+        gamepad.setRumble(RumbleType.kLeftRumble, 0);
+        gamepad.setRumble(RumbleType.kRightRumble, 0);
+    }
+
+    private boolean triggerDeadband(double inputValue){
+        return (Math.abs(inputValue) > 0);
+    }
+
+    private double clampTriggerDeadband(double inputValue){
+        if (triggerDeadband(inputValue)){
+            return inputValue;
+        }else {
+            return 0;
         }
     }
 

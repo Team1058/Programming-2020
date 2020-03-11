@@ -12,12 +12,15 @@ public class Limelight {
   NetworkTableEntry camtran;
   NetworkTableEntry tx;
   NetworkTableEntry ta;
+  NetworkTableEntry ty;
+  NetworkTableEntry tv;
   double x;
   double y;
   double distance;
   double targetAngle;
   boolean valid = false;
   double txAngle;
+  double tyAngle;
   double taArea;
   double simpleDistance;
   NetworkTable table;
@@ -29,12 +32,15 @@ public class Limelight {
     table = NetworkTableInstance.getDefault().getTable("limelight");
     camtran = table.getEntry("camtran");
     tx = table.getEntry("tx");
+    ty = table.getEntry("ty");
     ta = table.getEntry("ta");
+    tv = table.getEntry("tv");
   }
 
   public void update() {
     double[] cam = camtran.getDoubleArray(new double[6]);
     txAngle = tx.getDouble(0.0);
+    tyAngle = ty.getDouble(0.0);
     taArea = ta.getDouble(0.0);
     if (cam[1] != 0) {
       valid = true;
@@ -43,25 +49,43 @@ public class Limelight {
       distance = Math.hypot(x, y);
       simpleDistance = distance - 6;
       targetAngle = Math.atan2(-y, -x);
-    } else {
+
+      double k = 192;
+      double llPitch = 21.7;
+      double deltaH = 89.75;
+      double distanceFromTY = ((deltaH) / Math.tan(Math.toRadians(llPitch + tyAngle))) - 6;
+      double distanceFromTA = k / Math.sqrt(taArea) - 6;
+      double taDistance = distanceFromTA;
+      double tyDistance = distanceFromTY;
+      double avgDistance = ((distanceFromTA + distanceFromTY) / 2);
+      SmartDashboard.putNumber("ty", tyAngle);
+      SmartDashboard.putNumber("Limelight ta Distance", taDistance);
+      SmartDashboard.putNumber("Limelight ty Distance", tyDistance);
+      SmartDashboard.putNumber("Limelight avg Distance", avgDistance);
+    } else if (hasTarget()) {
       valid = false;
       // "k" is a magic number, like 3
-      double k = 153;
-      simpleDistance = k / Math.sqrt(taArea);
-    }
-    SmartDashboard.putNumber("simpleDistance",simpleDistance);
-    SmartDashboard.putNumber("taarea",taArea);
+      double k = 192;
+      double llPitch = 21.7;
+      double deltaH = 89.75 - 21;
+      double distanceFromTY = (deltaH) / Math.tan(Math.toRadians(llPitch + tyAngle));
+      simpleDistance = k / Math.sqrt(taArea) - 6;
+      double taDistance = simpleDistance;
+      double tyDistance = distanceFromTY;
+      double avgDistance = (simpleDistance + distanceFromTY) / 2;
+      SmartDashboard.putNumber("ty", tyAngle);
+      SmartDashboard.putNumber("Limelight ta Distance", taDistance);
+      SmartDashboard.putNumber("Limelight ty Distance", tyDistance);
+      SmartDashboard.putNumber("Limelight avg Distance", avgDistance);
+    } 
+    
+    SmartDashboard.putNumber("Limelight simple Distance",simpleDistance);
+    SmartDashboard.putNumber("Limelight ta",taArea);
+    SmartDashboard.putNumber("Limelight tx", txAngle);
+  }
 
-
-    // SmartDashboard.putNumber("tx",txAngle);
-    // SmartDashboard.putNumber("X", x);
-    // //System.out.println("X: " + x);
-    // SmartDashboard.putNumber("Y", y);
-    // SmartDashboard.putNumber("Distance", distance);
-    // //System.out.println("Distance: " + distance);
-    // SmartDashboard.putNumber("Target Angle", targetAngle);
-    // System.out.println("Target Angle "+targetAngle);
-    // SmartDashboard.putBoolean("Valid", valid);
+  public double staticSimpleDistance(double distance){
+    return distance;
   }
 
   public double getSimpleDistance() {
@@ -129,6 +153,14 @@ public class Limelight {
 
   public void printLimelightLEDs(int status){
     SmartDashboard.putNumber("LimelightLeds", status);
+  }
+
+  public boolean hasTarget(){
+    if (tv.getDouble(0.0) == 1){
+      return true;
+    }else {
+      return false;
+    }
   }
 
 }

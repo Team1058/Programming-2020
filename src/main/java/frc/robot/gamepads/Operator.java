@@ -2,6 +2,7 @@ package frc.robot.gamepads;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -27,9 +28,10 @@ public class Operator {
     private final double DEADBAND_VALUE = 0.5;
 
     public void Feed() {
-        if (gamepad.getAButton() && outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
+
+        if (gamepad.getAButton() && triggerDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
             Robot.shooterSubsystem.autoFeed = true;
-        } else if (gamepad.getAButton() && outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
+        } else if (gamepad.getAButton() && triggerDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
             Robot.shooterSubsystem.autoFeed = false;
             Robot.shooterSubsystem.fireAtCommand();
         } else if (gamepad.getAButtonReleased()){
@@ -80,9 +82,11 @@ public class Operator {
     //         Robot.spinnerSubsystem.resetColorChecks();
     //     }
     // }
+    boolean ran = false;
+    double staticDistance;
 
     public void changeShooterState() {
-        if (outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
+        if (triggerDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
             Robot.shooterSubsystem.manualDisableStateMachine();
             //This equation gets the rpm (We got this equation using point 1 as .1,2000 and point 2 as 1,3950)
             double rpm = 2166.666 * gamepad.getTriggerAxis(Hand.kLeft) + 1783.334;
@@ -93,7 +97,7 @@ public class Operator {
             }else{
                 Robot.individualLeds.changeAllColors(255, 255, 255);
             }
-        } else if (outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
+        } else if (triggerDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
             Robot.shooterSubsystem.enable();
             if (Robot.shooterSubsystem.hoodAtMax()) {
                 Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
@@ -103,11 +107,12 @@ public class Operator {
                 Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
                 //Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMinHood(Robot.limelight.getSimpleDistance()));
             }
+            
         } else {
             Robot.shooterSubsystem.disable();      
         }
 
-        if (!outsideDeadband(gamepad.getTriggerAxis(Hand.kLeft)) && !outsideDeadband(gamepad.getTriggerAxis(Hand.kRight))){
+        if (!triggerDeadband(gamepad.getTriggerAxis(Hand.kLeft)) && !triggerDeadband(gamepad.getTriggerAxis(Hand.kRight))){
             Robot.individualLeds.red();
         }
     }
@@ -121,7 +126,22 @@ public class Operator {
         }
     }
 
+    public void rumbleOn(){
+        gamepad.setRumble(RumbleType.kLeftRumble, .5);
+        gamepad.setRumble(RumbleType.kRightRumble, .5);
+    } 
+
+    public void rumbleOff(){
+        gamepad.setRumble(RumbleType.kLeftRumble, 0);
+        gamepad.setRumble(RumbleType.kRightRumble, 0);
+    }
+
     private boolean outsideDeadband(double inputValue) {
         return (Math.abs(inputValue) > DEADBAND_VALUE);
     }
+
+    private boolean triggerDeadband(double inputValue){
+        return (Math.abs(inputValue) > 0);
+    }
+
 }

@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SpinnerSubsystem;
 import frc.robot.autonomous.MotionPlanner;
@@ -33,8 +34,11 @@ public class Robot extends TimedRobot {
   public static MotionPlanner motionPlanner;
   public static Driver driverGP;
 
+  public static Timer autoTimer;
+
   @Override
   public void robotInit() {
+    autoTimer = new Timer();
     climberSubsystem.initialize();
     driveTrainSubsystem = new DriveTrainSubsystem(limelight);
     intakeSubsystem.initialize();
@@ -45,6 +49,7 @@ public class Robot extends TimedRobot {
     driverGP = new Driver(0, driveTrainSubsystem);
     intakeSubsystem.inferState();
     CameraServer.getInstance().startAutomaticCapture();
+    
   }
 
   @Override
@@ -66,22 +71,20 @@ public class Robot extends TimedRobot {
     motionPlanner.cancelPath();
     //individualLeds.changeAllColors(0,0,0);    
     driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
+    //operatorGP.printGPValues();
   }
 
   @Override
   public void teleopInit() {
-   
   }
 
   @Override
   public void teleopPeriodic() {
    // double shooterRPM = SmartDashboard.getNumber("SHOOTER_SPEED", 0);
    // Robot.shooterSubsystem.setSpeed(shooterRPM);
-   // driverGP.splitArcadeDrive();
 
     driverGP.climber();
     driverGP.update();
-    motionPlanner.printNAVX();
 
     operatorGP.toggleLed();
 
@@ -94,23 +97,45 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    motionPlanner.resetNAVX();
     driveTrainSubsystem.getDrivetrain().resetOdometry();
     motionPlanner.moveTo(1, 0, 0, false);
     climberSubsystem.resetClimberServo();
     limelight.turnOnLed();
+    autoTimer.start();
+    shooterSubsystem.enable();
   }
 
   @Override
   public void autonomousPeriodic() {
-    motionPlanner.forwardPath();
-    if (!Robot.motionPlanner.hasRun && Robot.driveTrainSubsystem.snapToTargetV2()) {
-      System.out.println("READY TO SHOOT");
-      shooterSubsystem.enable();
-      shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()) - SmartDashboard.getNumber("RPM Offset", -50));
+    if (autoTimer.get() < 5) {
+      motionPlanner.reversePath();
+    }
+
+    if (!motionPlanner.running  && autoTimer.get() < 7 && driveTrainSubsystem.snapToTargetV2(0)) {
+      shooterSubsystem.setSpeed(shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()) - SmartDashboard.getNumber("RPM Offset", -50));
       shooterSubsystem.autoFeed = true;
       ballPath.ballsToShooter();
-
     }
+    
+    if (autoTimer.get() >= 7 && autoTimer.get() <= 8) {
+      shooterSubsystem.disable();
+      ballPath.stopBalls();
+      motionPlanner.moveTo(1, 0, 0, true);
+    }
+
+    // if (autoTimer.get() > 8 && autoTimer.get() < 12) {
+    //   motionPlanner.forwardPath();
+    // }
+
+    // if (autoTimer.get() > 12 && autoTimer.get() < 13){
+    //   motionPlanner.moveTo(1, -1, 35, false);
+    // }
+
+    // if (autoTimer.get() > 13){
+    //   motionPlanner.reversePath();
+    //   // TODO Test Intake code when intake is mounted
+    //   // intakeSubsystem.intakeGoDown();
+    //   // ballPath.ballsToShooter();
+    // }
   }
 }
