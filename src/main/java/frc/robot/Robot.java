@@ -73,6 +73,7 @@ public class Robot extends TimedRobot {
     motionPlanner.cancelPath();
     //individualLeds.changeAllColors(0,0,0);    
     driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
+    climberSubsystem.printEncoderValue();
     //operatorGP.printGPValues();
   }
 
