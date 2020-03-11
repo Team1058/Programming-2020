@@ -58,8 +58,8 @@ public class DifferentialDrive {
         }
         this.omegaR = newOmegaR;
         this.omegaL = newOmegaL;
-        SmartDashboard.putNumber("vX", vX);
-        SmartDashboard.putNumber("omegaZ", omegaZ);
+        //SmartDashboard.putNumber("vX", vX);
+        //SmartDashboard.putNumber("omegaZ", omegaZ);
     }
 
     public double getMaxOmegaZ() {
@@ -103,11 +103,11 @@ public class DifferentialDrive {
         previousLeftPosition = leftPosition;
         previousRightPosition = rightPosition;
 
-        SmartDashboard.putNumber("rightDrive ActVel", rightDrive.getActualVelocity());
-        SmartDashboard.putNumber("leftDrive ActVel", leftDrive.getActualVelocity());
-        SmartDashboard.putNumber("driveTrain X", x);
-        SmartDashboard.putNumber("driveTrain Y", y);
-        SmartDashboard.putNumber("driveTrain Theta", theta);
+        //SmartDashboard.putNumber("rightDrive ActVel", rightDrive.getActualVelocity());
+        //SmartDashboard.putNumber("leftDrive ActVel", leftDrive.getActualVelocity());
+        //SmartDashboard.putNumber("driveTrain X", x);
+        //SmartDashboard.putNumber("driveTrain Y", y);
+        //SmartDashboard.putNumber("driveTrain Theta", theta);
     }
     
     public Pose getPose() {
@@ -130,8 +130,8 @@ public class DifferentialDrive {
     public void setOutputs() {
         rightDrive.setTargetVelocity(omegaR);
         leftDrive.setTargetVelocity(omegaL);
-        SmartDashboard.putNumber("rightDrive SetVel", omegaR);
-        SmartDashboard.putNumber("leftDrive SetVel", omegaL);
+        //SmartDashboard.putNumber("rightDrive SetVel", omegaR);
+        //SmartDashboard.putNumber("leftDrive SetVel", omegaL);
     }
 
     public int getLeftEncoderTicks() {

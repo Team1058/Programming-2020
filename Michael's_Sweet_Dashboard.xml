@@ -1,0 +1,112 @@
+<xml version="1.0">
+<dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Image">
+		<location x="1209" y="310"/>
+		<width>279</width>
+		<height>217</height>
+		<property name="Image File" value="D:\1058 logo - trans - RGB - 493x354.png"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="1209" y="31"/>
+		<width>279</width>
+		<height>248</height>
+		<property name="Camera Choice" value=""/>
+	</static-widget>
+	<widget field="RPM Offset" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="372" y="372"/>
+		<width>186</width>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="SHOOTER_SPEED" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="31" y="217"/>
+		<width>310</width>
+		<height>93</height>
+		<property name="Foreground" value="204.0.0.255"/>
+		<property name="Font Size" value="30"/>
+	</widget>
+	<widget field="Shooter State" type="String" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="31" y="31"/>
+		<width>310</width>
+		<height>93</height>
+		<property name="Foreground" value="204.0.0.255"/>
+		<property name="Font Size" value="40"/>
+	</widget>
+	<widget field="Actual RPM Flywheel" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="372" y="341"/>
+		<width>186</width>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="MotorVoltage" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="372" y="403"/>
+		<width>186</width>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="Limelight tx" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="372" y="155"/>
+		<width>186</width>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="Limelight ta" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="372" y="124"/>
+		<width>186</width>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="ty" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="372" y="93"/>
+		<width>186</width>
+		<height>31</height>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="Limelight avg Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="373" y="279"/>
+		<width>185</width>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="Limelight ty Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="372" y="248"/>
+		<width>186</width>
+		<height>31</height>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="Limelight ta Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="372" y="217"/>
+		<width>186</width>
+		<property name="Font Size" value="20"/>
+	</widget>
+	<widget field="Limelight simple Distance" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="31" y="403"/>
+		<width>310</width>
+		<height>93</height>
+		<property name="Foreground" value="204.0.0.255"/>
+		<property name="Font Size" value="30"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.CameraServerViewer">
+		<location x="589" y="31"/>
+		<width>589</width>
+		<height>496</height>
+		<property name="Camera Choice" value=""/>
+	</static-widget>
+</dashboard>
+<live-window>
+	<widget field="Ungrouped" type="LW Subsystem" class="edu.wpi.first.smartdashboard.livewindow.elements.LWSubsystem">
+		<widget field="Servo[2]" type="Servo" class="edu.wpi.first.smartdashboard.livewindow.elements.ServoController">
+			<location x="6" y="15"/>
+			<height>45</height>
+			<width>295</width>
+		</widget>
+		<widget field="Servo[1]" type="Servo" class="edu.wpi.first.smartdashboard.livewindow.elements.ServoController">
+			<location x="6" y="60"/>
+			<height>45</height>
+			<width>295</width>
+		</widget>
+		<widget field="navX-Sensor" type="Gyro" class="edu.wpi.first.smartdashboard.gui.elements.Compass">
+			<location x="6" y="105"/>
+			<height>150</height>
+			<width>295</width>
+		</widget>
+		<location x="5" y="5"/>
+		<width>307</width>
+		<height>261</height>
+	</widget>
+</live-window>
+</xml>

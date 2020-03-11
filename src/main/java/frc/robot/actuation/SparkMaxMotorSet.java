@@ -55,7 +55,7 @@ public class SparkMaxMotorSet implements Spinnable {
 
     public void setTargetVelocity(double omega) {
         pidController.setReference(omega, ControlType.kVelocity);
-        SmartDashboard.putNumber(String.format("Applied Output-%d", masterMotor.getDeviceId()), masterMotor.getAppliedOutput());
+        //SmartDashboard.putNumber(String.format("Applied Output-%d", masterMotor.getDeviceId()), masterMotor.getAppliedOutput());
     }
 
     public double getActualVelocity() {
