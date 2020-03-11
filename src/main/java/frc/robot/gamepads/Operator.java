@@ -29,7 +29,7 @@ public class Operator {
 
     public void Feed() {
 
-        if ((gamepad.getAButton() && triggerDeadband(gamepad.getTriggerAxis(Hand.kRight))) || (gamepad.getAButton() && gamepad.getYButton())) {
+        if (gamepad.getAButton() && triggerDeadband(gamepad.getTriggerAxis(Hand.kRight))) {
             Robot.shooterSubsystem.autoFeed = true;
         } else if (gamepad.getAButton() && triggerDeadband(gamepad.getTriggerAxis(Hand.kLeft))) {
             Robot.shooterSubsystem.autoFeed = false;
@@ -108,16 +108,6 @@ public class Operator {
                 //Robot.shooterSubsystem.setSpeed(Robot.shooterSubsystem.distanceToRPMMinHood(Robot.limelight.getSimpleDistance()));
             }
             
-        } else if (gamepad.getYButton()){
-            Robot.shooterSubsystem.enable();
-            if (!ran){
-            staticDistance = Robot.limelight.staticSimpleDistance(Robot.shooterSubsystem.distanceToRPMMaxHood(Robot.limelight.getSimpleDistance()));
-            ran = true;
-            }else {
-                Robot.shooterSubsystem.setSpeed(staticDistance);
-            }
-
-
         } else {
             Robot.shooterSubsystem.disable();      
         }
@@ -154,10 +144,4 @@ public class Operator {
         return (Math.abs(inputValue) > 0);
     }
 
-    public void printGPValues(){
-        SmartDashboard.putNumber("Left Trigger",gamepad.getTriggerAxis(Hand.kLeft));
-        SmartDashboard.putNumber("Right Trigger",gamepad.getTriggerAxis(Hand.kRight));
-        SmartDashboard.putNumber("Left X",gamepad.getX(Hand.kLeft));
-        SmartDashboard.putNumber("Left Y",gamepad.getY(Hand.kLeft));
-    }
 }

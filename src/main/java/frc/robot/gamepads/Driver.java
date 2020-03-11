@@ -48,9 +48,8 @@ public class Driver {
 
     public void videoGameDrive() {
 
-        double rightTrigger = gamepad.getTriggerAxis(Hand.kRight);
-        double leftTrigger = gamepad.getTriggerAxis(Hand.kLeft);
-
+        double rightTrigger = clampTriggerDeadband(gamepad.getTriggerAxis(Hand.kRight));
+        double leftTrigger = clampTriggerDeadband(gamepad.getTriggerAxis(Hand.kLeft));
         double speed = rightTrigger - leftTrigger;
         double turn = -clampDeadband(gamepad.getX(Hand.kLeft));
 
@@ -118,8 +117,8 @@ public class Driver {
         if (gamepad.getXButton()) {
             double forward;
 
-            double rightTrigger = gamepad.getTriggerAxis(Hand.kRight);
-            double leftTrigger = gamepad.getTriggerAxis(Hand.kLeft);
+            double rightTrigger = clampTriggerDeadband(gamepad.getTriggerAxis(Hand.kRight));
+            double leftTrigger = clampTriggerDeadband(gamepad.getTriggerAxis(Hand.kLeft));
 
             forward = rightTrigger - leftTrigger;
 
@@ -151,6 +150,18 @@ public class Driver {
     public void rumbleOff(){
         gamepad.setRumble(RumbleType.kLeftRumble, 0);
         gamepad.setRumble(RumbleType.kRightRumble, 0);
+    }
+
+    private boolean triggerDeadband(double inputValue){
+        return (Math.abs(inputValue) > 0);
+    }
+
+    private double clampTriggerDeadband(double inputValue){
+        if (triggerDeadband(inputValue)){
+            return inputValue;
+        }else {
+            return 0;
+        }
     }
 
     private boolean outsideDeadband(double inputValue) {

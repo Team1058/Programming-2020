@@ -13,6 +13,7 @@ public class Limelight {
   NetworkTableEntry tx;
   NetworkTableEntry ta;
   NetworkTableEntry ty;
+  NetworkTableEntry tv;
   double x;
   double y;
   double distance;
@@ -33,6 +34,7 @@ public class Limelight {
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
+    tv = table.getEntry("tv");
   }
 
   public void update() {
@@ -60,7 +62,7 @@ public class Limelight {
       SmartDashboard.putNumber("Limelight ta Distance", taDistance);
       SmartDashboard.putNumber("Limelight ty Distance", tyDistance);
       SmartDashboard.putNumber("Limelight avg Distance", avgDistance);
-    } else {
+    } else if (hasTarget()) {
       valid = false;
       // "k" is a magic number, like 3
       double k = 192;
@@ -75,8 +77,8 @@ public class Limelight {
       SmartDashboard.putNumber("Limelight ta Distance", taDistance);
       SmartDashboard.putNumber("Limelight ty Distance", tyDistance);
       SmartDashboard.putNumber("Limelight avg Distance", avgDistance);
-    }
-
+    } 
+    
     SmartDashboard.putNumber("Limelight simple Distance",simpleDistance);
     SmartDashboard.putNumber("Limelight ta",taArea);
     SmartDashboard.putNumber("Limelight tx", txAngle);
@@ -151,6 +153,14 @@ public class Limelight {
 
   public void printLimelightLEDs(int status){
     SmartDashboard.putNumber("LimelightLeds", status);
+  }
+
+  public boolean hasTarget(){
+    if (tv.getDouble(0.0) == 1){
+      return true;
+    }else {
+      return false;
+    }
   }
 
 }

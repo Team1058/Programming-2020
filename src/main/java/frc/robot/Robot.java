@@ -102,6 +102,7 @@ public class Robot extends TimedRobot {
     climberSubsystem.resetClimberServo();
     limelight.turnOnLed();
     autoTimer.start();
+    shooterSubsystem.enable();
   }
 
   @Override
@@ -111,7 +112,6 @@ public class Robot extends TimedRobot {
     }
 
     if (!motionPlanner.running  && autoTimer.get() < 7 && driveTrainSubsystem.snapToTargetV2(0)) {
-      shooterSubsystem.enable();
       shooterSubsystem.setSpeed(shooterSubsystem.distanceToRPMMaxHood(limelight.getSimpleDistance()) - SmartDashboard.getNumber("RPM Offset", -50));
       shooterSubsystem.autoFeed = true;
       ballPath.ballsToShooter();
