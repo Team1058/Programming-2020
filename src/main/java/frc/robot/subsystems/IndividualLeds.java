@@ -14,6 +14,7 @@ public class IndividualLeds{
     int ledCounter = 0;
     int direction = 1;
     int X = 0;
+    int C = 0;
     double ledSides;
     private XboxController gamepad = new XboxController(0);
     
@@ -183,31 +184,70 @@ public class IndividualLeds{
         led.start();
     }
     public void rainbow(){
-        int[] intArray1 = new int[9] ;
-        for (var i = 0; i < intArray1.length; i++) {
-            intArray1[i] = (i*7) + X;
+        int[] intArray1 = new int[7];
+        if (0 + C >= 7){
+            intArray1[0] = 0 + C - 7;
+        }else{
+            intArray1[0] = 0 + C;
+        }
+        if (1 + C >= 7){
+            intArray1[1] = 1 + C - 7;
+        }else{
+            intArray1[1] = 1 + C;
+        }
+        if (2 + C >= 7){
+            intArray1[2] = 2 + C - 7;
+        }else{
+            intArray1[2] = 2 + C;
+        }
+        if (3 + C >= 7){    
+            intArray1[3] = 3 + C - 7;       
+        }else{
+            intArray1[3] = 3 + C;
+        }
+        if (4 + C >= 7){
+            intArray1[4] = 4 + C - 7;
+        }else{
+            intArray1[4] = 4 + C;
+        }
+        if (5 + C >= 7){
+            intArray1[5] = 5 + C - 7;
+        }else{
+            intArray1[5] = 5 + C;
+        }
+        if (6 + C >= 7){
+            intArray1[6] = 6 + C - 7;
+        }else{
+            intArray1[6] = 6 + C;
+        }
+        if (C == 7){
+            C = 0;
+        }
+        int[] intArray2 = new int[9];
+        for (var i = 0; i < intArray2.length; i++) {
+            intArray2[i] = (i*7) + intArray1[X];
         }
         for (var i = 0; i < ledBuffer.getLength();i++) {
             // Sets the specified LED to the RGB values for red
-            if (contains(intArray1, i) && X == 0 ) {
+            if (contains(intArray2, i) && X == 0 ) {
                 ledBuffer.setRGB(i, 255,0,0);
-             } else if (contains(intArray1, i) && X == 1) {
+             } else if (contains(intArray2, i) && X == 1) {
                 ledBuffer.setRGB(i, 255,50,0);
-             }else if (contains(intArray1, i) && X == 2) {
+             }else if (contains(intArray2, i) && X == 2) {
                 ledBuffer.setRGB(i, 255,255,0);
-             }else if (contains(intArray1, i) &&  X == 3) {
+             }else if (contains(intArray2, i) &&  X == 3) {
                 ledBuffer.setRGB(i, 0,255,0);
-             }else if (contains(intArray1, i) &&  X == 4) {
+             }else if (contains(intArray2, i) &&  X == 4) {
                 ledBuffer.setRGB(i, 0,0,255);
-             }else if (contains(intArray1, i) &&  X == 5) {
+             }else if (contains(intArray2, i) &&  X == 5) {
                 ledBuffer.setRGB(i, 75,0,130); 
-             }else if (contains(intArray1, i) &&  X == 6) {
+             }else if (contains(intArray2, i) &&  X == 6) {
                 ledBuffer.setRGB(i, 255,0,255);
             }
         }
-        if (X < 7){
-            X = X + 1;
-            int C = X;
+        if (X == 6){
+            X = 0;
+            C = C + 1;
         }else{
             X = X + 1;    
         }
