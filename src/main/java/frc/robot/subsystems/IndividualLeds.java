@@ -182,6 +182,39 @@ public class IndividualLeds{
         led.setData(ledBuffer);
         led.start();
     }
+    public void rainbow(){
+        int[] intArray1 = new int[9] ;
+        for (var i = 0; i < intArray1.length; i++) {
+            intArray1[i] = (i*7) + X;
+        }
+        for (var i = 0; i < ledBuffer.getLength();i++) {
+            // Sets the specified LED to the RGB values for red
+            if (contains(intArray1, i) && X == 0 ) {
+                ledBuffer.setRGB(i, 255,0,0);
+             } else if (contains(intArray1, i) && X == 1) {
+                ledBuffer.setRGB(i, 255,50,0);
+             }else if (contains(intArray1, i) && X == 2) {
+                ledBuffer.setRGB(i, 255,255,0);
+             }else if (contains(intArray1, i) &&  X == 3) {
+                ledBuffer.setRGB(i, 0,255,0);
+             }else if (contains(intArray1, i) &&  X == 4) {
+                ledBuffer.setRGB(i, 0,0,255);
+             }else if (contains(intArray1, i) &&  X == 5) {
+                ledBuffer.setRGB(i, 75,0,130); 
+             }else if (contains(intArray1, i) &&  X == 6) {
+                ledBuffer.setRGB(i, 255,0,255);
+            }
+        }
+        if (X < 7){
+            X = X + 1;
+            int C = X;
+        }else{
+            X = X + 1;    
+        }
+
+        led.setData(ledBuffer);
+        led.start(); 
+    }    
     public void climbBalance( String direction) {
         ledSides = ledBuffer.getLength() * .5;
         if (direction.equals("TooFarLeft")) {  
