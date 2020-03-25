@@ -13,8 +13,9 @@ public class IndividualLeds{
     AddressableLED led;
     int ledCounter = 0;
     int direction = 1;
-    int X = 0;
     int C = 0;
+    int L = 0;
+    int A = 0;
     double ledSides;
     private XboxController gamepad = new XboxController(0);
     
@@ -150,7 +151,7 @@ public class IndividualLeds{
     // build an array of length N that has all of the values of getN(1) to getN(n)
     // build arrays and check if numbers are in arrays
     // check the array in the function scrollN then build an array based of the variable n to send info to an array
-        if (X < speed){
+        if (A < speed){
             for (var i = 0; i < ledBuffer.getLength(); i++) {
                 if (i < ledBuffer.getLength()) {
                     if (i%2==0) {
@@ -162,7 +163,7 @@ public class IndividualLeds{
                 }
             }
         }else {
-            if (X >= speed){
+            if (A >= speed){
                 for (var i = 0; i < ledBuffer.getLength(); i++) {
                     if (i < ledBuffer.getLength()) {
                         if (i%2==0) {
@@ -175,81 +176,45 @@ public class IndividualLeds{
                 }
             }
         }
-        X = X + 1;
-
-        if(X >= speed*2){
-            X = 0;
+        A = A + 1;
+        if(A >= speed*2){
+            A = 0;
         }
         led.setData(ledBuffer);
         led.start();
     }
     public void rainbow(){
         int[] intArray1 = new int[7];
-        if (0 + C >= 7){
-            intArray1[0] = 0 + C - 7;
-        }else{
-            intArray1[0] = 0 + C;
-        }
-        if (1 + C >= 7){
-            intArray1[1] = 1 + C - 7;
-        }else{
-            intArray1[1] = 1 + C;
-        }
-        if (2 + C >= 7){
-            intArray1[2] = 2 + C - 7;
-        }else{
-            intArray1[2] = 2 + C;
-        }
-        if (3 + C >= 7){    
-            intArray1[3] = 3 + C - 7;       
-        }else{
-            intArray1[3] = 3 + C;
-        }
-        if (4 + C >= 7){
-            intArray1[4] = 4 + C - 7;
-        }else{
-            intArray1[4] = 4 + C;
-        }
-        if (5 + C >= 7){
-            intArray1[5] = 5 + C - 7;
-        }else{
-            intArray1[5] = 5 + C;
-        }
-        if (6 + C >= 7){
-            intArray1[6] = 6 + C - 7;
-        }else{
-            intArray1[6] = 6 + C;
-        }
-        if (C == 7){
-            C = 0;
+        for (var i = 0; C <= 6;){
+            intArray1[i] = (i+C) % 7;
         }
         int[] intArray2 = new int[9];
         for (var i = 0; i < intArray2.length; i++) {
-            intArray2[i] = (i*7) + intArray1[X];
+            intArray2[i] = (i*7) + intArray1[L];
         }
         for (var i = 0; i < ledBuffer.getLength();i++) {
             // Sets the specified LED to the RGB values for red
-            if (contains(intArray2, i) && X == 0 ) {
+            if (contains(intArray2, i) && L == 0 ) {
                 ledBuffer.setRGB(i, 255,0,0);
-             } else if (contains(intArray2, i) && X == 1) {
+             } else if (contains(intArray2, i) && L == 1) {
                 ledBuffer.setRGB(i, 255,50,0);
-             }else if (contains(intArray2, i) && X == 2) {
+             }else if (contains(intArray2, i) && L == 2) {
                 ledBuffer.setRGB(i, 255,255,0);
-             }else if (contains(intArray2, i) &&  X == 3) {
+             }else if (contains(intArray2, i) &&  L == 3) {
                 ledBuffer.setRGB(i, 0,255,0);
-             }else if (contains(intArray2, i) &&  X == 4) {
+             }else if (contains(intArray2, i) &&  L == 4) {
                 ledBuffer.setRGB(i, 0,0,255);
-             }else if (contains(intArray2, i) &&  X == 5) {
+             }else if (contains(intArray2, i) &&  L == 5) {
                 ledBuffer.setRGB(i, 75,0,130); 
-             }else if (contains(intArray2, i) &&  X == 6) {
+             }else if (contains(intArray2, i) &&  L == 6) {
                 ledBuffer.setRGB(i, 255,0,255);
             }
         }
-        if (X == 6){
-            X = 0;
+        if (L == 6){
+            L = 0;
             C = C + 1;
         }else{
-            X = X + 1;    
+            L = L + 1;    
         }
 
         led.setData(ledBuffer);
