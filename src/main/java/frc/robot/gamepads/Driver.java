@@ -76,16 +76,13 @@ public class Driver {
     }
 
     public void driveOnBar() {
-        // Gets values of each trigger
-        double right = gamepad.getTriggerAxis(Hand.kRight);
-        double left = gamepad.getTriggerAxis(Hand.kLeft);
-        double difference=right-left;
-
-        if (Math.abs(difference) > .05) {
-            //climber.DriveBar(difference);
+ 
+        if (outsideDeadband(gamepad.getX(Hand.kRight))){
+            Robot.climberSubsystem.driveBar(gamepad.getX(Hand.kRight));
         } else {
-            //climber.driveStop();
+            Robot.climberSubsystem.driveStop();
         }
+
     }
 
     
@@ -99,18 +96,15 @@ public class Driver {
         }
 
         if (gamepad.getYButton()) {
-            Robot.climberSubsystem.climberExtend(1 * multiplier);
+            Robot.climberSubsystem.telescopeExtend(1 * multiplier);
         } else if (gamepad.getAButton()) {
+            Robot.climberSubsystem.telescopeRetract(1 * multiplier);
+        } else if (gamepad.getBButton()) {
             Robot.climberSubsystem.climberRetract(1 * multiplier);
-        } else {
+        }else {
             Robot.climberSubsystem.climberStop();
         }
 
-        if (gamepad.getBButton()) {
-            Robot.climberSubsystem.lockRatchet();
-        }else{
-            Robot.climberSubsystem.resetClimberServo();
-        }
     }
 
     public void update() {

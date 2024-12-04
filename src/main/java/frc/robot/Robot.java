@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
   public static ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(); 
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public static SpinnerSubsystem spinnerSubsystem = new SpinnerSubsystem();
   public static Limelight limelight = new Limelight();
   public static Operator operatorGP = new Operator();
   public static BallPathSubsystem ballPath = new BallPathSubsystem();
@@ -42,7 +43,8 @@ public class Robot extends TimedRobot {
     climberSubsystem.initialize();
     driveTrainSubsystem = new DriveTrainSubsystem(limelight);
     intakeSubsystem.initialize();
-    climberSubsystem.initialize();
+    // do we need two? climberSubsystem.initialize();
+    spinnerSubsystem.initialize();
     SmartDashboard.putNumber("SHOOTER_SPEED", 0);
     SmartDashboard.putNumber("RPM Offset", -50);
     motionPlanner = new MotionPlanner(driveTrainSubsystem.getDrivetrain());
@@ -71,6 +73,7 @@ public class Robot extends TimedRobot {
     motionPlanner.cancelPath();
     //individualLeds.changeAllColors(0,0,0);    
     driveTrainSubsystem.getDrivetrain().setTargetVelocity(0,0);
+    climberSubsystem.printEncoderValue();
     //operatorGP.printGPValues();
   }
 
@@ -99,7 +102,6 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     driveTrainSubsystem.getDrivetrain().resetOdometry();
     motionPlanner.moveTo(1, 0, 0, false);
-    climberSubsystem.resetClimberServo();
     limelight.turnOnLed();
     autoTimer.start();
     shooterSubsystem.enable();
